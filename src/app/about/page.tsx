@@ -57,7 +57,7 @@ export default function AboutPage() {
             I joined ChatGPT 16 days after it launched. Two years and 75+
             projects later, I realized something simple and unsettling.
           </p>
-          <p className="text-[24px] md:text-[28px] font-bold text-foreground leading-tight mt-10 mb-10">
+          <p className="text-[28px] md:text-[32px] font-bold text-foreground leading-tight mt-14 mb-14">
             The new programming language is English.
           </p>
         </section>
@@ -65,7 +65,7 @@ export default function AboutPage() {
         <div className="h-px bg-[#E5E5E5]" />
 
         {/* 3. QUICK BACKSTORY */}
-        <section className="py-14 space-y-5">
+        <section className="py-14 space-y-7">
           <p className="text-[15px] text-text-secondary leading-[1.7]">
             I&apos;ve been building software for over 20 years, mostly the
             kind nobody sees. B2B infrastructure. Systems that move data
@@ -118,7 +118,7 @@ export default function AboutPage() {
               One weekend became many.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-5">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-teal-mint mt-[7px] shrink-0" />
                 <p className="text-white/60 text-[14px]">75+ AI apps built on Replit</p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
         <div className="h-px bg-[#E5E5E5]" />
 
         {/* 5. WHAT I LEARNED */}
-        <section className="py-14 space-y-5">
+        <section className="py-14 space-y-7">
           <h2 className="text-[22px] md:text-[24px] font-bold text-foreground leading-tight">
             What I learned from 75+ weekend builds
           </h2>
