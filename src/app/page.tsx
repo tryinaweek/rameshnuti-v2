@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -75,6 +76,23 @@ export default function HomePage() {
           <p className="text-center text-text-muted text-xs mt-4">
             Plus 30+ more apps built on Lovable, Cursor, Claude Code, and others.
           </p>
+
+          {/* Replit Rewind Proof */}
+          <div className="flex justify-center mt-8">
+            <div className="relative">
+              <Image
+                src="/images/replit-rewind.jpeg"
+                alt="Replit Rewind 2025 — 42 apps built, Top 5% worldwide"
+                width={300}
+                height={0}
+                className="rounded-xl shadow-lg shadow-black/20 border border-white/10"
+                style={{ width: 300, height: "auto" }}
+              />
+              <p className="text-center text-text-muted text-[11px] mt-3 font-mono tracking-wide">
+                Replit Rewind 2025 &mdash; Top 5% worldwide
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
