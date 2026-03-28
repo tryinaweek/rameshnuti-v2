@@ -20,68 +20,91 @@ const articles = [
 
 export default function WritingPage() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold text-midnight mb-2">Writing</h1>
-      <p className="text-text-secondary text-sm mb-10">
-        Thinking about AI, vibe coding, and what it means to build when the rules keep changing.
-      </p>
+    <div>
+      {/* Midnight Hero */}
+      <section className="bg-midnight py-16 px-6 relative overflow-hidden">
+        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(194,105,74,0.08)_0%,transparent_70%)] pointer-events-none" />
+        <div className="max-w-3xl mx-auto relative z-10">
+          <p className="text-terra-400 text-sm font-semibold tracking-wider uppercase mb-3">
+            Ideas. Frameworks. Lessons.
+          </p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+            Writing
+          </h1>
+          <p className="text-white/50 text-sm mt-3 max-w-lg leading-relaxed">
+            Thinking about AI, vibe coding, and what it means to build when the rules keep changing.
+          </p>
+        </div>
+      </section>
 
-      <div className="space-y-4">
-        {articles.map((article) => (
-          <a
-            key={article.title}
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-white border border-gray-100 rounded-xl overflow-hidden no-underline hover:border-teal-mint transition-colors group"
-          >
-            {article.image && (
-              <div className="relative w-full h-48 md:h-56">
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <div className="p-6">
-            <div className="flex items-center gap-2 mb-3">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400 bg-violet-50 px-2 py-0.5 rounded"
-                >
-                  {tag}
-                </span>
-              ))}
-              <span className="text-[10px] text-text-muted ml-auto">
-                {article.date}
-              </span>
-            </div>
-            <h2 className="text-lg font-bold text-midnight group-hover:text-teal-mint transition-colors">
-              {article.title}
-            </h2>
-            <p className="text-text-secondary text-sm mt-2 leading-relaxed">
-              {article.description}
-            </p>
-            </div>
-          </a>
-        ))}
-      </div>
+      {/* Articles */}
+      <section className="py-16 px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {articles.map((article) => (
+              <a
+                key={article.title}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-midnight rounded-xl overflow-hidden no-underline hover:bg-midnight-light transition-colors group"
+              >
+                {article.image && (
+                  <div className="relative w-full h-48 md:h-56">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    {article.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400 bg-violet-400/15 px-2 py-0.5 rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    <span className="text-[10px] text-white/30 ml-auto">
+                      {article.date}
+                    </span>
+                  </div>
+                  <h2 className="text-lg font-bold text-white group-hover:text-teal-mint transition-colors">
+                    {article.title}
+                  </h2>
+                  <p className="text-white/60 text-sm mt-2 leading-relaxed">
+                    {article.description}
+                  </p>
+                  <span className="inline-block mt-3 text-teal-mint text-sm font-bold">
+                    Read article &rarr;
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <div className="mt-12 text-center">
-        <p className="text-text-muted text-sm">
-          More articles coming. Subscribe to get them first.
-        </p>
-        <iframe
-          src="https://rameshnuti.substack.com/embed"
-          width="100%"
-          height="150"
-          className="border-0 rounded-lg bg-white mt-4 max-w-md mx-auto"
-          title="Newsletter signup"
-        />
-      </div>
+      {/* Newsletter */}
+      <section className="py-16 px-6 bg-surface">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-xl font-bold text-midnight mb-2">More articles coming</h2>
+          <p className="text-text-secondary text-sm mb-6">
+            Subscribe to get them first.
+          </p>
+          <iframe
+            src="https://rameshnuti.substack.com/embed"
+            width="100%"
+            height="150"
+            className="border-0 rounded-lg bg-white max-w-md mx-auto"
+            title="Newsletter signup"
+          />
+        </div>
+      </section>
     </div>
   );
 }
