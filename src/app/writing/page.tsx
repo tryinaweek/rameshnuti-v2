@@ -12,7 +12,7 @@ const articles = [
     description:
       "The playbook has changed. Here's what non-technical founders need to know about building with AI in 2026.",
     date: "March 2026",
-    url: "https://rameshnuti.com/how-to-start-ai-startup.html",
+    url: "/writing/how-to-start-a-startup-in-the-ai-era",
     image: "/images/article-ai-era.jpg",
     tags: ["AI", "Startups"],
   },
@@ -45,17 +45,15 @@ export default function WritingPage() {
               <a
                 key={article.title}
                 href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="block bg-midnight rounded-xl overflow-hidden no-underline hover:bg-midnight-light transition-colors group"
               >
                 {article.image && (
-                  <div className="relative w-full h-48 md:h-56">
+                  <div className="relative w-full h-56 md:h-64 bg-midnight-light">
                     <Image
                       src={article.image}
                       alt={article.title}
                       fill
-                      className="object-cover"
+                      className="object-contain p-4"
                     />
                   </div>
                 )}

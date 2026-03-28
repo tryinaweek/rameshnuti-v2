@@ -67,7 +67,7 @@ export default function HomePage() {
               <p className="text-white/30 text-[10px] mt-2">Director, Frisco Chapter</p>
             </div>
             <div className="bg-midnight rounded-xl p-5 text-center">
-              <p className="text-violet-400 text-3xl font-bold">14+</p>
+              <p className="text-violet-400 text-3xl font-bold">20+</p>
               <p className="text-white/50 text-xs mt-1 font-medium">Years in Tech</p>
               <p className="text-white/30 text-[10px] mt-2">MS in Computer Science</p>
             </div>

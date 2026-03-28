@@ -14,7 +14,7 @@ export function Footer() {
           <span>
             Built by{" "}
             <a
-              href="https://www.linkedin.com/in/rameshnuti/"
+              href="https://www.linkedin.com/in/rnuti/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-teal-mint font-bold no-underline hover:underline"

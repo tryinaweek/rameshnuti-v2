@@ -45,7 +45,7 @@ export function Navigation() {
             </Link>
           ))}
           <a
-            href="https://www.linkedin.com/in/rameshnuti/"
+            href="https://www.linkedin.com/in/rnuti/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-text-muted hover:text-teal-mint transition-colors"

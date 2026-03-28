@@ -312,7 +312,7 @@ export default function AboutPage() {
               I&apos;m most active on LinkedIn. DMs are open.
             </p>
             <a
-              href="https://www.linkedin.com/in/rameshnuti/"
+              href="https://www.linkedin.com/in/rnuti/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-terra-400 text-white px-6 py-3 rounded-lg text-sm font-bold no-underline hover:bg-terra-600 transition-colors relative z-10"
