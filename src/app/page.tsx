@@ -1,65 +1,176 @@
-import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Ramesh Nuti",
+  description: "75+ AI projects shipped. All vibe coded. I'll teach you the system.",
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div>
+      {/* Hero */}
+      <section className="bg-midnight relative overflow-hidden">
+        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(194,105,74,0.12)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute bottom-[-80px] left-[-80px] w-[320px] h-[320px] bg-[radial-gradient(circle,rgba(139,92,246,0.1)_0%,transparent_70%)] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-6 py-20 md:py-28 relative z-10">
+          <p className="text-teal-mint text-sm font-semibold tracking-wider uppercase mb-4">
+            Builder. Investor. Educator.
+          </p>
+          <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tight max-w-2xl">
+            75+ AI projects shipped.{" "}
+            <span className="text-teal-mint">All vibe coded.</span>{" "}
+            <span className="text-terra-400">I&apos;ll teach you the system.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-white/50 text-lg mt-6 max-w-xl leading-relaxed">
+            The new programming language is English. I help non-technical
+            founders ship their first AI product without writing a single line
+            of code.
+          </p>
+          <div className="flex flex-wrap gap-3 mt-8">
+            <Link
+              href="/courses"
+              className="bg-terra-400 text-white px-6 py-3 rounded-lg font-bold text-sm no-underline hover:bg-terra-600 transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Explore Courses
+            </Link>
+            <Link
+              href="/tools"
+              className="border-2 border-terra-400 text-terra-400 px-6 py-3 rounded-lg font-bold text-sm no-underline hover:bg-terra-400 hover:text-white transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
+              Try Free Tools
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Credibility */}
+      <section className="py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-midnight rounded-xl p-5 text-center">
+              <p className="text-teal-mint text-3xl font-bold">75+</p>
+              <p className="text-white/50 text-xs mt-1 font-medium">AI Projects Shipped</p>
+              <p className="text-violet-400 text-[10px] mt-2 font-mono">Top 5% on Replit &middot; 42 apps</p>
+            </div>
+            <div className="bg-midnight rounded-xl p-5 text-center">
+              <p className="text-terra-400 text-3xl font-bold">25+</p>
+              <p className="text-white/50 text-xs mt-1 font-medium">Startup Investments</p>
+              <p className="text-white/30 text-[10px] mt-2">via Svyam Ventures</p>
+            </div>
+            <div className="bg-midnight rounded-xl p-5 text-center">
+              <p className="text-teal-mint text-3xl font-bold">7</p>
+              <p className="text-white/50 text-xs mt-1 font-medium">Years Startup Grind</p>
+              <p className="text-white/30 text-[10px] mt-2">Director, Frisco Chapter</p>
+            </div>
+            <div className="bg-midnight rounded-xl p-5 text-center">
+              <p className="text-violet-400 text-3xl font-bold">14+</p>
+              <p className="text-white/50 text-xs mt-1 font-medium">Years in Tech</p>
+              <p className="text-white/30 text-[10px] mt-2">MS in Computer Science</p>
+            </div>
+          </div>
+          <p className="text-center text-text-muted text-xs mt-4">
+            Plus 30+ more apps built on Lovable, Cursor, Claude Code, and others.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Tools Preview */}
+      <section className="py-16 px-6 bg-surface">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-midnight mb-2">Free Tools</h2>
+          <p className="text-text-secondary text-sm mb-8">
+            AI-powered tools for founders. Use them free. Share them on LinkedIn.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <Link
+              href="/tools/steelman"
+              className="bg-white border border-gray-100 rounded-xl p-6 no-underline hover:border-teal-mint transition-colors group"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-0.5 w-8 bg-teal-mint rounded" />
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-teal-mint">
+                  Live
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-midnight group-hover:text-teal-mint transition-colors">
+                Steelman the Opposition
+              </h3>
+              <p className="text-text-secondary text-sm mt-2 leading-relaxed">
+                Paste your idea. Get the strongest possible arguments against it
+                before you walk into the room.
+              </p>
+            </Link>
+            <div className="bg-white border border-gray-100 rounded-xl p-6 opacity-50">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-0.5 w-8 bg-violet-400 rounded" />
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400">
+                  Coming Soon
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-midnight">More tools on the way</h3>
+              <p className="text-text-secondary text-sm mt-2">
+                AI tools for pitch prep, market research, and founder decision-making.
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Upcoming Events */}
+      <section className="py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-midnight mb-2">Upcoming</h2>
+          <p className="text-text-secondary text-sm mb-8">
+            Workshops, events, and things in the works.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
+              <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(194,105,74,0.2)_0%,transparent_70%)] pointer-events-none" />
+              <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-terra-400">
+                Apr-Jun 2026
+              </span>
+              <h3 className="text-lg font-bold text-white mt-3">
+                Startup Grind Frisco Workshops
+              </h3>
+              <p className="text-white/50 text-sm mt-2 leading-relaxed">
+                AI agent building. Vibe coding your MVP. AI workflow automation.
+                Paid workshops for serious builders.
+              </p>
+            </div>
+            <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
+              <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(139,92,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+              <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400">
+                Coming Soon
+              </span>
+              <h3 className="text-lg font-bold text-white mt-3">
+                The Vibe Coder&apos;s OS
+              </h3>
+              <p className="text-white/50 text-sm mt-2 leading-relaxed">
+                The book. Everything I know about building with AI, distilled
+                into a system anyone can follow.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-16 px-6 bg-surface">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-2xl font-bold text-midnight mb-2">Stay in the loop</h2>
+          <p className="text-text-secondary text-sm mb-6">
+            Weekly insights on vibe coding, AI tools, and building without engineers.
+          </p>
+          <iframe
+            src="https://rameshnuti.substack.com/embed"
+            width="100%"
+            height="150"
+            className="border-0 rounded-lg bg-white"
+            title="Newsletter signup"
+          />
+        </div>
+      </section>
     </div>
   );
 }
