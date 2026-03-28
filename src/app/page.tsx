@@ -10,9 +10,12 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-midnight relative overflow-hidden">
-        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(194,105,74,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute bottom-[-80px] left-[-80px] w-[320px] h-[320px] bg-[radial-gradient(circle,rgba(139,92,246,0.1)_0%,transparent_70%)] pointer-events-none" />
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/hero-speaking.jpeg')" }}
+        />
+        <div className="absolute inset-0 bg-midnight/75" />
         <div className="max-w-5xl mx-auto px-6 py-20 md:py-28 relative z-10">
           <p className="text-teal-mint text-sm font-semibold tracking-wider uppercase mb-4">
             Builder. Investor. Educator.

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,6 +13,7 @@ const articles = [
       "The playbook has changed. Here's what non-technical founders need to know about building with AI in 2026.",
     date: "March 2026",
     url: "https://rameshnuti.com/how-to-start-ai-startup.html",
+    image: "/images/article-ai-era.jpg",
     tags: ["AI", "Startups"],
   },
 ];
@@ -32,8 +33,19 @@ export default function WritingPage() {
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block bg-white border border-gray-100 rounded-xl p-6 no-underline hover:border-teal-mint transition-colors group"
+            className="block bg-white border border-gray-100 rounded-xl overflow-hidden no-underline hover:border-teal-mint transition-colors group"
           >
+            {article.image && (
+              <div className="relative w-full h-48 md:h-56">
+                <Image
+                  src={article.image}
+                  alt={article.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div className="p-6">
             <div className="flex items-center gap-2 mb-3">
               {article.tags.map((tag) => (
                 <span
@@ -53,6 +65,7 @@ export default function WritingPage() {
             <p className="text-text-secondary text-sm mt-2 leading-relaxed">
               {article.description}
             </p>
+            </div>
           </a>
         ))}
       </div>
