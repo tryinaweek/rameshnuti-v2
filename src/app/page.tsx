@@ -48,38 +48,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Credibility */}
+      {/* Credibility - two column: stats + Replit proof */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-midnight rounded-xl p-5 text-center">
-              <p className="text-teal-mint text-3xl font-bold">75+</p>
-              <p className="text-white/50 text-xs mt-1 font-medium">AI Projects Shipped</p>
-              <p className="text-violet-400 text-[10px] mt-2 font-mono">Top 5% on Replit &middot; 42 apps</p>
+          <div className="flex flex-col md:flex-row gap-8 items-center">
+            {/* Left: Stats 2x2 */}
+            <div className="flex-1 w-full">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-midnight rounded-xl p-5 text-center">
+                  <p className="text-teal-mint text-3xl font-bold">75+</p>
+                  <p className="text-white/50 text-xs mt-1 font-medium">AI Projects Shipped</p>
+                  <p className="text-violet-400 text-[10px] mt-2 font-mono">Top 5% on Replit &middot; 42 apps</p>
+                </div>
+                <div className="bg-midnight rounded-xl p-5 text-center">
+                  <p className="text-terra-400 text-3xl font-bold">25+</p>
+                  <p className="text-white/50 text-xs mt-1 font-medium">Startup Investments</p>
+                  <p className="text-white/30 text-[10px] mt-2">via Svyam Ventures</p>
+                </div>
+                <div className="bg-midnight rounded-xl p-5 text-center">
+                  <p className="text-teal-mint text-3xl font-bold">7</p>
+                  <p className="text-white/50 text-xs mt-1 font-medium">Years Startup Grind</p>
+                  <p className="text-white/30 text-[10px] mt-2">Director, Frisco Chapter</p>
+                </div>
+                <div className="bg-midnight rounded-xl p-5 text-center">
+                  <p className="text-violet-400 text-3xl font-bold">20+</p>
+                  <p className="text-white/50 text-xs mt-1 font-medium">Years in Tech</p>
+                  <p className="text-white/30 text-[10px] mt-2">MS in Computer Science</p>
+                </div>
+              </div>
+              <p className="text-text-muted text-xs mt-4 text-center md:text-left">
+                Plus 30+ more apps built on Lovable, Cursor, Claude Code, and others.
+              </p>
             </div>
-            <div className="bg-midnight rounded-xl p-5 text-center">
-              <p className="text-terra-400 text-3xl font-bold">25+</p>
-              <p className="text-white/50 text-xs mt-1 font-medium">Startup Investments</p>
-              <p className="text-white/30 text-[10px] mt-2">via Svyam Ventures</p>
-            </div>
-            <div className="bg-midnight rounded-xl p-5 text-center">
-              <p className="text-teal-mint text-3xl font-bold">7</p>
-              <p className="text-white/50 text-xs mt-1 font-medium">Years Startup Grind</p>
-              <p className="text-white/30 text-[10px] mt-2">Director, Frisco Chapter</p>
-            </div>
-            <div className="bg-midnight rounded-xl p-5 text-center">
-              <p className="text-violet-400 text-3xl font-bold">20+</p>
-              <p className="text-white/50 text-xs mt-1 font-medium">Years in Tech</p>
-              <p className="text-white/30 text-[10px] mt-2">MS in Computer Science</p>
-            </div>
-          </div>
-          <p className="text-center text-text-muted text-xs mt-4">
-            Plus 30+ more apps built on Lovable, Cursor, Claude Code, and others.
-          </p>
 
-          {/* Replit Rewind Proof */}
-          <div className="flex justify-center mt-8">
-            <div className="relative">
+            {/* Right: Replit Rewind */}
+            <div className="shrink-0">
               <Image
                 src="/images/replit-rewind.jpeg"
                 alt="Replit Rewind 2025 — 42 apps built, Top 5% worldwide"
@@ -88,7 +91,7 @@ export default function HomePage() {
                 className="rounded-xl shadow-lg shadow-black/20 border border-white/10"
                 style={{ width: 300, height: "auto" }}
               />
-              <p className="text-center text-text-muted text-[11px] mt-3 font-mono tracking-wide">
+              <p className="text-text-muted text-[11px] mt-3 font-mono tracking-wide text-center">
                 Replit Rewind 2025 &mdash; Top 5% worldwide
               </p>
             </div>
@@ -106,31 +109,33 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-4">
             <Link
               href="/tools/steelman"
-              className="bg-white border border-gray-100 rounded-xl p-6 no-underline hover:border-teal-mint transition-colors group"
+              className="bg-midnight rounded-xl p-6 no-underline hover:bg-midnight-light transition-colors group relative overflow-hidden"
             >
+              <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(74,222,128,0.1)_0%,transparent_70%)] pointer-events-none" />
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-0.5 w-8 bg-teal-mint rounded" />
-                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-teal-mint">
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-teal-mint bg-teal-mint/15 px-2 py-0.5 rounded">
                   Live
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-midnight group-hover:text-teal-mint transition-colors">
+              <h3 className="text-lg font-bold text-white group-hover:text-teal-mint transition-colors">
                 Steelman the Opposition
               </h3>
-              <p className="text-text-secondary text-sm mt-2 leading-relaxed">
+              <p className="text-white/60 text-sm mt-2 leading-relaxed">
                 Paste your idea. Get the strongest possible arguments against it
                 before you walk into the room.
               </p>
             </Link>
-            <div className="bg-white border border-gray-100 rounded-xl p-6 opacity-50">
+            <div className="bg-midnight rounded-xl p-6 opacity-70 relative overflow-hidden">
+              <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(139,92,246,0.1)_0%,transparent_70%)] pointer-events-none" />
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-0.5 w-8 bg-violet-400 rounded" />
-                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400">
+                <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400 bg-violet-400/15 px-2 py-0.5 rounded">
                   Coming Soon
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-midnight">More tools on the way</h3>
-              <p className="text-text-secondary text-sm mt-2">
+              <h3 className="text-lg font-bold text-white">More tools on the way</h3>
+              <p className="text-white/60 text-sm mt-2">
                 AI tools for pitch prep, market research, and founder decision-making.
               </p>
             </div>
