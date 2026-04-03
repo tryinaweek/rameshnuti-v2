@@ -23,11 +23,38 @@ export const metadata: Metadata = {
   },
   description:
     "75+ AI projects shipped. All vibe coded. I'll teach you the system.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/favicon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
+    url: "https://rameshnuti.com",
     siteName: "Ramesh Nuti",
+    title: "Ramesh Nuti",
+    description:
+      "75+ AI projects shipped. All vibe coded. I'll teach you the system.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Ramesh Nuti - Builder. Investor. Educator.",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ramesh Nuti",
+    description:
+      "75+ AI projects shipped. All vibe coded. I'll teach you the system.",
+    images: ["/og-image.png"],
+    creator: "@RameshNuti",
+  },
+  metadataBase: new URL("https://rameshnuti.com"),
 };
 
 export default function RootLayout({

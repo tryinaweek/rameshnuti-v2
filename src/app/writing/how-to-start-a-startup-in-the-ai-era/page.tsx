@@ -8,7 +8,25 @@ export const metadata: Metadata = {
     title: "How to Start a Startup in the AI Era",
     description:
       "The way to find a startup idea in the AI era is not to think about AI. It's to notice things that are broken, then ask: could AI fix this in a way that couldn't have been possible two years ago?",
-    images: ["/images/article-ai-era.jpg"],
+    type: "article",
+    authors: ["Ramesh Nuti"],
+    publishedTime: "2026-03-17",
+    images: [
+      {
+        url: "/og-ai-era.png",
+        width: 1200,
+        height: 640,
+        alt: "How to Start a Startup in the AI Era",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How to Start a Startup in the AI Era",
+    description:
+      "An operator's guide to finding AI startup ideas, building defensible moats, and applying the Last $5K Rule.",
+    images: ["/og-ai-era.png"],
+    creator: "@RameshNuti",
   },
 };
 
