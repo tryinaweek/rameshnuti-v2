@@ -19,8 +19,9 @@ const upcoming = [
   {
     title: "AI Agent Building Workshop",
     description:
-      "Build your first AI agent in a single session. From idea to deployed agent. Part of Startup Grind Frisco workshops (Apr-Jun 2026).",
+      "Build your first AI agent in a single session. From idea to deployed agent. Hands-on workshop at Startup Grind Frisco.",
     tag: "Apr 2026",
+    url: "https://www.startupgrind.com/events/details/startup-grind-frisco-presents-build-your-first-ai-agent-a-hands-on-workshop/?code=SGAgent100H",
   },
   {
     title: "Vibe Coding Your MVP",
@@ -99,24 +100,40 @@ export default function CoursesPage() {
             Join the waitlist to get early access and launch pricing.
           </p>
           <div className="space-y-4">
-            {upcoming.map((course) => (
-              <div
-                key={course.title}
-                className="bg-midnight rounded-xl p-6 opacity-80 relative overflow-hidden"
-              >
-                <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(194,105,74,0.1)_0%,transparent_70%)] pointer-events-none" />
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-0.5 w-8 bg-terra-400 rounded" />
-                  <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-terra-400 bg-terra-400/15 px-2 py-0.5 rounded">
-                    {course.tag}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-white">{course.title}</h3>
-                <p className="text-white/60 text-sm mt-2 leading-relaxed">
-                  {course.description}
-                </p>
-              </div>
-            ))}
+            {upcoming.map((course) => {
+              const Wrapper = course.url ? "a" : "div";
+              const linkProps = course.url
+                ? { href: course.url, target: "_blank", rel: "noopener noreferrer" }
+                : {};
+              return (
+                <Wrapper
+                  key={course.title}
+                  {...linkProps}
+                  className={`bg-midnight rounded-xl p-6 relative overflow-hidden block no-underline ${
+                    course.url ? "hover:bg-midnight-light transition-colors group" : "opacity-80"
+                  }`}
+                >
+                  <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(194,105,74,0.1)_0%,transparent_70%)] pointer-events-none" />
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-0.5 w-8 bg-terra-400 rounded" />
+                    <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-terra-400 bg-terra-400/15 px-2 py-0.5 rounded">
+                      {course.tag}
+                    </span>
+                  </div>
+                  <h3 className={`text-lg font-bold text-white ${course.url ? "group-hover:text-terra-400 transition-colors" : ""}`}>
+                    {course.title}
+                  </h3>
+                  <p className="text-white/60 text-sm mt-2 leading-relaxed">
+                    {course.description}
+                  </p>
+                  {course.url && (
+                    <span className="inline-block mt-3 text-terra-400 text-sm font-bold">
+                      Register &rarr;
+                    </span>
+                  )}
+                </Wrapper>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -151,19 +151,26 @@ export default function HomePage() {
             Workshops, events, and things in the works.
           </p>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
+            <a
+              href="https://www.startupgrind.com/events/details/startup-grind-frisco-presents-build-your-first-ai-agent-a-hands-on-workshop/?code=SGAgent100H"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-midnight rounded-xl p-6 relative overflow-hidden no-underline block group"
+            >
               <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(194,105,74,0.2)_0%,transparent_70%)] pointer-events-none" />
               <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-terra-400">
                 Apr-Jun 2026
               </span>
-              <h3 className="text-lg font-bold text-white mt-3">
-                Startup Grind Frisco Workshops
+              <h3 className="text-lg font-bold text-white mt-3 group-hover:text-terra-400 transition-colors">
+                Build Your First AI Agent Workshop
               </h3>
               <p className="text-white/50 text-sm mt-2 leading-relaxed">
-                AI agent building. Vibe coding your MVP. AI workflow automation.
-                Paid workshops for serious builders.
+                Hands-on workshop at Startup Grind Frisco. Build and deploy your first AI agent in a single session.
               </p>
-            </div>
+              <span className="inline-block mt-3 text-terra-400 text-sm font-bold">
+                Register &rarr;
+              </span>
+            </a>
             <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
               <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(139,92,246,0.15)_0%,transparent_70%)] pointer-events-none" />
               <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-violet-400">

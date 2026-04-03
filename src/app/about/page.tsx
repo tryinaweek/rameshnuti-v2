@@ -267,8 +267,16 @@ export default function AboutPage() {
                     Run Startup Grind Frisco
                   </p>
                   <p className="text-[14px] text-text-secondary mt-1">
-                    7 years and counting. Paid workshops coming Apr-Jun 2026:
-                    AI agents, vibe coding MVPs, workflow automation.
+                    7 years and counting.{" "}
+                    <a
+                      href="https://www.startupgrind.com/events/details/startup-grind-frisco-presents-build-your-first-ai-agent-a-hands-on-workshop/?code=SGAgent100H"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-teal-mint no-underline font-medium hover:underline"
+                    >
+                      AI Agent Building Workshop
+                    </a>
+                    {" "}coming Apr 2026.
                   </p>
                 </div>
               </div>
