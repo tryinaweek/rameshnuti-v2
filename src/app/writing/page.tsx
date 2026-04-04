@@ -95,7 +95,7 @@ export default function WritingPage() {
             Subscribe to get them first.
           </p>
           <iframe
-            src="https://rameshnuti.substack.com/embed"
+            src="https://startupvalue.substack.com/embed"
             width="100%"
             height="150"
             className="border-0 rounded-lg bg-white max-w-md mx-auto"

@@ -196,7 +196,7 @@ export default function HomePage() {
             Weekly insights on vibe coding, AI tools, and building without engineers.
           </p>
           <iframe
-            src="https://rameshnuti.substack.com/embed"
+            src="https://startupvalue.substack.com/embed"
             width="100%"
             height="150"
             className="border-0 rounded-lg bg-white"

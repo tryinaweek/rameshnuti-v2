@@ -29,6 +29,14 @@ export function Footer() {
             <span className="text-violet-400 font-medium">vibe coder</span>
           </span>
         </div>
+        <a
+          href="https://startupvalue.substack.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block text-xs text-terra-400 font-semibold no-underline hover:underline"
+        >
+          Subscribe to the newsletter &rarr;
+        </a>
         <div className="h-0.5 rounded bg-[linear-gradient(90deg,#1A1A3E_0%,#4ADE80_100%)] max-w-[120px] mx-auto" />
         <p className="text-xs text-text-muted">
           &copy; {new Date().getFullYear()} Ramesh Nuti. All rights reserved.

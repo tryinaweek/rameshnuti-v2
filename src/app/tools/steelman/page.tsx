@@ -214,6 +214,19 @@ export default function SteelmanPage() {
                   className="w-full py-3 bg-transparent border-2 border-terra-400 rounded-lg text-sm text-terra-400 cursor-pointer font-bold font-sans mt-2 transition-colors hover:bg-terra-400 hover:text-white">
                   Test another idea
                 </button>
+
+                {/* Newsletter CTA after results */}
+                <div className="mt-6 bg-surface border border-gray-200 rounded-lg p-5 text-center">
+                  <p className="text-sm font-bold text-foreground mb-1">Found this useful?</p>
+                  <p className="text-xs text-text-secondary mb-3">Get weekly AI tools, frameworks, and building tips.</p>
+                  <iframe
+                    src="https://startupvalue.substack.com/embed"
+                    width="100%"
+                    height="150"
+                    className="border-0 rounded-lg bg-white"
+                    title="Newsletter signup"
+                  />
+                </div>
               </div>
             )}
 

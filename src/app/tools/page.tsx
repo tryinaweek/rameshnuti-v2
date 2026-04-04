@@ -275,6 +275,23 @@ export default function ToolsPage() {
           </div>
         </div>
       </section>
+
+      {/* Newsletter */}
+      <section className="py-16 px-6">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-xl font-bold text-midnight mb-2">Get new tools first</h2>
+          <p className="text-text-secondary text-sm mb-6">
+            I share new tools, frameworks, and AI building tips every week. No spam.
+          </p>
+          <iframe
+            src="https://startupvalue.substack.com/embed"
+            width="100%"
+            height="150"
+            className="border-0 rounded-lg bg-white max-w-md mx-auto"
+            title="Newsletter signup"
+          />
+        </div>
+      </section>
     </div>
   );
 }

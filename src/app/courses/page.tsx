@@ -150,7 +150,7 @@ export default function CoursesPage() {
               Early access. Launch pricing. No spam.
             </p>
             <iframe
-              src="https://rameshnuti.substack.com/embed"
+              src="https://startupvalue.substack.com/embed"
               width="100%"
               height="150"
               className="border-0 rounded-lg max-w-sm mx-auto relative z-10"

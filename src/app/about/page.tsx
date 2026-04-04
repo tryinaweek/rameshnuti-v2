@@ -327,6 +327,16 @@ export default function AboutPage() {
             >
               Connect on LinkedIn
             </a>
+            <div className="mt-6 relative z-10">
+              <p className="text-white/50 text-sm mb-3">Or subscribe for weekly insights:</p>
+              <iframe
+                src="https://startupvalue.substack.com/embed"
+                width="100%"
+                height="150"
+                className="border-0 rounded-lg max-w-sm mx-auto"
+                title="Newsletter signup"
+              />
+            </div>
           </div>
         </section>
       </div>
