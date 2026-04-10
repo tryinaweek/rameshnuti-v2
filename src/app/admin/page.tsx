@@ -33,13 +33,17 @@ export default function AdminPage() {
 
   const handleLogin = async () => {
     setError("");
-    const res = await fetch("/api/admin/files", { headers });
-    if (res.ok) {
-      setAuthenticated(true);
+    try {
+      const res = await fetch("/api/admin/files", { headers });
       const data = await res.json();
-      setFiles(data.files);
-    } else {
-      setError("Wrong password");
+      if (res.ok) {
+        setAuthenticated(true);
+        setFiles(data.files);
+      } else {
+        setError(data.error || `Login failed (${res.status})`);
+      }
+    } catch (err) {
+      setError("Network error — could not reach API");
     }
   };
 
