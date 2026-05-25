@@ -67,10 +67,16 @@ const apiKeys = [
 
 export const revalidate = 60; // re-fetch blob list every 60s
 
-export default async function WorkshopResourcesPage() {
+export default async function WorkshopResourcesPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const searchParams = await props.searchParams;
+  const isUnlockedQuery = searchParams.unlocked === "true";
+
   const cookieStore = await cookies();
-  const unlocked = cookieStore.get("unlocked_workshop")?.value === "true";
-  if (!unlocked) {
+  const unlockedCookie = cookieStore.get("unlocked_workshop")?.value === "true";
+
+  if (!unlockedCookie && !isUnlockedQuery) {
     redirect("/workshop");
   }
 
