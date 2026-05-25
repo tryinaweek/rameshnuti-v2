@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { list } from "@vercel/blob";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Workshop Resources | Ramesh Nuti",
@@ -66,6 +68,12 @@ const apiKeys = [
 export const revalidate = 60; // re-fetch blob list every 60s
 
 export default async function WorkshopResourcesPage() {
+  const cookieStore = await cookies();
+  const unlocked = cookieStore.get("unlocked_workshop")?.value === "true";
+  if (!unlocked) {
+    redirect("/workshop");
+  }
+
   let downloads: { title: string; desc: string; icon: string; url: string; tag: string; order: number }[] = [];
 
   try {
@@ -182,7 +190,7 @@ export default async function WorkshopResourcesPage() {
                   <span className="text-slate-950 font-bold">
                     {key.service}
                   </span>
-                  <span className="text-slate-400 text-[10px] hidden sm:inline">&mdash; {key.powers}</span>
+                  <span className="text-slate-400 text-[10px] hidden sm:inline">: {key.powers}</span>
                 </div>
                 <span className="text-teal-accent text-[10px] text-right font-medium">
                   {key.url}

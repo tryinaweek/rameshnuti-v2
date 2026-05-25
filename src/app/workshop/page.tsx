@@ -146,7 +146,7 @@ export default function WorkshopPage() {
                   <span className="text-slate-950 font-bold">
                     {key.service}
                   </span>
-                  <span className="text-slate-400 text-[10px] hidden sm:inline">&mdash; {key.powers}</span>
+                  <span className="text-slate-400 text-[10px] hidden sm:inline">: {key.powers}</span>
                 </div>
                 <span className="text-teal-accent text-[10px] text-right font-medium">
                   {key.url}

@@ -18,6 +18,9 @@ export function NewsletterForm({
   const [email, setEmail] = useState("");
 
   const handleSubmit = () => {
+    if (redirectTo && redirectTo.includes("/workshop/resources")) {
+      document.cookie = "unlocked_workshop=true; path=/; max-age=86400";
+    }
     if (redirectTo) {
       setTimeout(() => {
         window.location.href = redirectTo;
