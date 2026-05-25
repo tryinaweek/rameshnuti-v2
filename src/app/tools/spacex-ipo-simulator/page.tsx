@@ -23,12 +23,21 @@ export const metadata: Metadata = {
     url: "https://rameshnuti.com/tools/spacex-ipo-simulator",
     siteName: "Ramesh Nuti",
     type: "website",
+    images: [
+      {
+        url: "/og-spacex-simulator.png",
+        width: 1200,
+        height: 630,
+        alt: "SpaceX IPO Investment Simulator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SpaceX IPO Investment Simulator",
     description:
       "A retail investor can be right about SpaceX and still lose to an index fund. Model it yourself.",
+    images: ["/og-spacex-simulator.png"],
   },
 };
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArticleLayout } from "@/components/ArticleLayout";
 
 export const metadata: Metadata = {
   title: "How to Start a Startup in the AI Era",
@@ -32,132 +33,52 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="article-standalone">
+    <ArticleLayout
+      title="How to Start a Startup in the AI Era"
+      description="The way to find a startup idea in the AI era is not to think about AI. It's to notice things that are broken, then ask: could AI fix this in a way that couldn't have been possible two years ago?"
+      date="March 2026"
+      category="AI & Startups"
+      readTime="12 min read"
+    >
       <style
         dangerouslySetInnerHTML={{
           __html: `
   .article-standalone {
-    --ink: #1a1410;
-    --ink-mid: #3d3530;
-    --ink-soft: #6b5f58;
-    --ink-ghost: #a89e97;
-    --paper: #f7f3ee;
-    --paper-warm: #ede8e0;
-    --paper-rule: #d4ccc4;
-    --accent: #b5410c;
-    --accent-pale: #f4e6de;
-    --accent-mid: #8c3109;
-    --gold: #c4922a;
-    --gold-pale: #f7f0e0;
-    --col-max: 780px;
+    --ink: #0f172a;
+    --ink-mid: #334155;
+    --ink-soft: #64748b;
+    --ink-ghost: #94a3b8;
+    --paper: #ffffff;
+    --paper-warm: #f8fafc;
+    --paper-rule: #cbd5e1;
+    --accent: #2563eb;
+    --accent-pale: #eff6ff;
+    --accent-mid: #1d4ed8;
+    --gold: #3b82f6;
+    --gold-pale: #eff6ff;
   }
 
   .article-standalone {
     background: var(--paper);
     color: var(--ink);
     font-family: 'Lora', Georgia, serif;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.75;
     -webkit-font-smoothing: antialiased;
   }
 
-  .article-standalone .masthead {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-  }
-  .article-standalone .masthead-inner {
-    max-width: var(--col-max);
-    margin: 0 auto;
-    padding: 80px 40px 64px;
-    position: relative;
-    z-index: 2;
-  }
-  .article-standalone .masthead-kicker {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .article-standalone .masthead-kicker::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--accent);
-  }
-  .article-standalone .masthead h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(42px, 7vw, 76px);
-    font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -0.02em;
-    margin-bottom: 36px;
-    color: var(--paper);
-  }
-  .article-standalone .masthead h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-  .article-standalone .masthead-byline {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    color: var(--ink-ghost);
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding-top: 24px;
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .article-standalone .masthead-byline span strong {
-    color: var(--paper);
-    font-weight: 500;
-    display: block;
-    margin-bottom: 2px;
-  }
-  .article-standalone .lede {
-    background: var(--accent);
-    color: var(--paper);
-    padding: 56px 40px;
-  }
-  .article-standalone .lede-inner {
-    max-width: var(--col-max);
-    margin: 0 auto;
-  }
-  .article-standalone .lede p {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(22px, 3.5vw, 32px);
-    line-height: 1.4;
-    font-style: italic;
-  }
-  .article-standalone .lede-attr {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 20px;
-    opacity: 0.7;
-  }
   .article-standalone .toc-band {
     background: var(--paper-warm);
-    border-top: 3px double var(--paper-rule);
-    border-bottom: 3px double var(--paper-rule);
+    border-top: 1px solid var(--paper-rule);
+    border-bottom: 1px solid var(--paper-rule);
+    margin-bottom: 40px;
+    border-radius: 12px;
   }
   .article-standalone .toc-band-inner {
-    max-width: var(--col-max);
-    margin: 0 auto;
-    padding: 40px 40px;
+    padding: 24px;
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 40px;
+    gap: 32px;
     align-items: start;
   }
   .article-standalone .toc-label {
@@ -174,8 +95,9 @@ export default function ArticlePage() {
     list-style: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px 32px;
+    gap: 4px 24px;
     padding: 0;
+    margin: 0;
   }
   .article-standalone .toc-list a {
     display: flex;
@@ -185,7 +107,7 @@ export default function ArticlePage() {
     color: var(--ink-mid);
     font-family: 'Lora', serif;
     font-size: 14px;
-    padding: 6px 0;
+    padding: 4px 0;
     border-bottom: 1px solid transparent;
     transition: color 0.2s, border-color 0.2s;
   }
@@ -199,14 +121,9 @@ export default function ArticlePage() {
     color: var(--accent);
     min-width: 20px;
   }
-  .article-standalone .body-copy {
-    max-width: var(--col-max);
-    margin: 0 auto;
-    padding: 72px 40px 80px;
-  }
   .article-standalone .section {
-    margin-bottom: 88px;
-    padding-bottom: 88px;
+    margin-bottom: 64px;
+    padding-bottom: 64px;
     border-bottom: 1px solid var(--paper-rule);
   }
   .article-standalone .section:last-child {
@@ -231,11 +148,11 @@ export default function ArticlePage() {
   }
   .article-standalone .section h2 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
     color: var(--ink);
   }
   .article-standalone .section h2 em {
@@ -245,74 +162,80 @@ export default function ArticlePage() {
   .article-standalone .section p {
     color: var(--ink-mid);
     margin-bottom: 20px;
-    font-size: 17px;
+    font-size: 16px;
+    line-height: 1.7;
   }
   .article-standalone .section p strong {
     color: var(--ink);
-    font-weight: 500;
+    font-weight: 600;
   }
   .article-standalone .pull-quote {
     border-left: 3px solid var(--accent);
-    padding: 4px 0 4px 28px;
-    margin: 40px 0;
+    padding: 4px 0 4px 24px;
+    margin: 32px 0;
   }
   .article-standalone .pull-quote p {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(19px, 2.5vw, 25px);
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--accent-mid);
     font-style: italic;
-    line-height: 1.45;
-    color: var(--ink);
-    margin: 0;
   }
   .article-standalone .callout {
-    background: var(--gold-pale);
-    border: 1px solid #e0cc99;
-    border-left: 4px solid var(--gold);
-    padding: 24px 28px;
-    margin: 36px 0;
-    border-radius: 0 4px 4px 0;
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-rule);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin: 32px 0;
+    border-radius: 8px;
   }
   .article-standalone .callout-label {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 600;
   }
   .article-standalone .callout p {
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--ink-mid);
-    margin: 0;
+    margin-bottom: 8px;
   }
-  .article-standalone .callout p + p { margin-top: 10px; }
+  .article-standalone .callout p:last-child {
+    margin-bottom: 0;
+  }
   .article-standalone .rule-box {
-    background: var(--accent-pale);
-    border: 1px solid #e5bfad;
-    padding: 28px 32px;
-    margin: 36px 0;
+    border: 1px solid var(--paper-rule);
+    background: var(--paper);
+    padding: 24px 28px;
+    margin: 32px 0;
     position: relative;
+    border-radius: 8px;
   }
   .article-standalone .rule-box-num {
     position: absolute;
-    top: -16px;
-    left: 24px;
+    top: -10px;
+    left: 20px;
     background: var(--accent);
-    color: var(--paper);
+    color: #ffffff;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    padding: 3px 12px;
+    font-size: 10px;
+    padding: 2px 10px;
     letter-spacing: 0.1em;
+    border-radius: 4px;
   }
   .article-standalone .rule-box h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--accent-mid);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    margin-top: 4px;
   }
   .article-standalone .rule-box p {
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--ink-mid);
     margin: 0;
   }
@@ -320,24 +243,25 @@ export default function ArticlePage() {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2px;
-    margin: 36px 0;
+    margin: 32px 0;
     border: 1px solid var(--paper-rule);
     overflow: hidden;
+    border-radius: 8px;
   }
   .article-standalone .framework-cell {
     background: var(--paper-warm);
-    padding: 20px 22px;
+    padding: 16px 18px;
     border: 1px solid var(--paper-rule);
   }
   .article-standalone .framework-cell:first-child {
     background: var(--ink);
-    color: var(--paper);
+    color: #ffffff;
     grid-column: 1 / -1;
-    padding: 16px 22px;
+    padding: 12px 18px;
   }
   .article-standalone .framework-cell:first-child p {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ink-ghost);
@@ -345,57 +269,48 @@ export default function ArticlePage() {
   }
   .article-standalone .fc-num {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--accent);
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .article-standalone .fc-title {
     font-family: 'Lora', serif;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ink);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .article-standalone .fc-desc {
     font-size: 12px;
+    line-height: 1.5;
     color: var(--ink-soft);
-    line-height: 1.55;
     margin: 0;
   }
-  .article-standalone ol.editorial {
-    list-style: none;
-    counter-reset: editorial-counter;
-    margin: 28px 0;
-    padding: 0;
+  .article-standalone .editorial {
+    padding-left: 20px;
+    margin: 32px 0;
   }
-  .article-standalone ol.editorial li {
-    counter-increment: editorial-counter;
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-    align-items: flex-start;
+  .article-standalone .editorial li {
+    margin-bottom: 18px;
+    padding-left: 6px;
   }
-  .article-standalone ol.editorial li::before {
-    content: counter(editorial-counter, decimal-leading-zero);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    min-width: 28px;
-    padding-top: 3px;
-  }
-  .article-standalone ol.editorial li p {
+  .article-standalone .editorial li p {
+    font-size: 15px;
+    color: var(--ink-mid);
     margin: 0;
-    font-size: 16px;
+  }
+  .article-standalone .editorial li p strong {
+    color: var(--ink);
   }
   .article-standalone .section-divider {
+    font-family: 'Lora', serif;
     text-align: center;
+    font-size: 20px;
     color: var(--ink-ghost);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    margin: 48px 0;
     letter-spacing: 0.3em;
-    margin: 0 0 88px;
   }
   .article-standalone .terminal {
     background: var(--ink);
@@ -403,31 +318,34 @@ export default function ArticlePage() {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
     line-height: 1.7;
-    padding: 28px 32px;
-    margin: 36px 0;
-    border-radius: 4px;
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 8px;
   }
   .article-standalone .terminal .prompt { color: var(--accent); }
   .article-standalone .terminal .comment { color: #7a8e7c; }
   .article-standalone .compare-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 36px 0;
-    font-size: 14px;
+    margin: 32px 0;
+    font-size: 13.5px;
+    border: 1px solid var(--paper-rule);
+    border-radius: 8px;
+    overflow: hidden;
   }
   .article-standalone .compare-table th {
     background: var(--ink);
-    color: var(--paper);
+    color: #ffffff;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 12px 16px;
+    padding: 10px 14px;
     text-align: left;
-    font-weight: 400;
+    font-weight: 500;
   }
   .article-standalone .compare-table td {
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-bottom: 1px solid var(--paper-rule);
     color: var(--ink-mid);
     vertical-align: top;
@@ -436,153 +354,68 @@ export default function ArticlePage() {
     background: var(--paper-warm);
   }
   .article-standalone .compare-table .label-col {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ink);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.05em;
   }
   .article-standalone .tag-old {
     display: inline-block;
-    background: #eddede;
-    color: #7a2a2a;
+    background: #f1f5f9;
+    color: #475569;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 2px;
-    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 4px;
   }
   .article-standalone .tag-new {
     display: inline-block;
-    background: var(--accent-pale);
-    color: var(--accent-mid);
+    background: #dbeafe;
+    color: #1e40af;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 2px;
-    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 4px;
   }
-  .article-standalone .article-footer {
-    background: var(--ink);
-    color: var(--ink-ghost);
-    padding: 56px 40px;
-  }
-  .article-standalone .footer-inner {
-    max-width: var(--col-max);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 40px;
-    align-items: end;
-  }
-  .article-standalone .article-footer p {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    line-height: 1.7;
-  }
-  .article-standalone .article-footer strong {
-    color: var(--paper);
-    font-weight: 500;
-  }
-  .article-standalone .footer-sig {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    font-style: italic;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .article-standalone .page-credit {
-    background: var(--paper-warm);
-    border-top: 1px solid var(--paper-rule);
-    padding: 10px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .article-standalone .page-credit span {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--ink-ghost);
-    letter-spacing: 0.08em;
-  }
-  .article-standalone .page-credit a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .article-standalone .page-credit a:hover { text-decoration: underline; }
 
   @media (max-width: 600px) {
-    .article-standalone .masthead-inner,
-    .article-standalone .lede,
-    .article-standalone .body-copy,
-    .article-standalone .article-footer { padding-left: 24px; padding-right: 24px; }
-    .article-standalone .toc-band-inner { padding: 32px 24px; grid-template-columns: 1fr; gap: 16px; }
+    .article-standalone .toc-band-inner { padding: 16px; grid-template-columns: 1fr; gap: 12px; }
     .article-standalone .toc-label { writing-mode: horizontal-tb; transform: none; }
     .article-standalone .toc-list { grid-template-columns: 1fr; }
-    .article-standalone .footer-inner { grid-template-columns: 1fr; }
-    .article-standalone .footer-sig { font-size: 24px; }
   }
 `,
         }}
       />
       <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
         rel="stylesheet"
       />
 
-      {/* MASTHEAD */}
-      <header className="masthead">
-        <div className="masthead-inner">
-          <div className="masthead-kicker">An operator&apos;s guide to building in the AI era</div>
-          <h1>How to Start a<br />Startup in the<br /><em>AI Era</em></h1>
-          <div className="masthead-byline">
-            <span><strong>Ramesh Nuti</strong>Founder, ActionEDI &middot; Svyam Ventures</span>
-            <span><strong>March 2026</strong>Updated for the current moment</span>
-            <span><strong>Context</strong>Serial founder, angel investor, operator-first</span>
+      <div className="article-standalone">
+        {/* TOC */}
+        <nav className="toc-band">
+          <div className="toc-band-inner">
+            <div className="toc-label">Contents</div>
+            <ul className="toc-list">
+              <li><a href="#problems"><span className="toc-num">01</span>Problems Before Technology</a></li>
+              <li><a href="#timing"><span className="toc-num">06</span>The New Timing Question</a></li>
+              <li><a href="#operator"><span className="toc-num">02</span>Operator First</a></li>
+              <li><a href="#filters"><span className="toc-num">07</span>New Filters to Turn Off</a></li>
+              <li><a href="#well"><span className="toc-num">03</span>The Narrow Well Still Wins</a></li>
+              <li><a href="#competition"><span className="toc-num">08</span>Competition in an AI Market</a></li>
+              <li><a href="#surface"><span className="toc-num">04</span>The New Surface Area</a></li>
+              <li><a href="#moat"><span className="toc-num">09</span>Moats That Actually Hold</a></li>
+              <li><a href="#live"><span className="toc-num">05</span>Live in the Future, Build What&apos;s Missing</a></li>
+              <li><a href="#recipes"><span className="toc-num">10</span>Practical Recipes</a></li>
+            </ul>
           </div>
-        </div>
-      </header>
+        </nav>
 
-      {/* LEDE */}
-      <div className="lede">
-        <div className="lede-inner">
-          <p>The way to find a startup idea in the AI era is not to think about AI. It&apos;s to notice things that are broken, then ask: could AI fix this in a way that couldn&apos;t have been possible two years ago?</p>
-          <div className="lede-attr">&mdash; The thesis of this guide</div>
-        </div>
-      </div>
-
-      {/* TOC */}
-      <nav className="toc-band">
-        <div className="toc-band-inner">
-          <div className="toc-label">Contents</div>
-          <ul className="toc-list">
-            <li><a href="#problems"><span className="toc-num">01</span>Problems Before Technology</a></li>
-            <li><a href="#timing"><span className="toc-num">06</span>The New Timing Question</a></li>
-            <li><a href="#operator"><span className="toc-num">02</span>Operator First</a></li>
-            <li><a href="#filters"><span className="toc-num">07</span>New Filters to Turn Off</a></li>
-            <li><a href="#well"><span className="toc-num">03</span>The Narrow Well Still Wins</a></li>
-            <li><a href="#competition"><span className="toc-num">08</span>Competition in an AI Market</a></li>
-            <li><a href="#surface"><span className="toc-num">04</span>The New Surface Area</a></li>
-            <li><a href="#moat"><span className="toc-num">09</span>Moats That Actually Hold</a></li>
-            <li><a href="#live"><span className="toc-num">05</span>Live in the Future, Build What&apos;s Missing</a></li>
-            <li><a href="#recipes"><span className="toc-num">10</span>Practical Recipes</a></li>
-          </ul>
-        </div>
-      </nav>
-
-      {/* PAGE CREDIT */}
-      <div className="page-credit">
-        <span>&copy; 2026 <a href="https://rameshnuti.com">rameshnuti.com</a> &middot; Ramesh Nuti</span>
-        <span>How to Start a Startup in the AI Era</span>
-        <span>Operator First &middot; Svyam Ventures &middot; ActionEDI</span>
-      </div>
-
-      {/* BODY */}
-      <main
-        className="body-copy"
-        dangerouslySetInnerHTML={{
-          __html: `
+        {/* BODY */}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
   <section class="section" id="intro">
     <p>Paul Graham wrote "How to Get Startup Ideas" in 2012. The principles he laid down were so sturdy that most of them still hold. Work on problems you have yourself. Find the narrow well of users who desperately need what you're building. Become the kind of person who notices what's missing, rather than someone who brainstorms ideas in a vacuum.</p>
     <p>But the terrain has shifted. The arrival of large language models, AI agents, and cheap inference has done something unusual: it changed which problems are solvable, almost overnight. Problems that required 20 engineers in 2021 can be prototyped by one person with a credit card and a good prompt in 2026.</p>
@@ -704,26 +537,10 @@ export default function ArticlePage() {
     <p>The AI era has lowered the cost of starting and raised the ceiling of what's possible. That's a generational opportunity. But the fundamentals — real problems, real urgency, deep domain understanding, honest conviction, operational grit — haven't changed. They never do.</p>
     <p>Build something you'd be furious not to have. Find the narrow well. Stay close enough to the frontier that the gaps become obvious. The rest is execution.</p>
   </section>
-`,
-        }}
-      />
-
-      {/* ARTICLE FOOTER */}
-      <footer className="article-footer">
-        <div className="footer-inner">
-          <div>
-            <p><strong>Ramesh Nuti</strong></p>
-            <p>Founder &amp; CEO, ActionEDI &middot; Managing Partner, Svyam Ventures<br />
-            Director, Startup Grind Frisco &middot; NYU Stern MBA<br />
-            Previously: Acmetek Global Solutions (founded &amp; exited)<br />
-            Portfolio: Scale.ai, Replit, Spoonified</p>
-            <p style={{ marginTop: 16, color: '#5a5248' }}>Identity: Operator first. Investor second.<br />
-            Last updated: March 2026 &middot; Frisco, Texas</p>
-            <p style={{ marginTop: 12 }}><a href="https://rameshnuti.com" style={{ color: 'var(--accent)', fontWeight: 500, letterSpacing: '0.05em' }}>rameshnuti.com</a></p>
-          </div>
-          <div className="footer-sig">Ramesh Nuti</div>
-        </div>
-      </footer>
-    </div>
+            `,
+          }}
+        />
+      </div>
+    </ArticleLayout>
   );
 }
