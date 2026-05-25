@@ -2,40 +2,95 @@
 
 @theme inline {
   --color-background: #ffffff;
-  --color-foreground: #111111;
+  --color-foreground: #0f172a;
   --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains-mono);
 
-  --color-midnight: #1A1A3E;
-  --color-midnight-light: #252550;
-  --color-teal-50: #CCFBF1;
-  --color-teal-100: #99F6E4;
-  --color-teal-200: #5EEAD4;
-  --color-teal-400: #14B8A6;
-  --color-teal-mint: #4ADE80;
-  --color-teal-600: #0D9488;
-  --color-teal-800: #115E59;
-  --color-terra-light: #F5E0D8;
-  --color-terra-200: #D4896E;
-  --color-terra-400: #C2694A;
-  --color-terra-600: #A85638;
-  --color-terra-800: #6B3424;
-  --color-violet-50: #EDE9FE;
-  --color-violet-100: #C4B5FD;
-  --color-violet-200: #A78BFA;
-  --color-violet-400: #8B5CF6;
-  --color-violet-600: #7C3AED;
-  --color-violet-800: #5B21B6;
-  --color-surface: #FAFAFA;
-  --color-text-secondary: #666666;
-  --color-text-muted: #999999;
+  --color-teal-accent: #2563eb; /* Royal Blue primary accent */
+  --color-teal-accent-hover: #1d4ed8;
+  --color-slate-dark: #0f172a;
+  --color-slate-light: #f8fafc;
+  --color-border-subtle: #e2e8f0;
+  
+  --color-brand-navy: #0b1329;
+  --color-brand-cyan: #38bdf8;
+  --color-brand-blue: #2563eb;
 }
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
+  scroll-behavior: smooth;
 }
 
+/* Minimalist Brand Divider */
+.bg-sig-bar {
+  background: var(--color-teal-accent);
+}
+
+/* Premium Minimal Cards */
+.premium-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+}
+
+/* Form Elements */
+.premium-input {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #0f172a;
+  font-family: var(--font-mono);
+  transition: all 0.2s ease;
+}
+
+.premium-input:focus {
+  border-color: var(--color-teal-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Primary Accent Button */
+.btn-primary {
+  background-color: var(--color-teal-accent);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-teal-accent-hover);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Animations */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -45,6 +100,16 @@ body {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.animate-fade-up {
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+

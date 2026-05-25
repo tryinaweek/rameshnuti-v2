@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { list } from "@vercel/blob";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export const metadata: Metadata = {
-  title: "Workshop Resources — Build Your First AI Agent",
+  title: "Workshop Resources | Ramesh Nuti",
   description:
     "Download the n8n workflow JSON, agent prompt, evaluation prompt, and workshop one-pager.",
 };
@@ -84,135 +84,124 @@ export default async function WorkshopResourcesPage() {
   }
 
   return (
-    <div>
+    <div className="bg-white min-h-screen text-slate-900 font-sans">
+      {/* Signature Brand Bar */}
+      <div className="h-[3px] w-full bg-sig-bar" />
+
       {/* Hero */}
-      <section className="bg-midnight py-16 px-6 relative overflow-hidden">
-        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(16,185,129,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="max-w-3xl mx-auto relative z-10">
-          <span className="inline-block bg-emerald-500/12 text-emerald-400 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-5">
-            You&apos;re in
+      <section className="bg-slate-light border-b border-slate-100 py-16 md:py-24 px-6 relative overflow-hidden">
+        <div className="max-w-3xl mx-auto relative z-10 space-y-4">
+          <span className="inline-block bg-teal-50 border border-teal-100 text-teal-accent px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase">
+            ⚡ ACCESS GRANTED
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
             Workshop Resources
           </h1>
-          <p className="text-white/50 text-base mt-4 max-w-xl leading-relaxed">
-            Download everything below. You have full access to all the files from
-            the &ldquo;Build Your First AI Agent&rdquo; workshop.
+          <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
+            Download the configuration files, prompting models, and structural schematics from the workshop.
           </p>
         </div>
       </section>
 
       {/* Downloads */}
-      <section className="py-12 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-midnight mb-6">Downloads</h2>
-          {downloads.length === 0 ? (
-            <div className="bg-midnight rounded-xl p-8 text-center">
-              <p className="text-white/50 text-sm">
-                Workshop files will be available here shortly. Check back soon.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {downloads.map((item) => (
-                <a
-                  key={item.title}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 bg-midnight rounded-xl p-5 no-underline hover:bg-midnight-light transition-colors group relative overflow-hidden"
-                >
-                  <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(74,222,128,0.08)_0%,transparent_70%)] pointer-events-none" />
-                  <span className="text-2xl shrink-0 w-10 text-center text-white/60">
-                    {item.icon === "doc" ? "\u{1F4C4}" : item.icon === "brain" ? "\u{1F9E0}" : item.icon === "chart" ? "\u{1F4CA}" : item.icon}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-semibold group-hover:text-teal-mint transition-colors">
-                      {item.title}
-                    </p>
-                    <p className="text-white/50 text-xs mt-0.5 leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                  <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-white/30 bg-white/5 px-2.5 py-1 rounded shrink-0">
-                    {item.tag}
-                  </span>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+      <section className="py-16 px-6 max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-8">Download Assets</h2>
+        {downloads.length === 0 ? (
+          <div className="premium-card p-12 text-center">
+            <p className="text-slate-500 text-sm">
+              Workshop files will be available here shortly. Check back soon.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {downloads.map((item) => (
+              <a
+                key={item.title}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-5 premium-card p-6 no-underline hover:border-teal-accent/30 group relative overflow-hidden text-left"
+              >
+                <span className="text-2xl shrink-0 w-10 text-center text-slate-400 group-hover:text-teal-accent transition-colors">
+                  {item.icon === "doc" ? "\u{1F4C4}" : item.icon === "brain" ? "\u{1F9E0}" : item.icon === "chart" ? "\u{1F4CA}" : item.icon}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-slate-900 text-sm font-semibold group-hover:text-teal-accent transition-colors tracking-wide">
+                    {item.title}
+                  </p>
+                  <p className="text-slate-500 text-xs mt-1 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+                <span className="text-[9px] font-mono font-bold tracking-wider uppercase text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded shrink-0">
+                  {item.tag}
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Quick Start */}
-      <section className="py-12 px-6 bg-surface">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
-            <h3 className="text-[11px] font-bold text-white/40 tracking-widest uppercase mb-5">
-              Get running in 3 steps
-            </h3>
-            <div className="space-y-4">
-              {quickStart.map((step) => (
-                <div key={step.num} className="flex gap-4 items-start">
-                  <span className="text-violet-400 font-bold text-sm font-mono shrink-0 mt-0.5">
-                    {step.num}
-                  </span>
-                  <div>
-                    <p className="text-white text-sm font-semibold">{step.title}</p>
-                    <p className="text-white/50 text-sm mt-0.5 leading-relaxed">
-                      {step.desc}
-                    </p>
-                  </div>
+      <section className="py-12 px-6 max-w-3xl mx-auto">
+        <div className="premium-card p-8 text-left relative overflow-hidden">
+          <h3 className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase mb-5">
+            n8n Deployment checklist
+          </h3>
+          <div className="space-y-4">
+            {quickStart.map((step) => (
+              <div key={step.num} className="flex gap-4 items-start">
+                <span className="text-teal-accent font-bold text-xs font-mono shrink-0 mt-0.5">
+                  {step.num}
+                </span>
+                <div>
+                  <p className="text-slate-900 text-sm font-semibold tracking-wide">{step.title}</p>
+                  <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* API Keys */}
-      <section className="py-12 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-midnight rounded-xl p-6 relative overflow-hidden">
-            <h3 className="text-[11px] font-bold text-white/40 tracking-widest uppercase mb-5">
-              API Keys you need
-            </h3>
-            <div className="divide-y divide-white/5">
-              {apiKeys.map((key) => (
-                <div
-                  key={key.service}
-                  className="flex justify-between items-center py-3"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-white text-sm font-semibold">
-                      {key.service}
-                    </span>
-                    <span className="text-white/30 text-xs">{key.powers}</span>
-                  </div>
-                  <span className="text-violet-400 text-xs font-mono">
-                    {key.url}
+      <section className="py-4 px-6 pb-20 max-w-3xl mx-auto">
+        <div className="premium-card p-8 text-left relative overflow-hidden">
+          <h3 className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase mb-5">
+            Required API Endpoints
+          </h3>
+          <div className="divide-y divide-slate-100 font-mono text-xs">
+            {apiKeys.map((key) => (
+              <div
+                key={key.service}
+                className="flex justify-between items-center py-3.5"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-slate-950 font-bold">
+                    {key.service}
                   </span>
+                  <span className="text-slate-400 text-[10px] hidden sm:inline">&mdash; {key.powers}</span>
                 </div>
-              ))}
-            </div>
+                <span className="text-teal-accent text-[10px] text-right font-medium">
+                  {key.url}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-12 px-6 bg-surface">
-        <div className="max-w-xl mx-auto text-center">
-          <p className="text-text-secondary text-sm mb-4">
-            I break down one AI workflow like this every week.
+      {/* Substack Newsletter */}
+      <section className="py-16 px-6 bg-slate-light border-t border-slate-200">
+        <div className="max-w-xl mx-auto text-center space-y-5">
+          <p className="text-slate-600 text-sm">
+            I break down a live AI workflow like this every single week.
           </p>
-          <Link
-            href="https://startupvalue.substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block border-2 border-terra-400 text-terra-400 px-7 py-3 rounded-lg font-bold text-sm no-underline hover:bg-terra-400 hover:text-white transition-colors"
-          >
-            Subscribe to the newsletter &rarr;
-          </Link>
+          <div className="max-w-md mx-auto">
+            <NewsletterForm variant="standard" buttonText="Subscribe" />
+          </div>
         </div>
       </section>
     </div>

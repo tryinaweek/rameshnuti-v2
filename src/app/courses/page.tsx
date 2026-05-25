@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export const metadata: Metadata = {
-  title: "Courses",
+  title: "Courses | Ramesh Nuti",
   description: "Learn to build with AI. Courses for non-technical founders by Ramesh Nuti.",
 };
 
@@ -9,153 +11,156 @@ const liveCourses = [
   {
     title: "14-Day Prompting Course",
     description:
-      "Learn prompting by doing. Daily exercises, real templates, and a system you can use forever. 100+ founders have taken this course.",
+      "Learn prompting by doing. Daily exercises, production templates, and a mental framework you can use forever. Over 100+ founders have graduated.",
     url: "https://playwithprompts.com",
-    tag: "Free",
+    tag: "FREE",
+    isExternal: true,
+  },
+  {
+    title: "AI Agent Building Workshop (Resources)",
+    description:
+      "Recreate the complete automated research agent workflow from our Startup Grind Frisco session. Access the n8n JSON schema, prompting scripts, and guide.",
+    url: "/workshop",
+    tag: "FREE RESOURCES",
+    isExternal: false,
   },
 ];
 
 const upcoming = [
   {
-    title: "AI Agent Building Workshop",
-    description:
-      "Build your first AI agent in a single session. From idea to deployed agent. Hands-on workshop at Startup Grind Frisco.",
-    tag: "Apr 2026",
-    url: "https://www.startupgrind.com/events/details/startup-grind-frisco-presents-build-your-first-ai-agent-a-hands-on-workshop/?code=SGAgent100H",
-  },
-  {
     title: "Vibe Coding Your MVP",
     description:
-      "Ship a working product in a weekend using AI tools. No coding experience required. Hands-on workshop.",
-    tag: "May 2026",
+      "Ship a functional working product in a single weekend using modern AI generators. No coding experience or engineering background required.",
+    tag: "MAY 2026",
   },
   {
     title: "AI Workflow Automation",
     description:
-      "Automate the repetitive parts of your business with AI agents and workflows. For operators, not engineers.",
-    tag: "Jun 2026",
+      "Automate repetitive operational tasks, lead scraping, and copywriting pipelines using n8n and custom agents. Built for operators.",
+    tag: "JUN 2026",
   },
 ];
 
 export default function CoursesPage() {
   return (
-    <div>
-      {/* Midnight Hero */}
-      <section className="bg-midnight py-16 px-6 relative overflow-hidden">
-        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(194,105,74,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="max-w-3xl mx-auto relative z-10">
-          <p className="text-terra-400 text-sm font-semibold tracking-wider uppercase mb-3">
-            Learn the System
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+    <div className="bg-white min-h-screen text-slate-900 font-sans">
+      {/* Hero Header - Light slate styled banner */}
+      <section className="bg-slate-light border-b border-slate-100 py-16 md:py-24 px-6 relative overflow-hidden">
+        <div className="max-w-3xl mx-auto relative z-10 space-y-4 text-left">
+          <span className="inline-block bg-teal-50 border border-teal-100 text-teal-accent px-3 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase">
+            ⚡ Distilled Playbooks
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
             Courses for Builders
           </h1>
-          <p className="text-white/50 text-sm mt-3 max-w-lg leading-relaxed">
-            Everything I know about building with AI, packaged into courses
-            designed for people who have never written a line of code.
+          <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
+            Distilled execution playbooks on vibe coding, prompt engineering, and workflow automation. Built specifically for startup founders, non-technical builders, and operators.
           </p>
         </div>
       </section>
 
       {/* Live Courses */}
-      <section className="py-16 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-midnight mb-6">Available Now</h2>
-          <div className="space-y-4">
-            {liveCourses.map((course) => (
-              <a
+      <section className="py-20 px-6 max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-8 text-left">
+          Available Now
+        </h2>
+        <div className="space-y-6">
+          {liveCourses.map((course) => {
+            const Wrapper = course.isExternal ? "a" : Link;
+            const linkProps = course.isExternal
+              ? { href: course.url, target: "_blank", rel: "noopener noreferrer" }
+              : { href: course.url };
+
+            return (
+              <Wrapper
                 key={course.title}
-                href={course.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-midnight rounded-xl p-6 no-underline hover:bg-midnight-light transition-colors group relative overflow-hidden"
+                {...(linkProps as any)}
+                className="premium-card p-8 flex flex-col justify-between group no-underline transition-all duration-300 text-left relative overflow-hidden block"
               >
-                <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(74,222,128,0.1)_0%,transparent_70%)] pointer-events-none" />
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-0.5 w-8 bg-teal-mint rounded" />
-                  <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-teal-mint bg-teal-mint/15 px-2 py-0.5 rounded">
-                    {course.tag}
-                  </span>
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-teal-accent" />
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-block text-[10px] font-mono font-bold tracking-wider uppercase text-teal-accent bg-teal-50 border border-teal-100 px-2.5 py-1 rounded">
+                      {course.tag}
+                    </span>
+                    <span className="text-slate-300 group-hover:text-teal-accent transition-colors text-lg">&rarr;</span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-accent transition-colors tracking-tight">
+                    {course.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {course.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-teal-mint transition-colors">
-                  {course.title}
-                </h3>
-                <p className="text-white/60 text-sm mt-2 leading-relaxed">
-                  {course.description}
-                </p>
-                <span className="inline-block mt-4 text-teal-mint text-sm font-bold">
-                  Start Learning &rarr;
-                </span>
-              </a>
+                
+                <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-teal-accent">
+                  {course.isExternal ? "Start Learning" : "Access Resources"} &rarr;
+                </div>
+              </Wrapper>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Upcoming */}
+      <section className="py-20 px-6 bg-slate-light border-y border-slate-100">
+        <div className="max-w-3xl mx-auto space-y-8">
+          <div className="text-left">
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Coming Soon</h2>
+            <p className="text-slate-500 text-sm mt-1">
+              Join the waitlist to receive early-bird updates and cohort invitations.
+            </p>
+          </div>
+          
+          <div className="space-y-6">
+            {upcoming.map((course) => (
+              <div
+                key={course.title}
+                className="premium-card p-8 flex flex-col justify-between no-underline relative overflow-hidden text-left opacity-80"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-slate-300" />
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-block text-[10px] font-mono font-bold tracking-wider uppercase text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded">
+                      {course.tag}
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                    {course.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {course.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Upcoming */}
-      <section className="py-16 px-6 bg-surface">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-midnight mb-2">Coming Soon</h2>
-          <p className="text-text-secondary text-sm mb-6">
-            Join the waitlist to get early access and launch pricing.
-          </p>
-          <div className="space-y-4">
-            {upcoming.map((course) => {
-              const Wrapper = course.url ? "a" : "div";
-              const linkProps = course.url
-                ? { href: course.url, target: "_blank", rel: "noopener noreferrer" }
-                : {};
-              return (
-                <Wrapper
-                  key={course.title}
-                  {...linkProps}
-                  className={`bg-midnight rounded-xl p-6 relative overflow-hidden block no-underline ${
-                    course.url ? "hover:bg-midnight-light transition-colors group" : "opacity-80"
-                  }`}
-                >
-                  <div className="absolute top-[-30px] right-[-30px] w-[120px] h-[120px] bg-[radial-gradient(circle,rgba(194,105,74,0.1)_0%,transparent_70%)] pointer-events-none" />
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="h-0.5 w-8 bg-terra-400 rounded" />
-                    <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-terra-400 bg-terra-400/15 px-2 py-0.5 rounded">
-                      {course.tag}
-                    </span>
-                  </div>
-                  <h3 className={`text-lg font-bold text-white ${course.url ? "group-hover:text-terra-400 transition-colors" : ""}`}>
-                    {course.title}
-                  </h3>
-                  <p className="text-white/60 text-sm mt-2 leading-relaxed">
-                    {course.description}
-                  </p>
-                  {course.url && (
-                    <span className="inline-block mt-3 text-terra-400 text-sm font-bold">
-                      Register &rarr;
-                    </span>
-                  )}
-                </Wrapper>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Waitlist CTA */}
-      <section className="py-16 px-6">
+      <section className="py-20 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-midnight rounded-xl p-8 text-center relative overflow-hidden">
-            <div className="absolute top-[-40px] right-[-40px] w-[200px] h-[200px] bg-[radial-gradient(circle,rgba(194,105,74,0.15)_0%,transparent_70%)] pointer-events-none" />
-            <h3 className="text-xl font-bold text-white mb-2 relative z-10">
+          <div className="bg-slate-light border border-slate-200 rounded-3xl p-8 md:p-12 shadow-sm text-center space-y-6">
+            <span className="inline-block text-[10px] font-mono font-bold tracking-widest text-teal-accent bg-teal-50 border border-teal-100 px-2.5 py-1 rounded">
+              COURSE ALERTS
+            </span>
+            
+            <h3 className="text-2xl font-bold tracking-tight text-slate-900">
               Get notified when courses launch
             </h3>
-            <p className="text-white/50 text-sm mb-4 relative z-10">
-              Early access. Launch pricing. No spam.
+            
+            <p className="text-slate-600 text-sm max-w-sm mx-auto leading-relaxed">
+              Be the first to know when pilot applications open. No spam, unsubscribe anytime.
             </p>
-            <iframe
-              src="https://startupvalue.substack.com/embed"
-              width="100%"
-              height="150"
-              className="border-0 rounded-lg max-w-sm mx-auto relative z-10"
-              title="Course waitlist"
-            />
+            
+            <NewsletterForm variant="standard" buttonText="Join Waitlist" placeholder="Enter your email" />
           </div>
         </div>
       </section>

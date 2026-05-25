@@ -103,145 +103,177 @@ export default function AdminPage() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6">
-        <div className="w-full max-w-sm">
-          <h1 className="text-2xl font-bold text-midnight mb-6 text-center">
-            Admin
-          </h1>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-terra-400 mb-3"
-          />
-          {error && (
-            <p className="text-red-500 text-sm mb-3">{error}</p>
-          )}
-          <button
-            onClick={handleLogin}
-            className="w-full bg-midnight text-white py-3 rounded-lg font-bold text-sm hover:bg-midnight-light transition-colors"
-          >
-            Enter
-          </button>
+      <div className="min-h-[75vh] flex items-center justify-center px-6 bg-white text-slate-900 font-sans">
+        <div className="w-full max-w-sm space-y-6">
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+              Control Panel
+            </h1>
+            <p className="text-xs text-slate-500">
+              Enter your admin passphrase to access assets management.
+            </p>
+          </div>
+          
+          <div className="bg-slate-light border border-slate-200 rounded-3xl p-8 shadow-sm space-y-4">
+            <input
+              type="password"
+              placeholder="Admin password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+              className="premium-input w-full px-4 py-3 text-sm focus:border-teal-accent transition-colors"
+            />
+            {error && (
+              <p className="text-red-600 text-xs font-semibold px-1">{error}</p>
+            )}
+            <button
+              onClick={handleLogin}
+              className="btn-primary w-full py-3.5 text-sm"
+            >
+              Authenticate
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-midnight">
-          Workshop File Manager
-        </h1>
-        <button
-          onClick={() => {
-            setAuthenticated(false);
-            setPassword("");
-          }}
-          className="text-sm text-text-secondary hover:text-midnight transition-colors"
-        >
-          Lock
-        </button>
-      </div>
+    <div className="bg-white min-h-screen text-slate-900 font-sans">
+      {/* Signature Brand Bar */}
+      <div className="h-[3px] w-full bg-sig-bar" />
 
-      {/* Upload */}
-      <div className="bg-midnight rounded-xl p-6 mb-8">
-        <h2 className="text-white text-sm font-bold mb-4">Upload Files</h2>
-        <label
-          className={`flex flex-col items-center justify-center border-2 border-dashed border-white/20 rounded-lg p-8 cursor-pointer hover:border-white/40 transition-colors ${
-            uploading ? "opacity-50 pointer-events-none" : ""
-          }`}
-        >
-          <p className="text-white/60 text-sm mb-1">
-            {uploading ? "Uploading..." : "Click to select files"}
+      <div className="max-w-3xl mx-auto px-6 py-12 space-y-8">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-left">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Workshop Assets Manager
+            </h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Upload n8n JSON models, prompts, and PDF guides to Vercel Blob.
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              setAuthenticated(false);
+              setPassword("");
+            }}
+            className="text-xs font-mono font-bold tracking-wider uppercase text-slate-500 hover:text-red-600 bg-slate-50 hover:bg-red-50 px-3.5 py-2 rounded-lg transition-colors border border-slate-200"
+          >
+            Lock Session
+          </button>
+        </div>
+
+        {/* Upload Block */}
+        <div className="bg-slate-light border border-slate-200 rounded-2xl p-8 relative overflow-hidden shadow-sm text-left">
+          <h2 className="text-sm font-mono font-bold text-teal-accent uppercase tracking-widest mb-4">Upload Assets</h2>
+          <label
+            className={`flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:border-teal-accent/30 rounded-xl p-8 cursor-pointer bg-white transition-all duration-300 ${
+              uploading ? "opacity-40 pointer-events-none" : ""
+            }`}
+          >
+            <span className="text-2xl mb-2 text-teal-accent">&uarr;</span>
+            <p className="text-slate-900 text-sm font-semibold">
+              {uploading ? "Uploading files..." : "Click to select files"}
+            </p>
+            <p className="text-slate-400 text-xs mt-1">
+              n8n JSON, PDF, TXT, or markdown files
+            </p>
+            <input
+              type="file"
+              multiple
+              onChange={handleUpload}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {/* Messages */}
+        {error && (
+          <div className="bg-red-50 border border-red-100 text-red-700 rounded-xl px-4 py-3 text-xs font-semibold text-left">
+            {error}
+          </div>
+        )}
+        {message && (
+          <div className="bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-xl px-4 py-3 text-xs font-semibold text-left">
+            {message}
+          </div>
+        )}
+
+        {/* File List */}
+        <div className="space-y-4 text-left">
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+            Uploaded Files ({files.length})
+          </h2>
+          
+          {files.length === 0 ? (
+            <p className="text-slate-500 text-sm bg-slate-50 border border-slate-100 rounded-xl p-6 text-center">
+              No files uploaded yet. Add workshop assets to list them here.
+            </p>
+          ) : (
+            <div className="grid gap-3">
+              {files.map((file) => {
+                const name = file.pathname.replace("workshop/", "");
+                return (
+                  <div
+                    key={file.url}
+                    className="bg-white border border-slate-200 rounded-xl p-5 flex items-center justify-between gap-4 shadow-sm"
+                  >
+                    <div className="min-w-0 space-y-1">
+                      <p className="text-sm font-bold truncate tracking-wide text-slate-900">
+                        {name}
+                      </p>
+                      <p className="text-slate-400 text-[10px] font-mono">
+                        {formatSize(file.size)} &middot; {new Date(file.uploadedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 shrink-0">
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] font-bold text-teal-accent bg-teal-50 border border-teal-100 px-3 py-1.5 rounded-lg transition-colors hover:bg-teal-100/50"
+                      >
+                        View
+                      </a>
+                      <button
+                        onClick={() => handleDelete(file.url, name)}
+                        className="text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 px-3 py-1.5 rounded-lg transition-colors hover:bg-red-100/50 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Reference Cheat Sheet */}
+        <div className="bg-slate-light border border-slate-200 rounded-2xl p-6 space-y-3 text-left">
+          <h3 className="text-sm font-bold text-slate-900 tracking-tight">
+            Required Filenames Reference
+          </h3>
+          <p className="text-slate-500 text-xs leading-relaxed">
+            Ensure assets are named exactly as shown below so the buttons on the workshop download page link correctly:
           </p>
-          <p className="text-white/30 text-xs">
-            JSON, PDF, TXT, or any file type
-          </p>
-          <input
-            type="file"
-            multiple
-            onChange={handleUpload}
-            className="hidden"
-          />
-        </label>
-      </div>
-
-      {/* Messages */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-4">
-          {error}
+          <ul className="space-y-1.5 text-xs font-mono text-slate-600 bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <li className="flex items-center gap-2">
+              <span className="text-teal-accent font-bold">&middot;</span> research_workflow_n8n.json
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-slate-400 font-bold">&middot;</span> AI_Agent_Workshop_OnePager.pdf
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-slate-400 font-bold">&middot;</span> agent_prompt.txt
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-teal-accent font-bold">&middot;</span> evaluation_prompt.txt
+            </li>
+          </ul>
         </div>
-      )}
-      {message && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg px-4 py-3 text-sm mb-4">
-          {message}
-        </div>
-      )}
-
-      {/* File List */}
-      <h2 className="text-lg font-bold text-midnight mb-4">
-        Uploaded Files ({files.length})
-      </h2>
-      {files.length === 0 ? (
-        <p className="text-text-secondary text-sm">
-          No files uploaded yet. Upload your workshop resources above.
-        </p>
-      ) : (
-        <div className="space-y-2">
-          {files.map((file) => {
-            const name = file.pathname.replace("workshop/", "");
-            return (
-              <div
-                key={file.url}
-                className="bg-midnight rounded-xl p-4 flex items-center gap-4"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-semibold truncate">
-                    {name}
-                  </p>
-                  <p className="text-white/40 text-xs mt-0.5">
-                    {formatSize(file.size)} &middot;{" "}
-                    {new Date(file.uploadedAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <a
-                  href={file.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-teal-mint text-xs font-semibold no-underline hover:underline shrink-0"
-                >
-                  View
-                </a>
-                <button
-                  onClick={() => handleDelete(file.url, name)}
-                  className="text-red-400 text-xs font-semibold hover:text-red-300 transition-colors shrink-0"
-                >
-                  Delete
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* URL Reference */}
-      <div className="mt-8 bg-surface rounded-xl p-6">
-        <h3 className="text-sm font-bold text-midnight mb-2">
-          Expected file names
-        </h3>
-        <p className="text-text-secondary text-xs mb-3">
-          Upload files with these exact names so the resources page links work:
-        </p>
-        <ul className="space-y-1 text-xs font-mono text-text-secondary">
-          <li>research_workflow_n8n.json</li>
-          <li>AI_Agent_Workshop_OnePager.pdf</li>
-          <li>agent_prompt.txt</li>
-          <li>evaluation_prompt.txt</li>
-        </ul>
       </div>
     </div>
   );
