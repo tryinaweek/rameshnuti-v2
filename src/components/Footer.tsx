@@ -47,6 +47,13 @@ export function Footer() {
           </Link>
           <span className="text-[11px] text-slate-200">|</span>
           <Link
+            href="/workshop"
+            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
+          >
+            Free Workshop <span>&rarr;</span>
+          </Link>
+          <span className="text-[11px] text-slate-200">|</span>
+          <Link
             href="/privacy"
             className="text-[11px] text-slate-500 hover:text-teal-accent font-semibold no-underline transition-all duration-300"
           >
