@@ -290,7 +290,7 @@ export default function AboutPage() {
 
           <div className="md:col-span-6 w-full text-center space-y-4 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-8">
             <p className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest text-left">
-              Join the Startup Value list:
+              Join The Weekend Builder list:
             </p>
             <NewsletterForm variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
           </div>

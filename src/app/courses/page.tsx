@@ -153,11 +153,11 @@ export default function CoursesPage() {
             </span>
             
             <h3 className="text-2xl font-bold tracking-tight text-slate-900">
-              Get notified when courses launch
+              Get Vibe Coding Cohort Invites
             </h3>
             
             <p className="text-slate-600 text-sm max-w-sm mx-auto leading-relaxed">
-              Be the first to know when pilot applications open. No spam, unsubscribe anytime.
+              Join the waitlist to get notified when the next Weekend Builder cohort launches.
             </p>
             
             <NewsletterForm variant="standard" buttonText="Join Waitlist" placeholder="Enter your email" />

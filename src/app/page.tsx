@@ -162,10 +162,10 @@ export default function HomePage() {
               <div className="space-y-4 pt-0">
                 <div className="flex gap-4 items-baseline">
                   <span className="text-xs font-mono font-bold text-brand-cyan uppercase">01</span>
-                  <h3 className="text-lg font-bold text-white tracking-tight">The Startup Value Weekly Newsletter</h3>
+                  <h3 className="text-lg font-bold text-white tracking-tight">The Weekend Builder</h3>
                 </div>
                 <p className="text-blue-100 text-sm pl-8">
-                  Get weekly vibe coding workflows, custom prompts, and n8n templates delivered directly to your inbox. No fluff.
+                  Every Saturday morning, I send one step-by-step vibe coding blueprint to help you build and ship software using AI. Free.
                 </p>
                 <div className="pl-8 pt-2 max-w-md">
                   <NewsletterForm variant="navy" buttonText="Subscribe Free" placeholder="Enter your email" />
