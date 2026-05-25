@@ -117,6 +117,29 @@ export default async function WorkshopResourcesPage(props: {
         </div>
       </section>
 
+      {/* WhatsApp Community Invitation */}
+      <section className="pt-12 px-6 max-w-3xl mx-auto">
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-sm">
+          <div className="space-y-1.5 flex-1 min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-widest text-[#25d366] bg-[#25d366]/10 border border-[#25d366]/20 px-2 py-0.5 rounded">
+              💬 ACTIVE COMMUNITY
+            </span>
+            <h3 className="text-lg font-bold text-slate-900 tracking-tight">Join the Private WhatsApp Group</h3>
+            <p className="text-slate-600 text-xs leading-relaxed max-w-md">
+              Discuss AI workflows, share vibe coding experiments, and connect with other non-technical builders in real-time.
+            </p>
+          </div>
+          <a
+            href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto text-center bg-[#25d366] hover:bg-[#20ba5a] text-white font-semibold py-3 px-6 rounded-lg text-xs tracking-wider uppercase transition-colors shrink-0 cursor-pointer shadow-sm shadow-[#25d366]/10"
+          >
+            Join Chat &rarr;
+          </a>
+        </div>
+      </section>
+
       {/* Downloads */}
       <section className="py-16 px-6 max-w-3xl mx-auto">
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-8">Download Assets</h2>
