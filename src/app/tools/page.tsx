@@ -22,13 +22,16 @@ const tools = [
       "Model a SpaceX IPO investment against the S&P 500. See why the ~110x revenue multiple, not the rockets, is the number that decides your return.",
     status: "live" as const,
   },
+  {
+    slug: "pitch-analyzer",
+    name: "Pitch Analyzer & Stress Tester",
+    description:
+      "Stress-test your pitch deck outline and GTM strategy against the Svyam Ventures investor checklist and real-world operational friction.",
+    status: "live" as const,
+  },
 ];
 
 const upcoming = [
-  {
-    name: "Pitch Analyzer",
-    description: "Get detailed AI feedback on your pitch deck structure, metrics, and narrative flow.",
-  },
   {
     name: "Market Scanner",
     description: "Map out your competitors, identify adjacent markets, and spot gaps in seconds.",
