@@ -39,14 +39,12 @@ export function Footer() {
         </div>
 
         <div className="pt-1 flex flex-wrap justify-center gap-x-4 gap-y-1 items-center">
-          <a
-            href="https://startupvalue.substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/newsletter"
             className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
           >
             Subscribe to the newsletter <span>&rarr;</span>
-          </a>
+          </Link>
           <span className="text-[11px] text-slate-200">|</span>
           <Link
             href="/privacy"
