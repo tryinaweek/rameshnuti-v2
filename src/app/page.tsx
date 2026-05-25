@@ -317,6 +317,77 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* 5. COMMUNITY & EVENTS SECTION - Slate Light Background */}
+      <section className="py-20 px-6 bg-slate-light border-t border-slate-100">
+        <div className="max-w-5xl mx-auto space-y-12">
+          
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase">
+              👥 JOIN US LIVE
+            </span>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              Connect and Build in Real Time
+            </h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Find resources, join discussions, and attend local events to stay ahead of the AI shift.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Card 1: WhatsApp */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between text-left shadow-sm">
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-widest text-[#25d366] bg-[#25d366]/10 border border-[#25d366]/20 px-2.5 py-1 rounded">
+                  💬 VIBE CODING CHAT
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                  WhatsApp Community
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Join our private chat with active builders and founders. Share prompting cheat sheets, get help debugging agent workflows, and discuss build strategies in real-time.
+                </p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-slate-100">
+                <a
+                  href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary inline-block py-3 px-6 text-xs uppercase tracking-wider font-bold shadow-sm"
+                >
+                  Join the Chat &rarr;
+                </a>
+              </div>
+            </div>
+
+            {/* Card 2: Startup Grind Frisco */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between text-left shadow-sm">
+              <div className="space-y-4">
+                <span className="inline-block text-[9px] font-mono font-bold tracking-widest text-teal-accent bg-blue-50 border border-blue-100 px-2.5 py-1 rounded">
+                  📍 LOCAL CHAPTER
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                  Startup Grind Frisco
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  RSVP for upcoming in-person workshops, monthly panel discussions, and founder meetups in the Frisco area. Learn directly from operators shipping AI in production.
+                </p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-slate-100">
+                <a
+                  href="https://startupgrind.com/frisco"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary inline-block py-3 px-6 text-xs uppercase tracking-wider font-bold shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                >
+                  RSVP for Workshops &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
       
     </div>
   );

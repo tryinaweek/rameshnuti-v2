@@ -43,7 +43,7 @@ export function Footer() {
             href="/newsletter"
             className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
           >
-            Subscribe to the newsletter <span>&rarr;</span>
+            Newsletter <span>&rarr;</span>
           </Link>
           <span className="text-[11px] text-slate-200">|</span>
           <Link
@@ -52,6 +52,24 @@ export function Footer() {
           >
             Free Workshop <span>&rarr;</span>
           </Link>
+          <span className="text-[11px] text-slate-200">|</span>
+          <a
+            href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
+          >
+            WhatsApp Community <span>&rarr;</span>
+          </a>
+          <span className="text-[11px] text-slate-200">|</span>
+          <a
+            href="https://startupgrind.com/frisco"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
+          >
+            Startup Grind Frisco <span>&rarr;</span>
+          </a>
           <span className="text-[11px] text-slate-200">|</span>
           <Link
             href="/privacy"
