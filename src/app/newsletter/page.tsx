@@ -24,14 +24,14 @@ export default function NewsletterPage() {
             Build and ship software using AI.
           </h1>
           <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-            Weekly vibe coding tutorials, prompt blueprints, and automation workflows for non-technical founders.
+            I share vibe coding tutorials, prompt blueprints, and automation workflows for non-technical founders weekly.
           </p>
         </div>
 
         {/* Form Container */}
         <div className="bg-slate-light/60 border border-slate-100/80 rounded-2xl p-6 md:p-8 space-y-4">
           <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider font-mono">
-            Get the next guide this Sunday
+            Get the next blueprint this Saturday
           </p>
           <NewsletterForm 
             variant="standard" 
