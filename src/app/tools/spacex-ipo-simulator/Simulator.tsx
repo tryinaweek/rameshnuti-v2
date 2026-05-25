@@ -12,7 +12,6 @@ const TEXT_LIGHT = "#64748B";
 
 const ROYAL_BLUE = "#2563eb";
 const BRAND_NAVY = "#0B1329";
-const BRAND_CYAN = "#38BDF8";
 
 // ---- Fixed assumptions (sourced May 2026, pre-pricing) ----
 // SpaceX trailing revenue ~ $15B (2025). IPO implied multiple reported at ~110x.
@@ -66,35 +65,37 @@ function fmtDollars(n: number): string {
 const PRESETS: Record<string, Preset> = {
   bull: {
     label: "Bull case",
-    desc: "Everything goes right. SpaceX grows fast and the market keeps paying a premium multiple.",
-    v: { valuationT: 2.0, dayOnePremium: 35, revGrowth: 50, exitMultiple: 70, holding: 5, fillRate: 60 },
+    desc: "SpaceX grows fast and the market keeps paying a premium multiple. The position clearly beats an index fund.",
+    v: { valuationT: 2.0, dayOnePremium: 35, revGrowth: 48, exitMultiple: 58, holding: 5, fillRate: 60 },
+  },
+  wash: {
+    label: "Roughly a wash",
+    desc: "The realistic middle. SpaceX does well, the multiple settles, and you end up about even with the S&P 500.",
+    v: { valuationT: 1.75, dayOnePremium: 20, revGrowth: 38, exitMultiple: 42, holding: 5, fillRate: 40 },
   },
   compress: {
     label: "Multiple compresses",
-    desc: "The lesson. SpaceX grows well, but the 110x multiple drifts toward something more normal.",
-    v: { valuationT: 1.75, dayOnePremium: 25, revGrowth: 35, exitMultiple: 25, holding: 5, fillRate: 40 },
-  },
-  reality: {
-    label: "Reality check",
-    desc: "Strong company, mega-cap multiple. The market eventually prices SpaceX like Nvidia or Apple.",
-    v: { valuationT: 1.75, dayOnePremium: 10, revGrowth: 30, exitMultiple: 12, holding: 5, fillRate: 40 },
+    desc: "The cautionary case. SpaceX still grows, but the 110x multiple normalizes and the position trails the index.",
+    v: { valuationT: 1.75, dayOnePremium: 20, revGrowth: 32, exitMultiple: 26, holding: 5, fillRate: 40 },
   },
   shutout: {
     label: "Shut out of allocation",
-    desc: "You request shares but get nothing at the IPO price. All of it buys on the open at the pop.",
-    v: { valuationT: 1.75, dayOnePremium: 30, revGrowth: 35, exitMultiple: 25, holding: 5, fillRate: 0 },
+    desc: "You request shares but get none at the IPO price. All of it buys on the open at the pop, and that premium costs you.",
+    v: { valuationT: 1.75, dayOnePremium: 30, revGrowth: 38, exitMultiple: 42, holding: 5, fillRate: 0 },
   },
 };
 
 export default function Simulator() {
+  // Defaults match the "bull" preset so a first-time visitor opens to a clear,
+  // optimistic scenario, then discovers the downside by adjusting the inputs.
   const [investment, setInvestment] = useState<number>(5000);
-  const [valuationT, setValuationT] = useState<number>(1.75);
-  const [dayOnePremium, setDayOnePremium] = useState<number>(25);
-  const [revGrowth, setRevGrowth] = useState<number>(35);
-  const [exitMultiple, setExitMultiple] = useState<number>(25);
+  const [valuationT, setValuationT] = useState<number>(2.0);
+  const [dayOnePremium, setDayOnePremium] = useState<number>(35);
+  const [revGrowth, setRevGrowth] = useState<number>(48);
+  const [exitMultiple, setExitMultiple] = useState<number>(58);
   const [holding, setHolding] = useState<number>(5);
-  const [fillRate, setFillRate] = useState<number>(40);
-  const [activePreset, setActivePreset] = useState<string | null>("compress");
+  const [fillRate, setFillRate] = useState<number>(60);
+  const [activePreset, setActivePreset] = useState<string | null>("bull");
 
   function applyPreset(key: string) {
     const p = PRESETS[key].v;
@@ -299,7 +300,7 @@ export default function Simulator() {
         {/* Presets */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontFamily: "var(--font-jetbrains-mono), monospace", fontSize: 12, color: TEXT_LIGHT, marginBottom: 8, letterSpacing: 1 }}>
-            START HERE · TAP A SCENARIO
+            STEP 1 · PICK A SCENARIO
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 10 }}>
             {Object.entries(PRESETS).map(([key, p]) => {
@@ -310,14 +311,21 @@ export default function Simulator() {
                   key={key}
                   onClick={() => applyPreset(key)}
                   style={{
-                    textAlign: "left", padding: "12px 14px", borderRadius: 10, cursor: "pointer",
-                    border: `1px solid ${on ? tone : BORDER_SLATE}`,
+                    textAlign: "left", padding: "14px 16px", borderRadius: 10, cursor: "pointer",
+                    border: `2px solid ${on ? tone : BORDER_SLATE}`,
                     background: on ? "rgba(37,99,235,0.04)" : BG_SLATE, color: TEXT_CHARCOAL,
                     fontFamily: "var(--font-dm-sans), Georgia, serif",
                   }}
                 >
-                  <div style={{ fontWeight: 700, fontSize: 14, color: on ? tone : TEXT_CHARCOAL }}>{p.label}</div>
-                  <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 4, lineHeight: 1.4 }}>{p.desc}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ fontWeight: 700, fontSize: 15, color: on ? tone : TEXT_CHARCOAL }}>{p.label}</div>
+                    {on && (
+                      <span style={{ fontSize: 10, fontFamily: "var(--font-jetbrains-mono), monospace", color: tone, border: `1px solid ${tone}`, borderRadius: 4, padding: "1px 5px" }}>
+                        SELECTED
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ fontSize: 12, color: TEXT_MUTED, marginTop: 5, lineHeight: 1.45 }}>{p.desc}</div>
                 </button>
               );
             })}
@@ -325,6 +333,9 @@ export default function Simulator() {
         </div>
 
         {/* Inputs */}
+        <div style={{ fontFamily: "var(--font-jetbrains-mono), monospace", fontSize: 12, color: TEXT_LIGHT, marginBottom: 8, letterSpacing: 1 }}>
+          STEP 2 · ADJUST ANY ASSUMPTION
+        </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
           <Panel title="IPO allocation fill rate" accent={ROYAL_BLUE}>
             <Slider
