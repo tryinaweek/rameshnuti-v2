@@ -90,7 +90,7 @@ export default function AboutPage() {
                 That curiosity led me to build <strong>ActionEDI</strong>, a supply-chain integration company that cuts B2B EDI costs by over 50% for SMBs working with Fortune 500 distributors.
               </p>
               <p>
-                With an MS in Computer Science and an MBA, I started angel investing to back early-stage founders. Through 
+                With an MS in Computer Science and an NYU Stern MBA, I started angel investing to back early-stage founders. Through 
                 <strong> Svyam Ventures</strong>, I&apos;ve made 25+ early-stage investments, helping pre-revenue builders scale operations.
               </p>
               <p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <p className="text-xs text-slate-400 font-mono">CREDENTIALS</p>
-                  <p className="text-sm font-bold text-slate-900">MS in Computer Science &middot; MBA</p>
+                  <p className="text-sm font-bold text-slate-900">MS in Computer Science &middot; NYU Stern MBA</p>
                 </div>
               </div>
             </div>
