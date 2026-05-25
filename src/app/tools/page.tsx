@@ -29,14 +29,16 @@ const tools = [
       "Stress-test your pitch deck outline and GTM strategy against the Svyam Ventures investor checklist and real-world operational friction.",
     status: "live" as const,
   },
-];
-
-const upcoming = [
   {
-    name: "Market Scanner",
-    description: "Map out your competitors, identify adjacent markets, and spot gaps in seconds.",
+    slug: "market-scanner",
+    name: "Market Scanner & Positioner",
+    description:
+      "Map out your competitors, identify unoccupied market gaps, and generate actionable GTM infiltration plans.",
+    status: "live" as const,
   },
 ];
+
+const upcoming: { name: string; description: string }[] = [];
 
 const promptIngredients = [
   { num: 1, name: "TASK", desc: "Clearly outline what you want done" },
