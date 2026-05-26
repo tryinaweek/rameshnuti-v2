@@ -47,8 +47,7 @@ export default function HomePage() {
                   width={340}
                   height={425}
                   priority
-                  className="rounded-xl object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-500"
-                  style={{ width: 340, height: "auto" }}
+                  className="rounded-xl object-cover grayscale-[15%] hover:grayscale-0 transition-all duration-500 w-full h-auto"
                 />
               </div>
             </div>

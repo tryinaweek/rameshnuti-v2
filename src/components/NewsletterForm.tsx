@@ -16,17 +16,110 @@ export function NewsletterForm({
   redirectTo,
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (redirectTo && redirectTo.includes("/workshop/resources")) {
       document.cookie = "unlocked_workshop=true; path=/; max-age=86400";
     }
-    if (redirectTo) {
-      setTimeout(() => {
-        window.location.href = redirectTo;
-      }, 100);
+
+    const substackUrl = `https://startupvalue.substack.com/subscribe?email=${encodeURIComponent(email)}`;
+    
+    try {
+      window.open(substackUrl, "_blank");
+    } catch (err) {
+      console.error("Popup blocked:", err);
     }
+
+    setIsSubmitted(true);
   };
+
+  if (isSubmitted) {
+    const substackUrl = `https://startupvalue.substack.com/subscribe?email=${encodeURIComponent(email)}`;
+
+    if (variant === "hero") {
+      return (
+        <div className="pt-4 border-t border-slate-100 grid sm:grid-cols-12 gap-4 items-start sm:items-center text-left animate-fade-up">
+          <div className="sm:col-span-12 space-y-2">
+            <p className="font-bold text-sm text-slate-900">🎉 Check the new tab to subscribe!</p>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              We opened Substack in a new window so you can confirm your free email subscription.
+              If it did not open,{" "}
+              <a href={substackUrl} target="_blank" rel="noopener noreferrer" className="text-teal-accent hover:underline font-bold">
+                click here to complete
+              </a>.
+              {redirectTo && (
+                <>
+                  {" "}Or go straight to{" "}
+                  <a href={redirectTo} className="text-teal-accent hover:underline font-bold">
+                    Workshop Resources &rarr;
+                  </a>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (variant === "navy") {
+      return (
+        <div className="space-y-2 text-left w-full text-white animate-fade-up">
+          <p className="font-bold text-sm">🎉 Check the new tab to subscribe!</p>
+          <p className="text-xs text-white/70">
+            Substack did not open?{" "}
+            <a href={substackUrl} target="_blank" rel="noopener noreferrer" className="text-teal-accent hover:underline font-bold">
+              Click here to complete
+            </a>.
+            {redirectTo && (
+              <>
+                {" "}Or view{" "}
+                <a href={redirectTo} className="text-teal-accent hover:underline font-bold">
+                  Workshop Resources &rarr;
+                </a>
+              </>
+            )}
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="premium-card p-6 text-center space-y-4 max-w-md mx-auto animate-fade-up">
+        <div className="w-12 h-12 bg-teal-500/10 border border-teal-500/20 text-teal-accent rounded-full flex items-center justify-center mx-auto text-xl font-bold">
+          ✓
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-slate-900 text-base font-bold">Substack Subscription Opened</h3>
+          <p className="text-slate-500 text-xs leading-relaxed">
+            We opened Substack in a new tab so you can confirm your free email subscription.
+          </p>
+        </div>
+        <div className="space-y-2.5 pt-2">
+          {redirectTo && (
+            <a
+              href={redirectTo}
+              className="btn-primary block w-full text-center py-2.5 text-xs font-semibold"
+            >
+              Access Workshop Resources &rarr;
+            </a>
+          )}
+          <p className="text-[10px] text-slate-400">
+            Substack page did not open?{" "}
+            <a
+              href={substackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-teal-accent hover:underline font-semibold"
+            >
+              Click here to complete signup
+            </a>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (variant === "hero") {
     return (
@@ -40,15 +133,11 @@ export function NewsletterForm({
         </div>
         <div className="sm:col-span-6 space-y-1">
           <form
-            action="https://startupvalue.substack.com/subscribe"
-            method="GET"
-            target="_blank"
             onSubmit={handleSubmit}
             className="flex gap-2"
           >
             <input
               type="email"
-              name="email"
               placeholder={placeholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -71,15 +160,11 @@ export function NewsletterForm({
     return (
       <div className="space-y-1 text-left w-full">
         <form
-          action="https://startupvalue.substack.com/subscribe"
-          method="GET"
-          target="_blank"
           onSubmit={handleSubmit}
           className="flex gap-2 w-full"
         >
           <input
             type="email"
-            name="email"
             placeholder={placeholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -100,15 +185,11 @@ export function NewsletterForm({
   return (
     <div className="space-y-1 max-w-md mx-auto">
       <form
-        action="https://startupvalue.substack.com/subscribe"
-        method="GET"
-        target="_blank"
         onSubmit={handleSubmit}
         className="flex flex-col sm:flex-row gap-3 justify-center"
       >
         <input
           type="email"
-          name="email"
           placeholder={placeholder}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
