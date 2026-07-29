@@ -50,7 +50,18 @@ export function Navigation() {
           })}
           
           <div className="w-[1px] h-4 bg-slate-200" />
-          
+
+          <Link
+            href="/book-an-assessment"
+            className={`text-xs font-bold tracking-wider uppercase no-underline px-3.5 py-2 rounded-lg transition-colors whitespace-nowrap ${
+              pathname === "/book-an-assessment"
+                ? "bg-teal-accent text-white"
+                : "bg-teal-accent/10 text-teal-accent border border-teal-accent/25 hover:bg-teal-accent hover:text-white"
+            }`}
+          >
+            Book Assessment
+          </Link>
+
           <a
             href="https://www.linkedin.com/in/rnuti/"
             target="_blank"
@@ -83,6 +94,13 @@ export function Navigation() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden border-t border-slate-100 bg-white px-6 py-4 space-y-3 animate-fade-up">
+          <Link
+            href="/book-an-assessment"
+            onClick={() => setOpen(false)}
+            className="block text-center text-xs font-bold tracking-wider uppercase no-underline py-3 rounded-lg bg-teal-accent text-white transition-colors"
+          >
+            Book a Free Assessment &rarr;
+          </Link>
           {links.map((l) => {
             const isActive = pathname === l.href;
             return (
