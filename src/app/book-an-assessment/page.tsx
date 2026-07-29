@@ -25,8 +25,8 @@ const steps = [
   },
   {
     num: "04",
-    title: "Pick one, I build it",
-    desc: "If you want, pick the highest-impact workflow and I'll build the fix for you — a working AI automation, not a slide deck.",
+    title: "Pick one, I lead the build",
+    desc: "Pick the highest-impact workflow and I personally lead and build the fix — a working AI automation powered by the same agent stack behind my 75+ shipped projects. Days, not weeks.",
   },
 ];
 
@@ -115,7 +115,8 @@ export default function BookAssessmentPage() {
           <p className="text-slate-600 text-sm leading-relaxed">
             Simple: I&apos;ve shipped 75+ AI projects, and the best way to prove AI can
             transform your business is to show you — on your own workflows. If the
-            assessment saves you time, some of you will hire me to build the fixes.
+            workflow map saves you time, some of you will have me lead and build the
+            fixes — using the same AI leverage I&apos;ll be setting up for you.
             That&apos;s the whole model.
           </p>
         </div>
