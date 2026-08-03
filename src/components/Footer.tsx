@@ -19,6 +19,7 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     heading: "Learn",
     links: [
       { href: "/articles", label: "Articles" },
+      { href: "/workshops", label: "Workshops" },
       { href: "/newsletter", label: "Newsletter" },
       { href: "/courses", label: "Courses" },
     ],
