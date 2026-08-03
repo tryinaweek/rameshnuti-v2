@@ -1,9 +1,61 @@
 import Link from "next/link";
 
+/**
+ * The footer carries the full sitemap. The header is a minimal action bar
+ * (Menu + Work with me), so this is where every page stays one crawlable,
+ * always-visible link from anywhere on the site.
+ */
+const sitemap: { heading: string; links: { href: string; label: string }[] }[] = [
+  {
+    heading: "Explore",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/lab", label: "The Lab" },
+      { href: "/tools", label: "Tools" },
+      { href: "/about", label: "About" },
+    ],
+  },
+  {
+    heading: "Learn",
+    links: [
+      { href: "/writing", label: "Writing" },
+      { href: "/newsletter", label: "Newsletter" },
+      { href: "/courses", label: "Courses" },
+    ],
+  },
+  {
+    heading: "Work with me",
+    links: [
+      { href: "/work-with-me", label: "Overview" },
+      { href: "/workshop", label: "AI workshop" },
+      { href: "/book-an-assessment", label: "Free assessment" },
+    ],
+  },
+];
+
 export function Footer() {
   return (
     <footer className="border-t border-slate-100 py-12 px-6 bg-slate-light">
       <div className="max-w-5xl mx-auto text-center space-y-4">
+        {/* Sitemap */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6 text-left max-w-2xl mx-auto pb-8 mb-2 border-b border-slate-200/50">
+          {sitemap.map((group) => (
+            <div key={group.heading} className="space-y-1.5">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                {group.heading}
+              </p>
+              {group.links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="block text-[12px] text-slate-600 hover:text-teal-accent font-semibold no-underline transition-colors py-0.5"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          ))}
+        </div>
         <p className="text-xs font-semibold text-slate-dark tracking-wide italic">
           &ldquo;The objection you didn&apos;t prepare for is the one that kills the deal.&rdquo;
         </p>
