@@ -620,7 +620,7 @@ export default function Scanner() {
                 </p>
               </div>
               <div className="max-w-sm mx-auto pt-2">
-                <NewsletterForm variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+                <NewsletterForm sourceTag="tool-market-scanner" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
               </div>
             </div>
           </div>

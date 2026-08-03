@@ -35,7 +35,7 @@ export default function HomePage() {
                 The new programming language is English. I help non-technical founders, builders, and solopreneurs design, build, and deploy real AI products without writing traditional code.
               </p>
 
-              <NewsletterForm variant="hero" buttonText="Subscribe" placeholder="Email address" />
+              <NewsletterForm sourceTag="newsletter-home" variant="hero" buttonText="Subscribe" placeholder="Email address" />
             </div>
 
             {/* Right Column: Speaking Image Framed with Thin Border */}
@@ -167,7 +167,7 @@ export default function HomePage() {
                   Every Saturday morning, I send one step-by-step vibe coding blueprint to help you build and ship software using AI. Free.
                 </p>
                 <div className="pl-8 pt-2 max-w-md">
-                  <NewsletterForm variant="navy" buttonText="Subscribe Free" placeholder="Enter your email" />
+                  <NewsletterForm sourceTag="newsletter-home" variant="navy" buttonText="Subscribe Free" placeholder="Enter your email" />
                 </div>
               </div>
 
