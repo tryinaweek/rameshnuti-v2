@@ -3,7 +3,7 @@ import { NewsletterForm } from "@/components/NewsletterForm";
 import { LAB_APPS, LAB_COUNT_CLAIM, type LabStatus } from "@/data/lab";
 
 export const metadata: Metadata = {
-  title: "The Lab | Ramesh Nuti",
+  title: "The Lab",
   description:
     "75+ AI products shipped, all vibe coded. The living portfolio: a daily game, mobile apps, tools, and experiments.",
 };
