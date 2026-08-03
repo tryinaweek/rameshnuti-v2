@@ -26,6 +26,11 @@ export function NewsletterForm({
     if (redirectTo && redirectTo.includes("/workshop/resources")) {
       document.cookie = "unlocked_workshop=true; path=/; max-age=86400";
     }
+    // Per-workshop unlock: /workshops/<slug>/resources → unlocked_<slug>
+    const slugMatch = redirectTo?.match(/^\/workshops\/([a-z0-9-]+)\/resources/);
+    if (slugMatch) {
+      document.cookie = `unlocked_${slugMatch[1]}=true; path=/; max-age=86400`;
+    }
 
     // Capture into THE LIST first — the address must survive even if the
     // visitor never completes Substack's confirmation flow. keepalive lets the

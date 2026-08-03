@@ -13,14 +13,20 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
+  const workshop = formData.get("workshop");
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
+  if (typeof workshop !== "string" || !/^[a-z0-9-]{1,64}$/.test(workshop)) {
+    return NextResponse.json({ error: "A valid workshop slug is required" }, { status: 400 });
+  }
+  const filename = file.name.replace(/[/\\]/g, "_");
 
-  const blob = await put(`workshop/${file.name}`, file, {
+  const blob = await put(`workshop/${workshop}/${filename}`, file, {
     access: "public",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 
   return NextResponse.json({ url: blob.url, pathname: blob.pathname });

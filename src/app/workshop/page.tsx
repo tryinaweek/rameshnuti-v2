@@ -101,7 +101,7 @@ export default function WorkshopPage() {
             Submit your email below to instantly access the download page containing the n8n JSON schema, prompting scripts, and the workshop cheatsheet.
           </p>
           <div className="bg-slate-light border border-slate-200 rounded-xl p-6 shadow-inner">
-            <NewsletterForm sourceTag="workshop" variant="standard" buttonText="Unlock Files & Subscribe" redirectTo="/workshop/resources" />
+            <NewsletterForm sourceTag="workshop" variant="standard" buttonText="Unlock Files & Subscribe" redirectTo="/workshops/ai-agent-workshop/resources" />
           </div>
         </div>
       </section>
