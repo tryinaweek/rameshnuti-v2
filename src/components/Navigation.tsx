@@ -28,7 +28,7 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
   {
     heading: "Learn",
     links: [
-      { href: "/writing", label: "Writing" },
+      { href: "/articles", label: "Articles" },
       { href: "/newsletter", label: "Newsletter" },
       { href: "/courses", label: "Courses" },
     ],
