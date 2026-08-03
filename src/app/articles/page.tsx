@@ -56,28 +56,27 @@ function formatDate(iso: string): string {
 export default async function Page() {
   const substackPosts = await getSubstackPosts();
 
+  // On-site writing leads the page — this is Ramesh's canonical home for
+  // long-form, so his own pieces come before the newsletter feed.
   const onSiteArticles: ListedArticle[] = articles.map((a) => ({
     title: a.title,
     url: a.url,
-    // Local articles carry display dates like "March 2026"; sort them at the
-    // start of that month rather than inventing a day.
     date: `${new Date(`${a.date} 1`).toISOString().slice(0, 7)}-01`,
     dateLabel: a.date,
     description: a.description,
     onSite: true,
   }));
 
-  const all: ListedArticle[] = [
-    ...onSiteArticles,
-    ...substackPosts.map((p) => ({
+  const newsletterPosts: ListedArticle[] = substackPosts
+    .map((p) => ({
       title: p.title,
       url: p.url,
       date: p.date,
       dateLabel: formatDate(p.date),
       description: p.description,
       onSite: false,
-    })),
-  ].sort((a, b) => b.date.localeCompare(a.date));
+    }))
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <div className="bg-white min-h-screen text-slate-900 font-sans">
@@ -104,47 +103,55 @@ export default async function Page() {
         </div>
       </section>
 
-      {/* Article list */}
-      <section className="py-16 md:py-20 px-6 max-w-3xl mx-auto">
+      {/* On-site writing — leads the page */}
+      <section className="pt-16 md:pt-20 px-6 max-w-3xl mx-auto">
+        <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+          Written here
+        </h2>
         <div className="divide-y divide-slate-100 border-y border-slate-100">
-          {all.map((article) => {
-            const inner = (
-              <>
-                <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
-                  <span>{article.dateLabel}</span>
-                  {article.onSite ? (
-                    <span className="px-2 py-0.5 rounded-full bg-teal-accent/10 text-teal-accent font-bold tracking-wide">
-                      On this site
-                    </span>
-                  ) : (
-                    <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold tracking-wide">
-                      Substack ↗
-                    </span>
-                  )}
-                </div>
-                <h2 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-teal-accent transition-colors leading-snug">
-                  {article.title}
-                </h2>
-                <p className="text-sm text-slate-500 leading-relaxed">{article.description}</p>
-              </>
-            );
-            const rowClass = "group block py-7 space-y-2 no-underline";
-            return article.onSite ? (
-              <Link key={article.url} href={article.url} className={rowClass}>
-                {inner}
-              </Link>
-            ) : (
-              <a
-                key={article.url}
-                href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={rowClass}
-              >
-                {inner}
-              </a>
-            );
-          })}
+          {onSiteArticles.map((article) => (
+            <Link key={article.url} href={article.url} className="group block py-7 space-y-2 no-underline">
+              <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+                <span>{article.dateLabel}</span>
+                <span className="px-2 py-0.5 rounded-full bg-teal-accent/10 text-teal-accent font-bold tracking-wide">
+                  On this site
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-teal-accent transition-colors leading-snug">
+                {article.title}
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{article.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter feed */}
+      <section className="py-14 md:py-16 px-6 max-w-3xl mx-auto">
+        <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+          From the Ship This Week newsletter
+        </h2>
+        <div className="divide-y divide-slate-100 border-y border-slate-100">
+          {newsletterPosts.map((article) => (
+            <a
+              key={article.url}
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block py-7 space-y-2 no-underline"
+            >
+              <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+                <span>{article.dateLabel}</span>
+                <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold tracking-wide">
+                  Substack ↗
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-slate-900 group-hover:text-teal-accent transition-colors leading-snug">
+                {article.title}
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{article.description}</p>
+            </a>
+          ))}
         </div>
       </section>
 
