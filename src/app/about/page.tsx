@@ -292,7 +292,7 @@ export default function AboutPage() {
             <p className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest text-left">
               Join The Weekend Builder list:
             </p>
-            <NewsletterForm variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+            <NewsletterForm sourceTag="newsletter-about" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
           </div>
 
         </div>

@@ -160,7 +160,7 @@ export default function CoursesPage() {
               Join the waitlist to get notified when the next Weekend Builder cohort launches.
             </p>
             
-            <NewsletterForm variant="standard" buttonText="Join Waitlist" placeholder="Enter your email" />
+            <NewsletterForm sourceTag="courses-waitlist" variant="standard" buttonText="Join Waitlist" placeholder="Enter your email" />
           </div>
         </div>
       </section>

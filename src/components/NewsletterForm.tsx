@@ -7,6 +7,8 @@ interface NewsletterFormProps {
   buttonText?: string;
   placeholder?: string;
   redirectTo?: string;
+  /** Where this signup came from, recorded in THE LIST (Supabase people). */
+  sourceTag?: string;
 }
 
 export function NewsletterForm({
@@ -14,6 +16,7 @@ export function NewsletterForm({
   buttonText = "Subscribe",
   placeholder = "Email address",
   redirectTo,
+  sourceTag = "newsletter",
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,8 +27,20 @@ export function NewsletterForm({
       document.cookie = "unlocked_workshop=true; path=/; max-age=86400";
     }
 
+    // Capture into THE LIST first — the address must survive even if the
+    // visitor never completes Substack's confirmation flow. keepalive lets the
+    // request finish if the page navigates.
+    void fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, source: sourceTag }),
+      keepalive: true,
+    }).catch(() => {
+      // Never block the subscribe experience on the capture call.
+    });
+
     const substackUrl = `https://startupvalue.substack.com/subscribe?email=${encodeURIComponent(email)}`;
-    
+
     try {
       window.open(substackUrl, "_blank");
     } catch (err) {

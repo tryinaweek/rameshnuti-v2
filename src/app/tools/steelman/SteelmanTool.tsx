@@ -323,7 +323,7 @@ Try it for free here to test your own business model: https://rameshnuti.com/too
                   </div>
                   
                   <div className="max-w-sm mx-auto">
-                    <NewsletterForm variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+                    <NewsletterForm sourceTag="tool-steelman" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
                   </div>
                 </div>
               </div>

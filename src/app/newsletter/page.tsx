@@ -33,7 +33,7 @@ export default function NewsletterPage() {
           <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider font-mono">
             Get the next blueprint this Saturday
           </p>
-          <NewsletterForm 
+          <NewsletterForm sourceTag="newsletter-page" 
             variant="standard" 
             buttonText="Subscribe Free" 
             placeholder="Enter your email" 

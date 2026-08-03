@@ -237,7 +237,7 @@ export default async function WorkshopResourcesPage(props: {
             I break down a live AI workflow like this every single week.
           </p>
           <div className="max-w-md mx-auto">
-            <NewsletterForm variant="standard" buttonText="Subscribe" />
+            <NewsletterForm sourceTag="workshop-resources" variant="standard" buttonText="Subscribe" />
           </div>
         </div>
       </section>

@@ -334,7 +334,7 @@ export default function ToolsPage() {
             I post new tools, prompt cheat sheets, and automation setups every week on Substack. Join 1,000+ creators.
           </p>
           
-          <NewsletterForm variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+          <NewsletterForm sourceTag="tools" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
         </div>
       </section>
     </div>
