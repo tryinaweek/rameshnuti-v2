@@ -22,6 +22,7 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
     heading: "Lab",
     links: [
       { href: "/lab", label: "The Lab — apps I've shipped" },
+      { href: "/gpts", label: "GPT Garden — custom GPTs" },
       { href: "/tools", label: "Tools — free utilities" },
     ],
   },

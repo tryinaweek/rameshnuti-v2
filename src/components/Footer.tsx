@@ -11,6 +11,7 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     links: [
       { href: "/", label: "Home" },
       { href: "/lab", label: "The Lab" },
+      { href: "/gpts", label: "GPT Garden" },
       { href: "/tools", label: "Tools" },
       { href: "/about", label: "About" },
     ],
