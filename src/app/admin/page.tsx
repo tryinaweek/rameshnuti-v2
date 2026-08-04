@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from "react";
 
+import { GptsManager } from "./GptsManager";
+
 interface AdminFile {
   name: string;
   url: string;
@@ -22,6 +24,7 @@ interface AdminWorkshop {
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [section, setSection] = useState<"workshops" | "gpts">("workshops");
   const [workshops, setWorkshops] = useState<AdminWorkshop[]>([]);
   const [statsAvailable, setStatsAvailable] = useState(true);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
@@ -180,13 +183,33 @@ export default function AdminPage() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-left">
           <div>
+            <div className="flex items-center gap-2 mb-2">
+              {(["workshops", "gpts"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setSection(tab);
+                    setOpenSlug(null);
+                  }}
+                  className={`text-[11px] font-mono font-bold tracking-wider uppercase px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${
+                    section === tab
+                      ? "bg-teal-accent text-white border-teal-accent"
+                      : "text-slate-500 bg-slate-50 border-slate-200 hover:text-slate-900"
+                  }`}
+                >
+                  {tab === "workshops" ? "Workshops" : "GPT Garden"}
+                </button>
+              ))}
+            </div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-              {open ? open.title : "Workshops"}
+              {section === "gpts" ? "GPT Garden" : open ? open.title : "Workshops"}
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
-              {open
-                ? `/workshops/${open.slug}`
-                : "Each workshop has its own unlock page, files, and download stats."}
+              {section === "gpts"
+                ? "/gpts — hide, edit, or add the custom GPTs shown on the public page."
+                : open
+                  ? `/workshops/${open.slug}`
+                  : "Each workshop has its own unlock page, files, and download stats."}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -211,6 +234,10 @@ export default function AdminPage() {
           </div>
         </div>
 
+        {section === "gpts" ? (
+          <GptsManager password={password} />
+        ) : (
+          <>
         {/* Stats hint */}
         {!statsAvailable && (
           <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-xs font-semibold text-left">
@@ -399,6 +426,8 @@ export default function AdminPage() {
                 </div>
               )}
             </div>
+          </>
+        )}
           </>
         )}
       </div>

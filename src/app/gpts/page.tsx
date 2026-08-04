@@ -25,19 +25,23 @@ interface GptRow {
 }
 
 async function fetchGpts(): Promise<GptRow[]> {
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/gpts?select=id,name,description,category,icon,url,position&order=name.asc`,
-      {
-        headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-        next: { revalidate: 60 },
-      },
-    );
-    if (!res.ok) return [];
-    return (await res.json()) as GptRow[];
-  } catch {
-    return [];
-  }
+  const query = async (filter: string): Promise<GptRow[] | null> => {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/gpts?select=id,name,description,category,icon,url,position${filter}&order=name.asc`,
+        {
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+          next: { revalidate: 60 },
+        },
+      );
+      if (!res.ok) return null;
+      return (await res.json()) as GptRow[];
+    } catch {
+      return null;
+    }
+  };
+  // Curation flag — falls back to everything while the column doesn't exist.
+  return (await query('&active=eq.true')) ?? (await query('')) ?? [];
 }
 
 export default async function GptGardenPage() {
