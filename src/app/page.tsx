@@ -2,13 +2,21 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { buildNumberLabel, findFeaturedBuild } from "@/lib/builds";
 
 export const metadata: Metadata = {
   title: "Ramesh Nuti | 75+ AI Projects Shipped",
   description: "2x founder. Investor @ Svyam Ventures. Vibe coder. 75+ AI projects shipped. I'll teach you the system.",
 };
 
-export default function HomePage() {
+// Picks up a newly featured build without a redeploy.
+export const revalidate = 60;
+
+export default async function HomePage() {
+  // Null until a published build is flagged "feature on the homepage" in the
+  // admin panel, so nothing reaches the homepage before Ramesh says so.
+  const featured = await findFeaturedBuild();
+
   return (
     <div className="space-y-0 bg-white min-h-screen font-sans text-slate-900">
       
@@ -316,6 +324,40 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* 4b. BUILD WITH ME - appears only once a build is flagged in /admin */}
+      {featured && (
+        <section className="bg-brand-navy py-20 px-6 text-white">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
+            <div className="md:col-span-7 space-y-4 text-left">
+              <span className="inline-block rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-brand-cyan">
+                Build With Me &middot; Build {buildNumberLabel(featured.build_number)}
+              </span>
+              <h2 className="text-3xl font-bold tracking-tight">{featured.title}</h2>
+              <p className="text-slate-300 text-sm leading-relaxed max-w-xl">
+                {featured.short_description}
+              </p>
+              <p className="text-slate-400 text-xs">
+                {featured.difficulty} &middot; {featured.estimated_build_time}
+              </p>
+            </div>
+            <div className="md:col-span-5 flex flex-col gap-3 md:items-end">
+              <Link
+                href={`/build/${featured.slug}`}
+                className="rounded-lg bg-white px-6 py-3.5 text-sm font-bold text-slate-900 no-underline text-center transition-colors hover:bg-slate-100"
+              >
+                Read the teardown &rarr;
+              </Link>
+              <Link
+                href="/build"
+                className="rounded-lg border border-white/25 px-6 py-3.5 text-sm font-bold text-white no-underline text-center transition-colors hover:bg-white/10"
+              >
+                See every build
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 5. COMMUNITY & EVENTS SECTION - Slate Light Background */}
       <section className="py-20 px-6 bg-slate-light border-t border-slate-100">

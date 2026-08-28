@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 
+import { BuildsManager } from "./BuildsManager";
 import { GptsManager } from "./GptsManager";
 
 interface AdminFile {
@@ -24,7 +25,7 @@ interface AdminWorkshop {
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
-  const [section, setSection] = useState<"workshops" | "gpts">("workshops");
+  const [section, setSection] = useState<"workshops" | "gpts" | "builds">("workshops");
   const [workshops, setWorkshops] = useState<AdminWorkshop[]>([]);
   const [statsAvailable, setStatsAvailable] = useState(true);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
@@ -184,7 +185,7 @@ export default function AdminPage() {
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-left">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              {(["workshops", "gpts"] as const).map((tab) => (
+              {(["workshops", "gpts", "builds"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -197,19 +198,31 @@ export default function AdminPage() {
                       : "text-slate-500 bg-slate-50 border-slate-200 hover:text-slate-900"
                   }`}
                 >
-                  {tab === "workshops" ? "Workshops" : "GPT Garden"}
+                  {tab === "workshops"
+                    ? "Workshops"
+                    : tab === "gpts"
+                      ? "GPT Garden"
+                      : "Build With Me"}
                 </button>
               ))}
             </div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-              {section === "gpts" ? "GPT Garden" : open ? open.title : "Workshops"}
+              {section === "gpts"
+                ? "GPT Garden"
+                : section === "builds"
+                  ? "Build With Me"
+                  : open
+                    ? open.title
+                    : "Workshops"}
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
               {section === "gpts"
                 ? "/gpts — hide, edit, or add the custom GPTs shown on the public page."
-                : open
-                  ? `/workshops/${open.slug}`
-                  : "Each workshop has its own unlock page, files, and download stats."}
+                : section === "builds"
+                  ? "/build — write next Saturday's edition, preview it, then publish."
+                  : open
+                    ? `/workshops/${open.slug}`
+                    : "Each workshop has its own unlock page, files, and download stats."}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -236,6 +249,8 @@ export default function AdminPage() {
 
         {section === "gpts" ? (
           <GptsManager password={password} />
+        ) : section === "builds" ? (
+          <BuildsManager password={password} />
         ) : (
           <>
         {/* Stats hint */}

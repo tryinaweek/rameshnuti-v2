@@ -10,6 +10,7 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     heading: "Explore",
     links: [
       { href: "/", label: "Home" },
+      { href: "/build", label: "Build With Me" },
       { href: "/lab", label: "The Lab" },
       { href: "/gpts", label: "GPT Garden" },
       { href: "/tools", label: "Tools" },
