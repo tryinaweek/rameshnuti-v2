@@ -63,7 +63,15 @@ export function fileExtension(filename: string): string {
 }
 
 export async function readRegistry(): Promise<Workshop[]> {
-  const { blobs } = await list({ prefix: REGISTRY_PATH, limit: 1 });
+  // An unreachable blob store means "no workshops yet", not a crashed page.
+  // Without this, prerendering /workshops fails the whole build wherever
+  // BLOB_READ_WRITE_TOKEN isn't set (local builds, preview environments).
+  let blobs: Awaited<ReturnType<typeof list>>['blobs'];
+  try {
+    ({ blobs } = await list({ prefix: REGISTRY_PATH, limit: 1 }));
+  } catch {
+    return [];
+  }
   const entry = blobs.find((b) => b.pathname === REGISTRY_PATH);
   if (!entry) return [];
   // Blob URLs are CDN-cached; bust so admin edits show immediately.
@@ -88,7 +96,12 @@ export async function writeRegistry(workshops: Workshop[]): Promise<void> {
 
 export async function listWorkshopFiles(slug: string): Promise<WorkshopFile[]> {
   const prefix = `workshop/${slug}/`;
-  const { blobs } = await list({ prefix });
+  let blobs: Awaited<ReturnType<typeof list>>['blobs'];
+  try {
+    ({ blobs } = await list({ prefix }));
+  } catch {
+    return [];
+  }
   return blobs
     .filter((b) => b.pathname !== REGISTRY_PATH && b.size > 0)
     .map((b) => ({
