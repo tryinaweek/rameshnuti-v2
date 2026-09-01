@@ -14,15 +14,17 @@ export default function WorkWithMePage() {
       <section className="bg-slate-light border-b border-slate-100 py-16 md:py-24 px-6">
         <div className="max-w-5xl mx-auto space-y-4">
           <span className="inline-block bg-teal-50 border border-teal-100 text-teal-accent px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase">
-            ⚡ 75+ AI PROJECTS SHIPPED · I&apos;LL TEACH YOU THE SYSTEM
+            Partner
           </span>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
-            Work with me
+            How I partner
           </h1>
           <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
-            Everything in <Link href="/lab" className="text-teal-accent font-bold no-underline hover:underline">the Lab</Link> was
-            built with the same repeatable system — and the system is teachable.
-            Two ways to get it for your team or your company.
+            A few different ways, depending on what you need. Everything in{" "}
+            <Link href="/lab" className="text-teal-accent font-bold no-underline hover:underline">
+              the Lab
+            </Link>{" "}
+            was built with the same repeatable system, and the system is teachable.
           </p>
         </div>
       </section>
@@ -66,6 +68,27 @@ export default function WorkWithMePage() {
               Book a free assessment &rarr;
             </Link>
           </div>
+        </div>
+
+        {/* Investing — deliberately not a "pitch me" form. */}
+        <div className="mt-6 bg-slate-light border border-slate-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-bold text-slate-900">Angel investing</p>
+            <p className="text-slate-600 text-xs leading-relaxed mt-1 max-w-md">
+              I make a small number of early-stage investments through Svyam
+              Ventures, where I&apos;ve backed 25+ companies. I&apos;m most useful
+              to founders building something I understand, and I&apos;d rather have
+              a real conversation than read a cold deck.
+            </p>
+          </div>
+          <a
+            href="https://svyam.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-accent text-sm font-bold no-underline hover:underline whitespace-nowrap"
+          >
+            Svyam Ventures &rarr;
+          </a>
         </div>
 
         {/* Speaking */}

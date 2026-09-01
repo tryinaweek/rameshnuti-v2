@@ -7,31 +7,38 @@ import Link from "next/link";
  */
 const sitemap: { heading: string; links: { href: string; label: string }[] }[] = [
   {
-    heading: "Explore",
+    heading: "Build",
     links: [
-      { href: "/", label: "Home" },
-      { href: "/build", label: "Build With Me" },
       { href: "/lab", label: "The Lab" },
+      { href: "/tools", label: "AI Tools" },
       { href: "/gpts", label: "GPT Garden" },
-      { href: "/tools", label: "Tools" },
-      { href: "/about", label: "About" },
+      { href: "/build", label: "Build With Me" },
     ],
   },
   {
     heading: "Learn",
     links: [
+      { href: "/vibe-coding-os", label: "Vibe Coding OS" },
       { href: "/articles", label: "Articles" },
-      { href: "/workshops", label: "Workshops" },
-      { href: "/newsletter", label: "Newsletter" },
+      { href: "/writing", label: "Writing" },
       { href: "/courses", label: "Courses" },
+      { href: "/newsletter", label: "Newsletter" },
     ],
   },
   {
-    heading: "Work with me",
+    heading: "Connect",
     links: [
-      { href: "/work-with-me", label: "Overview" },
+      { href: "/workshops", label: "Workshops & events" },
       { href: "/workshop", label: "AI workshop" },
+      { href: "/#community", label: "Community" },
+    ],
+  },
+  {
+    heading: "Partner",
+    links: [
+      { href: "/work-with-me", label: "How I partner" },
       { href: "/book-an-assessment", label: "Free assessment" },
+      { href: "/about", label: "About" },
     ],
   },
 ];
@@ -41,7 +48,7 @@ export function Footer() {
     <footer className="border-t border-slate-100 py-12 px-6 bg-slate-light">
       <div className="max-w-5xl mx-auto text-center space-y-4">
         {/* Sitemap */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6 text-left max-w-2xl mx-auto pb-8 mb-2 border-b border-slate-200/50">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-6 text-left max-w-3xl mx-auto pb-8 mb-2 border-b border-slate-200/50">
           {sitemap.map((group) => (
             <div key={group.heading} className="space-y-1.5">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -93,28 +100,9 @@ export function Footer() {
           </span>
         </div>
 
+        {/* Off-site rooms and the legal link. Everything else is in the
+            sitemap above, so this row no longer repeats it back. */}
         <div className="pt-1 flex flex-wrap justify-center gap-x-4 gap-y-1 items-center">
-          <Link
-            href="/book-an-assessment"
-            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
-          >
-            Free AI Assessment <span>&rarr;</span>
-          </Link>
-          <span className="text-[11px] text-slate-200">|</span>
-          <Link
-            href="/newsletter"
-            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
-          >
-            Newsletter <span>&rarr;</span>
-          </Link>
-          <span className="text-[11px] text-slate-200">|</span>
-          <Link
-            href="/workshop"
-            className="inline-flex items-center gap-1 text-[11px] text-teal-accent font-bold no-underline hover:underline transition-all duration-300"
-          >
-            Free Workshop <span>&rarr;</span>
-          </Link>
-          <span className="text-[11px] text-slate-200">|</span>
           <a
             href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
             target="_blank"

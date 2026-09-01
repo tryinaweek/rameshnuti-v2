@@ -19,21 +19,35 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
     ],
   },
   {
-    heading: "Lab",
+    heading: "Build",
     links: [
-      { href: "/build", label: "Build With Me — weekly teardowns" },
-      { href: "/lab", label: "The Lab — apps I've shipped" },
-      { href: "/gpts", label: "GPT Garden — custom GPTs" },
-      { href: "/tools", label: "Tools — free utilities" },
+      { href: "/lab", label: "The Lab" },
+      { href: "/tools", label: "AI Tools" },
+      { href: "/gpts", label: "GPT Garden" },
+      { href: "/build", label: "Build With Me" },
     ],
   },
   {
     heading: "Learn",
     links: [
+      { href: "/vibe-coding-os", label: "Vibe Coding OS" },
       { href: "/articles", label: "Articles" },
-      { href: "/workshops", label: "Workshops" },
-      { href: "/newsletter", label: "Newsletter" },
       { href: "/courses", label: "Courses" },
+      { href: "/newsletter", label: "Newsletter" },
+    ],
+  },
+  {
+    heading: "Connect",
+    links: [
+      { href: "/workshops", label: "Workshops & events" },
+      { href: "/#community", label: "Community" },
+    ],
+  },
+  {
+    heading: "Partner",
+    links: [
+      { href: "/work-with-me", label: "How I partner" },
+      { href: "/book-an-assessment", label: "Free assessment" },
     ],
   },
 ];
@@ -107,10 +121,10 @@ export function Navigation() {
       <div
         id="site-menu"
         className={`border-t border-slate-100 bg-white overflow-hidden transition-all duration-200 ${
-          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+          open ? "max-h-[760px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="max-w-5xl mx-auto px-6 py-5 grid sm:grid-cols-3 gap-x-8 gap-y-5">
+        <div className="max-w-5xl mx-auto px-6 py-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-5">
           {groups.map((group, gi) => (
             <div key={gi} className="space-y-1.5">
               {group.heading && (
@@ -136,14 +150,9 @@ export function Navigation() {
             </div>
           ))}
         </div>
-        <div className="max-w-5xl mx-auto px-6 pb-5 flex items-center justify-between border-t border-slate-50 pt-4">
-          <Link
-            href="/work-with-me"
-            onClick={() => setOpen(false)}
-            className="text-xs font-bold tracking-wider uppercase no-underline px-3.5 py-2 rounded-lg bg-teal-accent text-white"
-          >
-            Work with me &rarr;
-          </Link>
+        {/* The panel's own CTA would be the third "work with me" on screen —
+            the header button and the Partner group already cover it. */}
+        <div className="max-w-5xl mx-auto px-6 pb-5 flex items-center justify-end border-t border-slate-50 pt-4">
           <a
             href="https://www.linkedin.com/in/rnuti/"
             target="_blank"

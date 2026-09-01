@@ -2,15 +2,111 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { LAB_COUNT_CLAIM } from "@/data/lab";
 import { buildNumberLabel, findFeaturedBuild } from "@/lib/builds";
 
 export const metadata: Metadata = {
-  title: "Ramesh Nuti | 75+ AI Projects Shipped",
-  description: "2x founder. Investor @ Svyam Ventures. Vibe coder. 75+ AI projects shipped. I'll teach you the system.",
+  title: "Ramesh Nuti | Founder, Builder, Investor",
+  description:
+    "I'm Ramesh Nuti. Founder, investor, and builder. I share what I'm learning about AI, help founders turn ideas into evidence faster, and back a few of them along the way.",
+  alternates: { canonical: "https://rameshnuti.com" },
 };
 
 // Picks up a newly featured build without a redeploy.
 export const revalidate = 60;
+
+/** Credibility, not a headline. Every number here is backed elsewhere on the site. */
+const PROOF = [
+  { stat: `${LAB_COUNT_CLAIM} AI projects`, label: "shipped", href: "/lab" },
+  { stat: "2x founder", label: "ActionEDI", href: "/about" },
+  { stat: "25+ investments", label: "Svyam Ventures", href: "/about" },
+  { stat: "Startup Grind", label: "Frisco director", href: "https://startupgrind.com/frisco" },
+];
+
+/**
+ * The four paths the site is organized around. Each has one primary
+ * destination plus the existing routes that sit underneath it, so nothing
+ * that already works gets buried.
+ */
+const PATHS = [
+  {
+    index: "01",
+    name: "Build",
+    blurb:
+      "Tools, experiments, the Lab, and workshops. Things I have actually shipped, with the working parts left visible.",
+    cta: { label: "Explore the Lab", href: "/lab" },
+    links: [
+      { label: "AI tools", href: "/tools" },
+      { label: "Build With Me", href: "/build" },
+      { label: "Workshops", href: "/workshops" },
+    ],
+  },
+  {
+    index: "02",
+    name: "Learn",
+    blurb:
+      "Vibe Coding OS, articles, courses, and the frameworks I use. What I am figuring out, written down while it is still useful.",
+    cta: { label: "Explore resources", href: "/articles" },
+    links: [
+      { label: "Vibe Coding OS", href: "/vibe-coding-os" },
+      { label: "Courses", href: "/courses" },
+      { label: "Newsletter", href: "/newsletter" },
+    ],
+  },
+  {
+    index: "03",
+    name: "Connect",
+    blurb:
+      "Startup Grind Frisco, the builder community, and the founder conversations that happen around both.",
+    cta: { label: "Connect", href: "#community" },
+    links: [
+      { label: "Startup Grind Frisco", href: "https://startupgrind.com/frisco", external: true },
+      { label: "Events & workshops", href: "/workshops" },
+    ],
+  },
+  {
+    index: "04",
+    name: "Partner",
+    blurb:
+      "I make a small number of early-stage investments through Svyam Ventures, and enjoy helping thoughtful founders when there is a genuine fit.",
+    cta: { label: "How I partner", href: "/work-with-me" },
+    links: [
+      { label: "Svyam Ventures", href: "https://svyam.co", external: true },
+      { label: "Speaking", href: "/work-with-me" },
+    ],
+  },
+];
+
+/** Three at most. The rest live on /tools and /gpts. */
+const FEATURED = [
+  {
+    tag: "Live · AI tool",
+    title: "Steelman the Opposition",
+    description:
+      "Paste your pitch. Get the strongest arguments against it before you walk into the room.",
+    href: "/tools/steelman",
+    label: "Try the critic",
+    external: false,
+  },
+  {
+    tag: "Founders course",
+    title: "14-Day Prompting Course",
+    description:
+      "Advanced prompting through daily 10-minute lessons. Over 100 founders have gone through it.",
+    href: "https://playwithprompts.com",
+    label: "Start the course",
+    external: true,
+  },
+  {
+    tag: "GPT library",
+    title: "GPT Garden",
+    description:
+      "Custom GPTs I built for real work: contracts, EDI files, decks, writing. Free to use.",
+    href: "/gpts",
+    label: "Browse the garden",
+    external: false,
+  },
+];
 
 export default async function HomePage() {
   // Null until a published build is flagged "feature on the homepage" in the
@@ -19,39 +115,55 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0 bg-white min-h-screen font-sans text-slate-900">
-      
-      {/* 1. HERO SECTION - Clean White with Royal Blue Accents */}
+
+      {/* 1. HERO */}
       <section className="relative py-16 md:py-24 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Column: Value Proposition & Inline Signup Form */}
+
             <div className="md:col-span-7 space-y-6 animate-fade-up">
               <span className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase text-slate-600">
-                ⚡ BUILDER &middot; INVESTOR &middot; EDUCATOR
+                Founder &middot; Builder &middot; Investor &middot; Educator
               </span>
-              
+
               <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900">
-                75+ AI projects shipped.
+                Build faster.
                 <br />
-                <span className="text-teal-accent">All vibe coded.</span>
+                <span className="text-teal-accent">Learn by doing.</span>
                 <br />
-                <span className="text-slate-500">I&apos;ll teach you the system.</span>
+                <span className="text-slate-500">Stay close to founders.</span>
               </h1>
-              
+
               <p className="text-slate-600 text-base md:text-lg max-w-xl leading-relaxed">
-                The new programming language is English. I help non-technical founders, builders, and solopreneurs design, build, and deploy real AI products without writing traditional code.
+                I&apos;m Ramesh Nuti. Founder, investor, builder, and lifelong student of
+                technology. I share what I&apos;m learning about AI, help founders turn ideas
+                into evidence faster, and back a few of them along the way.
               </p>
 
-              <NewsletterForm sourceTag="newsletter-home" variant="hero" buttonText="Subscribe" placeholder="Email address" />
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <a
+                  href="#paths"
+                  className="btn-primary px-6 py-3.5 text-sm text-center no-underline"
+                >
+                  Explore what I&apos;m building
+                </a>
+                <Link
+                  href="/about"
+                  className="btn-secondary px-6 py-3.5 text-sm text-center no-underline"
+                >
+                  About Ramesh
+                </Link>
+              </div>
             </div>
 
-            {/* Right Column: Speaking Image Framed with Thin Border */}
-            <div className="md:col-span-5 relative flex justify-center md:justify-end animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            <div
+              className="md:col-span-5 relative flex justify-center md:justify-end animate-fade-up"
+              style={{ animationDelay: "0.1s" }}
+            >
               <div className="relative p-1 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
                 <Image
                   src="/images/hero-speaking.jpeg"
-                  alt="Ramesh Nuti speaking about vibe coding and AI"
+                  alt="Ramesh Nuti teaching a room of founders"
                   width={340}
                   height={425}
                   priority
@@ -61,29 +173,43 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Grayscale Brand Logos Strip */}
-          <div className="border-t border-slate-100 py-8 mt-16 flex flex-wrap justify-between items-center gap-6 opacity-45 grayscale">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400">SVYAM VENTURES</span>
-            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400">ACTIONEDI</span>
-            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400">STARTUP GRIND</span>
-            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400">REPLIT TOP 5%</span>
+          {/* Proof row — credibility under the hero, not the headline. */}
+          <div className="border-t border-slate-100 mt-16 pt-8">
+            <ul className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {PROOF.map((p) => (
+                <li key={p.stat}>
+                  <Link
+                    href={p.href}
+                    {...(p.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="block no-underline group"
+                  >
+                    <span className="block text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
+                      {p.stat}
+                    </span>
+                    <span className="block text-[11px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">
+                      {p.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-
         </div>
       </section>
 
-      {/* 2. BIO SECTION - Deep Navy Blue Block */}
-      <section className="bg-brand-navy text-white py-20 px-6 relative overflow-hidden">
+      {/* 2. INTRODUCTION — operator first */}
+      <section className="bg-brand-navy text-white py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Column: Rounded Avatar + Text Story */}
+
             <div className="md:col-span-7 space-y-6 text-left">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 shrink-0 bg-white p-0.5">
                   <Image
                     src="/ramesh-nuti.jpeg"
-                    alt="Ramesh Nuti avatar"
+                    alt=""
                     width={64}
                     height={64}
                     className="w-full h-full object-cover rounded-full"
@@ -91,39 +217,64 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">Hi, I&apos;m Ramesh Nuti.</h2>
-                  <p className="text-xs text-brand-cyan font-mono tracking-wider uppercase">Founder, Investor, Vibe Coder</p>
+                  <p className="text-xs text-brand-cyan font-mono tracking-wider uppercase">
+                    Founder &middot; Investor &middot; Builder
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-4 text-slate-300 leading-relaxed text-sm md:text-base">
                 <p>
-                  I&apos;ve spent the last 20+ years navigating the intersection of software development, early-stage startups, and venture capital. 
+                  I&apos;ve spent more than two decades building technology companies,
+                  investing in startups, and working alongside founders. I run{" "}
+                  <a
+                    href="https://actionedi.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand-cyan font-bold hover:underline"
+                  >
+                    ActionEDI
+                  </a>
+                  , a supply-chain integration company, invest through{" "}
+                  <a
+                    href="https://svyam.co"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand-cyan font-bold hover:underline"
+                  >
+                    Svyam Ventures
+                  </a>
+                  , and direct the Frisco chapter of Startup Grind.
                 </p>
                 <p>
-                  As an active angel investor at <a href="https://svyam.co" target="_blank" rel="noopener noreferrer" className="text-brand-cyan font-bold hover:underline">Svyam Ventures</a> and director of the Frisco chapter of Startup Grind, I see hundreds of pitches. The common failure point isn&apos;t a lack of vision; it&apos;s slow execution.
+                  AI has changed how quickly an idea can be tested and how quickly software
+                  can be built. I&apos;m exploring that change the only way I know how: by
+                  building things, teaching founders what works, and writing down the parts
+                  that did not.
                 </p>
-                <p>
-                  <span className="text-brand-cyan font-semibold">AI is changing the velocity of development.</span> I run these workshops and release these tools to help you master &ldquo;vibe coding&rdquo;—compressing traditional engineering timelines to validate your market in days instead of months.
+                <p className="text-white">
+                  The thread through all of it is distance. How much of it can we remove
+                  between an idea and knowing whether it works?
                 </p>
               </div>
 
               <div className="pt-2">
                 <Link
                   href="/about"
-                  className="inline-block border border-white/80 hover:bg-white/10 text-white rounded-lg px-6 py-3 text-xs font-bold tracking-wider uppercase transition-all"
+                  className="inline-block border border-white/80 hover:bg-white/10 text-white rounded-lg px-6 py-3 text-xs font-bold tracking-wider uppercase transition-all no-underline"
                 >
                   More about me &rarr;
                 </Link>
               </div>
             </div>
 
-            {/* Right Column: Replit Proof Widget in Dark Card */}
+            {/* Builder proof */}
             <div className="md:col-span-5 flex flex-col items-center">
               <div className="bg-[#121c38] border border-white/10 rounded-2xl p-4 max-w-[320px] overflow-hidden shadow-2xl">
                 <div className="h-1 bg-brand-cyan w-full rounded-t-lg mb-3" />
                 <Image
                   src="/images/replit-rewind.jpeg"
-                  alt="Replit Rewind 2025 showing Top 5% status"
+                  alt="Replit Rewind 2025 showing top 5% status with 42 apps built"
                   width={300}
                   height={300}
                   className="rounded-lg object-contain"
@@ -132,200 +283,120 @@ export default async function HomePage() {
                 <div className="pt-4 pb-2 px-1 text-center">
                   <p className="text-white font-bold text-sm">Replit Rewind 2025</p>
                   <p className="text-brand-cyan text-[10px] font-mono mt-1 font-bold uppercase tracking-wider">
-                    🏆 TOP 5% ON REPLIT (42 APPS)
+                    Top 5% on Replit &middot; 42 apps
                   </p>
                 </div>
               </div>
               <p className="text-slate-400 text-[10px] font-mono mt-3 max-w-[280px] text-center leading-relaxed">
-                *Plus 30+ more apps shipped using Cursor, Claude Code, and Lovable in 2025/2026.
+                Plus 30+ more shipped with Cursor, Claude Code, and Lovable.
               </p>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* 3. OFFERINGS SECTION - Vibrant Royal Blue Block */}
-      <section className="bg-brand-blue text-white py-20 px-6 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-12 gap-12 items-start">
-            
-            {/* Left Column: Heading */}
-            <div className="md:col-span-5 space-y-4">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-                Three ways
-                <br />
-                I can help <span className="text-brand-cyan">you.</span>
-              </h2>
-              <p className="text-blue-100 text-sm max-w-xs leading-relaxed">
-                Choose the resource that matches your current startup building goals.
-              </p>
-            </div>
-
-            {/* Right Column: Three Offerings */}
-            <div className="md:col-span-7 space-y-8 divide-y divide-blue-400/40 text-left">
-              
-              {/* Offering 01 */}
-              <div className="space-y-4 pt-0">
-                <div className="flex gap-4 items-baseline">
-                  <span className="text-xs font-mono font-bold text-brand-cyan uppercase">01</span>
-                  <h3 className="text-lg font-bold text-white tracking-tight">The Weekend Builder</h3>
-                </div>
-                <p className="text-blue-100 text-sm pl-8">
-                  Every Saturday morning, I send one step-by-step vibe coding blueprint to help you build and ship software using AI. Free.
-                </p>
-                <div className="pl-8 pt-2 max-w-md">
-                  <NewsletterForm sourceTag="newsletter-home" variant="navy" buttonText="Subscribe Free" placeholder="Enter your email" />
-                </div>
-              </div>
-
-              {/* Offering 02 */}
-              <div className="space-y-4 pt-6">
-                <div className="flex gap-4 items-baseline">
-                  <span className="text-xs font-mono font-bold text-brand-cyan uppercase">02</span>
-                  <h3 className="text-lg font-bold text-white tracking-tight">Build Your First AI Agent (Workshop Resources)</h3>
-                </div>
-                <p className="text-blue-100 text-sm pl-8">
-                  The live workshop is complete. Recreate the automated research agent workflow from our Startup Grind Frisco session. Access the n8n JSON schema, prompts, and one-pager.
-                </p>
-                <div className="pl-8 pt-2">
-                  <Link
-                    href="/workshop"
-                    className="inline-block border border-white/60 hover:bg-white/10 text-white text-xs font-bold py-2.5 px-5 rounded-lg transition-all"
-                  >
-                    Access Workshop Resources &rarr;
-                  </Link>
-                </div>
-              </div>
-
-              {/* Offering 03 */}
-              <div className="space-y-4 pt-6">
-                <div className="flex gap-4 items-baseline">
-                  <span className="text-xs font-mono font-bold text-brand-cyan uppercase">03</span>
-                  <h3 className="text-lg font-bold text-white tracking-tight">The Vibe Coder&apos;s OS (Book &amp; System)</h3>
-                </div>
-                <p className="text-blue-100 text-sm pl-8">
-                  The complete play-by-play handbook. Everything I know about scaling businesses and shipping code with AI models.
-                </p>
-                <div className="pl-8 pt-2">
-                  <Link
-                    href="/courses"
-                    className="inline-block border border-white/60 hover:bg-white/10 text-white text-xs font-bold py-2.5 px-5 rounded-lg transition-all"
-                  >
-                    Learn More &rarr;
-                  </Link>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 4. AI TOOLS SECTION - Clean light block with visually textured cards */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-5xl mx-auto space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              Featured AI Tools &amp; Resources
+      {/* 3. VIBE CODING OS */}
+      <section className="py-20 px-6 bg-white border-b border-slate-100">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-12 items-start">
+          <div className="md:col-span-7 space-y-5">
+            <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
+              Coming January 2027
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
+              I&apos;m writing Vibe Coding OS.
             </h2>
-            <p className="text-slate-500 text-sm">
-              Free utilities, prompt models, and assets built to help you speed up startup validation.
-            </p>
+            <div className="space-y-4 text-slate-600 text-[15px] md:text-base leading-relaxed max-w-xl">
+              <p>
+                A practical book for non-technical founders who want to use AI to move from
+                idea to evidence faster.
+              </p>
+              <p>
+                It draws from two decades of building companies, dozens of AI experiments,
+                and hundreds of conversations with founders.
+              </p>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            
-            {/* Card 1: Steelman (Light Slate) */}
-            <div className="premium-card p-6 bg-slate-light flex flex-col justify-between text-left relative overflow-hidden border border-slate-200 shadow-sm">
-              <div className="space-y-4">
-                <span className="inline-block text-[9px] font-mono font-bold tracking-widest uppercase text-brand-blue bg-blue-50 border border-blue-100 px-2 py-0.5 rounded">
-                  LIVE &middot; AI TOOL
-                </span>
-                <h3 className="text-lg font-bold text-slate-900">
-                  Steelman the Opposition
-                </h3>
-                <p className="text-slate-600 text-xs leading-relaxed">
-                  Paste your startup pitch. Get the strongest arguments against it before you walk into the investor pitch room.
+          <div className="md:col-span-5">
+            <div className="premium-card p-7 space-y-5">
+              <p className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
+                The central question
+              </p>
+              <p className="text-lg font-bold text-slate-900 leading-snug tracking-tight">
+                How much distance can we remove between an idea and knowing whether it works?
+              </p>
+              <div className="pt-1 border-t border-slate-100 space-y-3">
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  The First Edition Circle is a small group of founders, builders, investors,
+                  and practitioners following the book as it&apos;s written.
                 </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-200">
                 <Link
-                  href="/tools/steelman"
-                  className="text-xs font-bold text-brand-blue hover:underline"
+                  href="/vibe-coding-os"
+                  className="btn-primary block px-6 py-3 text-sm text-center no-underline"
                 >
-                  Try the Critic &rarr;
+                  Join the First Edition Circle
                 </Link>
               </div>
             </div>
-
-            {/* Card 2: Prompting Course (Deep Dark Navy) */}
-            <div className="bg-brand-navy border border-white/10 rounded-2xl p-6 flex flex-col justify-between text-left relative overflow-hidden shadow-md">
-              <div className="space-y-4">
-                <span className="inline-block text-[9px] font-mono font-bold tracking-widest uppercase text-brand-cyan bg-white/5 border border-white/10 px-2 py-0.5 rounded">
-                  FOUNDERS COURSE
-                </span>
-                <h3 className="text-lg font-bold text-white">
-                  14-Day Prompting Course
-                </h3>
-                <p className="text-slate-300 text-xs leading-relaxed">
-                  Learn advanced prompt engineering through daily 10-minute micro-lessons. Over 100+ founders graduated.
-                </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-white/10">
-                <a
-                  href="https://playwithprompts.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-bold text-brand-cyan hover:underline"
-                >
-                  Start the Course &rarr;
-                </a>
-              </div>
-            </div>
-
-            {/* Card 3: AI Agents Library (White Card) */}
-            <div className="premium-card p-6 bg-white flex flex-col justify-between text-left border border-slate-200 shadow-sm">
-              <div className="space-y-4">
-                <span className="inline-block text-[9px] font-mono font-bold tracking-widest uppercase text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
-                  GPT LIBRARY
-                </span>
-                <h3 className="text-lg font-bold text-slate-900">
-                  AI Agents Library
-                </h3>
-                <p className="text-slate-600 text-xs leading-relaxed">
-                  Access custom GPTs built for competitive research, newsletter copywriting, and SaaS system architecture.
-                </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-200">
-                <a
-                  href="https://ailab.svyam.co"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-bold text-brand-blue hover:underline"
-                >
-                  Browse Agents &rarr;
-                </a>
-              </div>
-            </div>
-
           </div>
-
-          <div className="text-center pt-4">
-            <Link
-              href="/tools"
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-500 hover:text-slate-900 transition-colors no-underline"
-            >
-              Browse All Interactive Tools &rarr;
-            </Link>
-          </div>
-
         </div>
       </section>
 
-      {/* 4b. BUILD WITH ME - appears only once a build is flagged in /admin */}
+      {/* 4. BUILD / LEARN / CONNECT / PARTNER */}
+      <section id="paths" className="scroll-mt-20 py-20 px-6 bg-slate-light border-b border-slate-100">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="max-w-2xl space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              Four ways in
+            </h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Most of what I do falls into one of these. Start wherever it&apos;s useful.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {PATHS.map((path) => (
+              <div key={path.name} className="premium-card p-7 flex flex-col text-left">
+                <span className="text-xs font-mono font-bold text-teal-accent tracking-widest">
+                  {path.index}
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 tracking-tight mt-1.5">
+                  {path.name}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed mt-2.5 flex-1">
+                  {path.blurb}
+                </p>
+
+                <div className="mt-6 pt-4 border-t border-slate-100 space-y-3">
+                  <Link
+                    href={path.cta.href}
+                    className="text-sm font-bold text-teal-accent no-underline hover:underline"
+                  >
+                    {path.cta.label} &rarr;
+                  </Link>
+                  <ul className="flex flex-wrap gap-x-4 gap-y-1">
+                    {path.links.map((l) => (
+                      <li key={l.label}>
+                        <Link
+                          href={l.href}
+                          {...("external" in l && l.external
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                          className="text-xs text-slate-500 hover:text-slate-900 no-underline transition-colors"
+                        >
+                          {l.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. BUILD WITH ME — appears only once a build is flagged in /admin */}
       {featured && (
         <section className="bg-brand-navy py-20 px-6 text-white">
           <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
@@ -359,77 +430,171 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* 5. COMMUNITY & EVENTS SECTION - Slate Light Background */}
-      <section className="py-20 px-6 bg-slate-light border-t border-slate-100">
-        <div className="max-w-5xl mx-auto space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase">
-              👥 JOIN US LIVE
-            </span>
+      {/* 6. FEATURED RESOURCES — three, then get out of the way */}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="max-w-2xl space-y-2">
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              Connect and Build in Real Time
+              A few things worth using
             </h2>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Find resources, join discussions, and attend local events to stay ahead of the AI shift.
+              Free, no signup. Built because I needed them.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Card 1: WhatsApp */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between text-left shadow-sm">
-              <div className="space-y-4">
-                <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-widest text-[#25d366] bg-[#25d366]/10 border border-[#25d366]/20 px-2.5 py-1 rounded">
-                  💬 VIBE CODING CHAT
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">
-                  WhatsApp Community
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  Join our private chat with active builders and founders. Share prompting cheat sheets, get help debugging agent workflows, and discuss build strategies in real-time.
-                </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-100">
+          <div className="grid md:grid-cols-3 gap-6">
+            {FEATURED.map((item) =>
+              item.external ? (
                 <a
-                  href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
+                  key={item.title}
+                  href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary inline-block py-3 px-6 text-xs uppercase tracking-wider font-bold shadow-sm"
+                  className="premium-card p-6 flex flex-col justify-between text-left no-underline group"
                 >
-                  Join the Chat &rarr;
+                  <FeaturedBody {...item} />
                 </a>
-              </div>
-            </div>
-
-            {/* Card 2: Startup Grind Frisco */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between text-left shadow-sm">
-              <div className="space-y-4">
-                <span className="inline-block text-[9px] font-mono font-bold tracking-widest text-teal-accent bg-blue-50 border border-blue-100 px-2.5 py-1 rounded">
-                  📍 LOCAL CHAPTER
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">
-                  Startup Grind Frisco
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  RSVP for upcoming in-person workshops, monthly panel discussions, and founder meetups in the Frisco area. Learn directly from operators shipping AI in production.
-                </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-100">
-                <a
-                  href="https://startupgrind.com/frisco"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary inline-block py-3 px-6 text-xs uppercase tracking-wider font-bold shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+              ) : (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="premium-card p-6 flex flex-col justify-between text-left no-underline group"
                 >
-                  RSVP for Workshops &rarr;
-                </a>
-              </div>
-            </div>
+                  <FeaturedBody {...item} />
+                </Link>
+              ),
+            )}
           </div>
 
+          <div className="pt-2">
+            <Link
+              href="/tools"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-500 hover:text-slate-900 transition-colors no-underline"
+            >
+              Browse everything in the Lab &rarr;
+            </Link>
+          </div>
         </div>
       </section>
-      
+
+      {/* 7. COMMUNITY — supports Connect, not a second funnel */}
+      <section
+        id="community"
+        className="scroll-mt-20 py-20 px-6 bg-slate-light border-t border-slate-100"
+      >
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="max-w-2xl space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              Where founders find each other
+            </h2>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Two rooms I keep open. Both are free, and both are more useful than anything I
+              could sell you.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white border border-slate-200 rounded-2xl p-7 text-left">
+              <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold tracking-widest text-[#25d366] bg-[#25d366]/10 border border-[#25d366]/20 px-2.5 py-1 rounded uppercase">
+                Vibe coding chat
+              </span>
+              <h3 className="text-xl font-bold text-slate-900 tracking-tight mt-4">
+                WhatsApp community
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed mt-2">
+                A working chat with builders and founders. Prompts, debugging, half-finished
+                ideas, and the occasional thing that actually worked.
+              </p>
+              <a
+                href="https://chat.whatsapp.com/D4KNtVUNHQo7ipId4yHSPO?mode=gi_t"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-5 text-sm font-bold text-teal-accent no-underline hover:underline"
+              >
+                Join the chat &rarr;
+              </a>
+            </div>
+
+            <div className="bg-white border border-slate-200 rounded-2xl p-7 text-left">
+              <span className="inline-block text-[9px] font-mono font-bold tracking-widest text-teal-accent bg-blue-50 border border-blue-100 px-2.5 py-1 rounded uppercase">
+                Local chapter
+              </span>
+              <h3 className="text-xl font-bold text-slate-900 tracking-tight mt-4">
+                Startup Grind Frisco
+              </h3>
+              <p className="text-slate-600 text-sm leading-relaxed mt-2">
+                I&apos;ve run the Frisco chapter for seven years. In-person workshops, panels,
+                and founder meetups, most months.
+              </p>
+              <a
+                href="https://startupgrind.com/frisco"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-5 text-sm font-bold text-teal-accent no-underline hover:underline"
+              >
+                See upcoming events &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. ONE EMAIL RELATIONSHIP */}
+      <section className="py-20 px-6 bg-white border-t border-slate-100">
+        <div className="max-w-2xl mx-auto text-center space-y-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            One email, most Saturdays
+          </h2>
+          <p className="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto">
+            What I built or tested that week, what it cost, what broke, and anything worth
+            stealing. No pitch at the end.
+          </p>
+          <NewsletterForm
+            sourceTag="newsletter-home"
+            variant="standard"
+            buttonText="Subscribe"
+            placeholder="Email address"
+          />
+          <p className="text-[11px] text-slate-500 leading-relaxed">
+            Unsubscribe anytime.{" "}
+            <Link href="/privacy" className="font-semibold text-teal-accent hover:underline">
+              Privacy policy
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
     </div>
+  );
+}
+
+/** Shared card interior — the wrapper differs only by internal vs external link. */
+function FeaturedBody({
+  tag,
+  title,
+  description,
+  label,
+}: {
+  tag: string;
+  title: string;
+  description: string;
+  label: string;
+}) {
+  return (
+    <>
+      <div className="space-y-4">
+        <span className="inline-block text-[9px] font-mono font-bold tracking-widest uppercase text-teal-accent bg-blue-50 border border-blue-100 px-2 py-0.5 rounded">
+          {tag}
+        </span>
+        <h3 className="text-lg font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
+          {title}
+        </h3>
+        <p className="text-slate-600 text-xs leading-relaxed">{description}</p>
+      </div>
+      <div className="mt-8 pt-4 border-t border-slate-200">
+        <span className="text-xs font-bold text-teal-accent">{label} &rarr;</span>
+      </div>
+    </>
   );
 }
