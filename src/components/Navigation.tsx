@@ -25,6 +25,7 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
       { href: "/tools", label: "AI Tools" },
       { href: "/gpts", label: "GPT Garden" },
       { href: "/build", label: "Build With Me" },
+      { href: "/workshops", label: "Workshops" },
     ],
   },
   {
@@ -32,22 +33,24 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
     links: [
       { href: "/vibe-coding-os", label: "Vibe Coding OS" },
       { href: "/articles", label: "Articles" },
+      { href: "/writing", label: "Writing" },
       { href: "/courses", label: "Courses" },
-      { href: "/newsletter", label: "Newsletter" },
     ],
   },
   {
     heading: "Connect",
     links: [
-      { href: "/workshops", label: "Workshops & events" },
+      { href: "https://startupgrind.com/frisco", label: "Startup Grind Frisco" },
       { href: "/#community", label: "Community" },
+      { href: "/workshops", label: "Events" },
     ],
   },
   {
     heading: "Partner",
     links: [
       { href: "/work-with-me", label: "How I partner" },
-      { href: "/book-an-assessment", label: "Free assessment" },
+      { href: "https://svyam.co", label: "Angel investing" },
+      { href: "/work-with-me#speaking", label: "Speaking" },
     ],
   },
 ];
@@ -117,11 +120,15 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Panel — always in the DOM so every link is server-rendered; classes toggle visibility. */}
+      {/* Panel — always in the DOM so every link is server-rendered; classes
+          toggle visibility. Open height is viewport-relative and scrolls, so
+          adding a link can never silently clip the bottom of the menu. */}
       <div
         id="site-menu"
-        className={`border-t border-slate-100 bg-white overflow-hidden transition-all duration-200 ${
-          open ? "max-h-[760px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+        className={`border-t border-slate-100 bg-white transition-all duration-200 ${
+          open
+            ? "max-h-[85vh] overflow-y-auto opacity-100"
+            : "max-h-0 overflow-hidden opacity-0 pointer-events-none"
         }`}
       >
         <div className="max-w-5xl mx-auto px-6 py-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-5">
@@ -134,14 +141,27 @@ export function Navigation() {
               )}
               {group.links.map((l) => {
                 const isActive = pathname === l.href;
-                return (
+                const className = `block text-xs font-semibold tracking-wider uppercase no-underline py-1.5 transition-colors ${
+                  isActive ? "text-teal-accent" : "text-slate-500 hover:text-slate-900"
+                }`;
+                // Startup Grind and Svyam live off-site; everything else routes.
+                return l.href.startsWith("http") ? (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpen(false)}
+                    className={className}
+                  >
+                    {l.label}
+                  </a>
+                ) : (
                   <Link
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className={`block text-xs font-semibold tracking-wider uppercase no-underline py-1.5 transition-colors ${
-                      isActive ? "text-teal-accent" : "text-slate-500 hover:text-slate-900"
-                    }`}
+                    className={className}
                   >
                     {l.label}
                   </Link>

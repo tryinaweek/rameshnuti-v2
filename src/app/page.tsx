@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { NewsletterForm } from "@/components/NewsletterForm";
 import { LAB_COUNT_CLAIM } from "@/data/lab";
 import { buildNumberLabel, findFeaturedBuild } from "@/lib/builds";
 
@@ -33,7 +32,7 @@ const PATHS = [
     index: "01",
     name: "Build",
     blurb:
-      "Tools, experiments, the Lab, and workshops. Things I have actually shipped, with the working parts left visible.",
+      "Tools, experiments, the Lab, and workshops. Things I have actually shipped, with the useful parts left visible.",
     cta: { label: "Explore the Lab", href: "/lab" },
     links: [
       { label: "AI tools", href: "/tools" },
@@ -50,14 +49,14 @@ const PATHS = [
     links: [
       { label: "Vibe Coding OS", href: "/vibe-coding-os" },
       { label: "Courses", href: "/courses" },
-      { label: "Newsletter", href: "/newsletter" },
+      { label: "Writing", href: "/writing" },
     ],
   },
   {
     index: "03",
     name: "Connect",
     blurb:
-      "Startup Grind Frisco, the builder community, and the founder conversations that happen around both.",
+      "Startup Grind Frisco, the builder community, events, workshops, and the founder conversations that happen around both.",
     cta: { label: "Connect", href: "#community" },
     links: [
       { label: "Startup Grind Frisco", href: "https://startupgrind.com/frisco", external: true },
@@ -131,7 +130,7 @@ export default async function HomePage() {
                 <br />
                 <span className="text-teal-accent">Learn by doing.</span>
                 <br />
-                <span className="text-slate-500">Stay close to founders.</span>
+                <span className="text-slate-500">Stay curious.</span>
               </h1>
 
               <p className="text-slate-600 text-base md:text-lg max-w-xl leading-relaxed">
@@ -300,23 +299,31 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-7 space-y-5">
             <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
-              Coming January 2027
+              Coming January 2027 &middot; New book
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
-              I&apos;m writing Vibe Coding OS.
-            </h2>
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+                Vibe Coding OS
+              </h2>
+              <p className="text-slate-500 text-base md:text-lg leading-snug mt-2 max-w-xl">
+                A practical book for non-technical founders building in the age of AI.
+              </p>
+            </div>
             <div className="space-y-4 text-slate-600 text-[15px] md:text-base leading-relaxed max-w-xl">
               <p>
-                A practical book for non-technical founders who want to use AI to move from
-                idea to evidence faster.
+                The founders who win will be the ones who reduce the distance between an idea
+                and evidence.
               </p>
               <p>
-                It draws from two decades of building companies, dozens of AI experiments,
-                and hundreds of conversations with founders.
+                Vibe Coding OS is my practical playbook for doing exactly that. Built from two
+                decades of building companies, {LAB_COUNT_CLAIM} AI experiments, and hundreds
+                of conversations with founders.
               </p>
             </div>
           </div>
 
+          {/* Swap this card for a cover the day one exists: drop the image in
+              place of the question block and keep the CTA underneath. */}
           <div className="md:col-span-5">
             <div className="premium-card p-7 space-y-5">
               <p className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">
@@ -326,16 +333,16 @@ export default async function HomePage() {
                 How much distance can we remove between an idea and knowing whether it works?
               </p>
               <div className="pt-1 border-t border-slate-100 space-y-3">
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  The First Edition Circle is a small group of founders, builders, investors,
-                  and practitioners following the book as it&apos;s written.
-                </p>
                 <Link
                   href="/vibe-coding-os"
                   className="btn-primary block px-6 py-3 text-sm text-center no-underline"
                 >
                   Join the First Edition Circle
                 </Link>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Follow the book as I finish it, read early ideas, and help shape the first
+                  edition.
+                </p>
               </div>
             </div>
           </div>
@@ -488,8 +495,7 @@ export default async function HomePage() {
               Where founders find each other
             </h2>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Two rooms I keep open. Both are free, and both are more useful than anything I
-              could sell you.
+              Two communities I spend time in, online and in person.
             </p>
           </div>
 
@@ -539,31 +545,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 8. ONE EMAIL RELATIONSHIP */}
-      <section className="py-20 px-6 bg-white border-t border-slate-100">
-        <div className="max-w-2xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            One email, most Saturdays
-          </h2>
-          <p className="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto">
-            What I built or tested that week, what it cost, what broke, and anything worth
-            stealing. No pitch at the end.
-          </p>
-          <NewsletterForm
-            sourceTag="newsletter-home"
-            variant="standard"
-            buttonText="Subscribe"
-            placeholder="Email address"
-          />
-          <p className="text-[11px] text-slate-500 leading-relaxed">
-            Unsubscribe anytime.{" "}
-            <Link href="/privacy" className="font-semibold text-teal-accent hover:underline">
-              Privacy policy
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
+      {/* The general newsletter signup used to sit here. The homepage now has
+          one reason to give me an email address — the First Edition Circle —
+          so it lives only in the Vibe Coding OS section above. /newsletter and
+          NewsletterForm are untouched and still work elsewhere. */}
 
     </div>
   );

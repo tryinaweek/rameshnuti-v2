@@ -91,8 +91,11 @@ export default function WorkWithMePage() {
           </a>
         </div>
 
-        {/* Speaking */}
-        <div className="mt-6 bg-slate-light border border-slate-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Speaking — id is the target of the "Speaking" nav and footer links. */}
+        <div
+          id="speaking"
+          className="scroll-mt-20 mt-6 bg-slate-light border border-slate-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        >
           <div>
             <p className="text-sm font-bold text-slate-900">Speaking &amp; events</p>
             <p className="text-slate-600 text-xs leading-relaxed mt-1 max-w-md">

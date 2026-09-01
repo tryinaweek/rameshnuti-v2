@@ -22,13 +22,12 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
       { href: "/articles", label: "Articles" },
       { href: "/writing", label: "Writing" },
       { href: "/courses", label: "Courses" },
-      { href: "/newsletter", label: "Newsletter" },
     ],
   },
   {
     heading: "Connect",
     links: [
-      { href: "/workshops", label: "Workshops & events" },
+      { href: "/workshops", label: "Events & workshops" },
       { href: "/workshop", label: "AI workshop" },
       { href: "/#community", label: "Community" },
     ],
@@ -37,6 +36,7 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     heading: "Partner",
     links: [
       { href: "/work-with-me", label: "How I partner" },
+      { href: "/work-with-me#speaking", label: "Speaking" },
       { href: "/book-an-assessment", label: "Free assessment" },
       { href: "/about", label: "About" },
     ],
@@ -67,7 +67,7 @@ export function Footer() {
           ))}
         </div>
         <p className="text-xs font-semibold text-slate-dark tracking-wide italic">
-          &ldquo;The objection you didn&apos;t prepare for is the one that kills the deal.&rdquo;
+          Build something. Stay curious.
         </p>
         
         <div className="flex items-center justify-center gap-2.5 text-[11px] text-slate-500 select-none">
