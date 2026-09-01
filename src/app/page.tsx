@@ -34,9 +34,11 @@ const PATHS = [
     blurb:
       "Tools, experiments, the Lab, and workshops. Things I have actually shipped, with the useful parts left visible.",
     cta: { label: "Explore the Lab", href: "/lab" },
+    // Build With Me ships unlinked until the first teardown is written. Add
+    // { label: "Build With Me", href: "/build" } here to surface it.
     links: [
       { label: "AI tools", href: "/tools" },
-      { label: "Build With Me", href: "/build" },
+      { label: "GPT Garden", href: "/gpts" },
       { label: "Workshops", href: "/workshops" },
     ],
   },

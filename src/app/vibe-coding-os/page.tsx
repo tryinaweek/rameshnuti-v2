@@ -154,12 +154,14 @@ export default function VibeCodingOsPage() {
                 Every product I&apos;ve shipped, and what each one taught me.
               </p>
             </Link>
-            <Link href="/build" className="premium-card p-5 no-underline group">
+            {/* Build With Me ships unlinked until the first teardown is
+                written. Restore its card here to surface it. */}
+            <Link href="/gpts" className="premium-card p-5 no-underline group">
               <h3 className="text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
-                Build With Me
+                GPT Garden
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                Weekly teardowns: the tools, the costs, and what broke.
+                Custom GPTs built for real work, and what they taught me.
               </p>
             </Link>
             <Link href="/articles" className="premium-card p-5 no-underline group">

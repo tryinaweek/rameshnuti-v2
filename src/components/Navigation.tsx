@@ -24,7 +24,8 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
       { href: "/lab", label: "The Lab" },
       { href: "/tools", label: "AI Tools" },
       { href: "/gpts", label: "GPT Garden" },
-      { href: "/build", label: "Build With Me" },
+      // Build With Me ships unlinked until the first teardown is written.
+      // Add { href: "/build", label: "Build With Me" } here to surface it.
       { href: "/workshops", label: "Workshops" },
     ],
   },
