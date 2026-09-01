@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
 import { AssessmentForm } from "./AssessmentForm";
 
+/**
+ * RETIRED — kept only so existing links and bookmarks don't 404.
+ *
+ * The free assessment offer was withdrawn: a standing promise of free working
+ * sessions is a service commitment. Nothing on the site links here any more,
+ * and it is noindexed so search engines drop it rather than keep sending
+ * people to an offer that no longer stands. The form and /api/book-assessment
+ * still work, and past submissions in Blob are untouched.
+ *
+ * Decide later whether to redirect this to /work-with-me or delete it.
+ */
 export const metadata: Metadata = {
-  title: "Free AI Workflow Assessment | Ramesh Nuti",
-  description:
-    "Book a free 30-minute call. I'll assess your business workflows, find the ones costing you 5+ hours a week, and map out how AI can fix them.",
+  title: "AI Workflow Assessment | Ramesh Nuti",
+  description: "This page is no longer part of the site.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "https://rameshnuti.com/work-with-me" },
 };
 
 const steps = [

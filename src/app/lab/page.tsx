@@ -133,18 +133,18 @@ export default function LabPage() {
           </h2>
           <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
             Every project in this lab came from the same repeatable system — and the
-            system is teachable. I run hands-on workshops for teams, and a weekly
-            email showing exactly how each build happened.
+            system is teachable. I occasionally run hands-on sessions for founder
+            groups and teams.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <a href="/workshop" className="btn-primary px-6 py-3 text-sm">
-              Book a workshop
+              See a past workshop
             </a>
             <a
-              href="/book-an-assessment"
+              href="/work-with-me"
               className="border border-slate-200 text-slate-700 hover:bg-white rounded-lg px-6 py-3 text-sm font-semibold transition-colors"
             >
-              Book an assessment
+              How I partner
             </a>
           </div>
           <div className="pt-6 max-w-md mx-auto">

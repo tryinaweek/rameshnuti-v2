@@ -1,13 +1,54 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Work with me",
+  title: "How I partner",
   description:
-    "Hands-on AI workshops for teams and free AI assessments for founders. One link for everything: workshops, assessments, and speaking.",
+    "Workshops, speaking, and a small number of early-stage investments through Svyam Ventures. I keep this intentionally small.",
+  alternates: { canonical: "https://rameshnuti.com/work-with-me" },
 };
 
-export default function WorkWithMePage() {
+/**
+ * Three ways to partner, and no form.
+ *
+ * The free AI assessment used to live here. It was removed because a standing
+ * offer of free working sessions is a service commitment, and this page should
+ * not create one. Email is deliberately the whole mechanism: no intake form,
+ * no calendar, nothing that implies a response time.
+ */
+const CONTACT = "ramesh@svyam.co";
+
+const WAYS = [
+  {
+    index: "01",
+    name: "Workshops",
+    copy: "I occasionally run hands-on sessions for founder groups and teams on practical AI, AI workflows, and building with AI. The goal is always to leave with something useful, not another presentation about AI.",
+    cta: {
+      label: "Invite me to run a workshop",
+      href: `mailto:${CONTACT}?subject=${encodeURIComponent("Workshop invitation")}`,
+    },
+    // The AI agent workshop page is the closest thing to a sample session.
+    aside: { label: "See a past workshop", href: "/workshop" },
+  },
+  {
+    index: "02",
+    name: "Speaking",
+    copy: "I speak about building companies, AI-native entrepreneurship, vibe coding, and what changes when founders can move from idea to evidence much faster.",
+    cta: {
+      label: "Invite me to speak",
+      href: `mailto:${CONTACT}?subject=${encodeURIComponent("Speaking invitation")}`,
+    },
+    aside: null,
+  },
+  {
+    index: "03",
+    name: "Angel investing",
+    copy: "I make a small number of early-stage investments through Svyam Ventures. I'm most useful when I understand the founder, the problem, and where I can genuinely help beyond the check.",
+    cta: { label: "Learn about Svyam Ventures", href: "https://svyam.co", external: true },
+    aside: null,
+  },
+];
+
+export default function HowIPartnerPage() {
   return (
     <div className="bg-white min-h-screen text-slate-900 font-sans">
       {/* Hero */}
@@ -20,96 +61,70 @@ export default function WorkWithMePage() {
             How I partner
           </h1>
           <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
-            A few different ways, depending on what you need. Everything in{" "}
-            <Link href="/lab" className="text-teal-accent font-bold no-underline hover:underline">
-              the Lab
-            </Link>{" "}
-            was built with the same repeatable system, and the system is teachable.
+            I keep this intentionally small. I&apos;m still running companies, building
+            things, and working with founders, so I only say yes when there&apos;s a genuine
+            fit.
           </p>
         </div>
       </section>
 
-      {/* The two doors */}
+      {/* Three ways */}
       <section className="py-16 px-6 max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="premium-card p-8 flex flex-col justify-between gap-6">
-            <div className="space-y-3">
-              <span className="inline-block bg-teal-50 border border-teal-100 text-teal-accent px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase">
-                For teams
-              </span>
-              <h2 className="text-xl font-bold text-slate-900">AI workshop</h2>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                A hands-on session where your team ships something real with AI —
-                not slides about AI. Built from the system behind every project in
-                the Lab, adapted to your tools and your work.
-              </p>
-            </div>
-            <Link href="/workshop" className="btn-primary px-6 py-3 text-sm text-center no-underline">
-              Explore the workshop &rarr;
-            </Link>
-          </div>
-
-          <div className="premium-card p-8 flex flex-col justify-between gap-6">
-            <div className="space-y-3">
-              <span className="inline-block bg-slate-50 border border-slate-200 text-slate-500 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase">
-                For founders &amp; operators
-              </span>
-              <h2 className="text-xl font-bold text-slate-900">AI assessment</h2>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                A free working session on your actual challenge — where AI fits in
-                your product or operations, and what to build first. No pitch, no
-                slides; you leave with a concrete next step.
-              </p>
-            </div>
-            <Link
-              href="/book-an-assessment"
-              className="border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg px-6 py-3 text-sm font-semibold text-center no-underline transition-colors"
+        <div className="grid gap-6">
+          {WAYS.map((way) => (
+            <div
+              key={way.name}
+              id={way.name === "Speaking" ? "speaking" : undefined}
+              className="premium-card scroll-mt-20 p-7 md:p-8 flex flex-col md:flex-row md:items-start gap-6 md:gap-10"
             >
-              Book a free assessment &rarr;
-            </Link>
-          </div>
+              <div className="md:w-2/3 space-y-2.5">
+                <span className="font-mono text-xs font-bold tracking-widest text-teal-accent">
+                  {way.index}
+                </span>
+                <h2 className="text-xl font-bold text-slate-900 tracking-tight">{way.name}</h2>
+                <p className="text-slate-600 text-sm leading-relaxed">{way.copy}</p>
+              </div>
+
+              <div className="md:w-1/3 flex flex-col gap-2.5 md:pt-7">
+                <a
+                  href={way.cta.href}
+                  {...("external" in way.cta && way.cta.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="btn-secondary px-5 py-3 text-sm text-center no-underline"
+                >
+                  {way.cta.label} &rarr;
+                </a>
+                {way.aside && (
+                  <a
+                    href={way.aside.href}
+                    className="text-xs text-slate-500 hover:text-slate-900 no-underline text-center transition-colors"
+                  >
+                    {way.aside.label}
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Investing — deliberately not a "pitch me" form. */}
-        <div className="mt-6 bg-slate-light border border-slate-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-bold text-slate-900">Angel investing</p>
-            <p className="text-slate-600 text-xs leading-relaxed mt-1 max-w-md">
-              I make a small number of early-stage investments through Svyam
-              Ventures, where I&apos;ve backed 25+ companies. I&apos;m most useful
-              to founders building something I understand, and I&apos;d rather have
-              a real conversation than read a cold deck.
-            </p>
-          </div>
+        {/* A way in that costs nobody anything, including me. */}
+        <div className="mt-10 pt-8 border-t border-slate-100 max-w-2xl">
+          <h2 className="text-base font-bold text-slate-900 tracking-tight">
+            Not sure where you fit?
+          </h2>
+          <p className="text-slate-600 text-sm leading-relaxed mt-2">
+            I&apos;m always happy to meet thoughtful founders through Startup Grind,
+            workshops, and the communities I&apos;m part of.
+          </p>
           <a
-            href="https://svyam.co"
+            href="https://startupgrind.com/frisco"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-teal-accent text-sm font-bold no-underline hover:underline whitespace-nowrap"
+            className="inline-block mt-4 text-sm font-bold text-teal-accent no-underline hover:underline"
           >
-            Svyam Ventures &rarr;
+            Find a Startup Grind event &rarr;
           </a>
-        </div>
-
-        {/* Speaking — id is the target of the "Speaking" nav and footer links. */}
-        <div
-          id="speaking"
-          className="scroll-mt-20 mt-6 bg-slate-light border border-slate-100 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-        >
-          <div>
-            <p className="text-sm font-bold text-slate-900">Speaking &amp; events</p>
-            <p className="text-slate-600 text-xs leading-relaxed mt-1 max-w-md">
-              I host Startup Grind Frisco and speak on building real products with
-              AI. For keynotes and panels, start with an assessment call and tell
-              me about your event.
-            </p>
-          </div>
-          <Link
-            href="/book-an-assessment"
-            className="text-teal-accent text-sm font-bold no-underline hover:underline whitespace-nowrap"
-          >
-            Invite me to speak &rarr;
-          </Link>
         </div>
       </section>
     </div>

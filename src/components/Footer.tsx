@@ -37,7 +37,6 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     links: [
       { href: "/work-with-me", label: "How I partner" },
       { href: "/work-with-me#speaking", label: "Speaking" },
-      { href: "/book-an-assessment", label: "Free assessment" },
       { href: "/about", label: "About" },
     ],
   },
