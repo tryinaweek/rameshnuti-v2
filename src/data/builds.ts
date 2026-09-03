@@ -136,12 +136,12 @@ export const SEED_BUILDS: Build[] = [
     title: 'Book Cricket',
     slug: 'book-cricket',
     short_description:
-      'The classroom game every Indian kid played under the desk, rebuilt as a two-minute daily chase with a share card. One Saturday, a PRD first, and a simulation that changed the rules before a line of UI existed.',
+      'The classroom game every Indian kid played under the desk, rebuilt as a two-minute daily chase with a share card. One day, a PRD first, and a simulation that changed the rules before a line of UI existed.',
     hero_image: '',
     live_product_url: 'https://bookcricket.com',
     publish_date: '2026-09-02',
     difficulty: 'Beginner-friendly',
-    estimated_build_time: 'One Saturday',
+    estimated_build_time: 'One day',
     topics: ['Games', 'Nostalgia', 'Virality', 'Product Design', 'Next.js'],
 
     why_i_built_it:
@@ -252,7 +252,7 @@ export const SEED_BUILDS: Build[] = [
       'Ship with a date to decide whether to continue',
     ],
 
-    seo_title: 'How I Built Book Cricket in a Saturday | Build With Me',
+    seo_title: 'How I Built Book Cricket in a Day | Build With Me',
     seo_description:
       'The classroom game rebuilt as a two-minute daily chase with a share card. The PRD, the simulation that changed the rules, what broke, and what it cost.',
     og_image: '',
