@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 
 import { BuildsManager } from "./BuildsManager";
 import { GptsManager } from "./GptsManager";
+import { PeopleManager } from "./PeopleManager";
 
 interface AdminFile {
   name: string;
@@ -13,6 +14,12 @@ interface AdminFile {
   downloads: number | null;
 }
 
+interface AdminDownloadEvent {
+  filename: string;
+  email: string | null;
+  at: string;
+}
+
 interface AdminWorkshop {
   slug: string;
   title: string;
@@ -20,12 +27,14 @@ interface AdminWorkshop {
   files: AdminFile[];
   totalDownloads: number | null;
   emailsCaptured: number | null;
+  identifiedPeople: number | null;
+  events: AdminDownloadEvent[];
 }
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
-  const [section, setSection] = useState<"workshops" | "gpts" | "builds">("workshops");
+  const [section, setSection] = useState<"workshops" | "gpts" | "builds" | "people">("workshops");
   const [workshops, setWorkshops] = useState<AdminWorkshop[]>([]);
   const [statsAvailable, setStatsAvailable] = useState(true);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
@@ -139,6 +148,28 @@ export default function AdminPage() {
     setTimeout(() => setCopied(""), 1500);
   };
 
+  /** Quote a CSV cell, and blunt the spreadsheet formula-injection footgun. */
+  const csvCell = (value: string) => {
+    const safe = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+    return `"${safe.replace(/"/g, '""')}"`;
+  };
+
+  const exportCsv = (w: AdminWorkshop) => {
+    const rows = [
+      ["email", "file", "downloaded_at"],
+      ...w.events.map((ev) => [ev.email ?? "", ev.filename, ev.at]),
+    ];
+    const csv = rows.map((r) => r.map(csvCell).join(",")).join("\r\n");
+    const url = URL.createObjectURL(
+      new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8;" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${w.slug}-downloads.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -185,7 +216,7 @@ export default function AdminPage() {
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-left">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              {(["workshops", "gpts", "builds"] as const).map((tab) => (
+              {(["workshops", "gpts", "builds", "people"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -202,7 +233,9 @@ export default function AdminPage() {
                     ? "Workshops"
                     : tab === "gpts"
                       ? "GPT Garden"
-                      : "Build With Me"}
+                      : tab === "builds"
+                        ? "Build With Me"
+                        : "People"}
                 </button>
               ))}
             </div>
@@ -211,22 +244,26 @@ export default function AdminPage() {
                 ? "GPT Garden"
                 : section === "builds"
                   ? "Build With Me"
-                  : open
-                    ? open.title
-                    : "Workshops"}
+                  : section === "people"
+                    ? "People"
+                    : open
+                      ? open.title
+                      : "Workshops"}
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
               {section === "gpts"
                 ? "/gpts — hide, edit, or add the custom GPTs shown on the public page."
                 : section === "builds"
                   ? "/build — write next Saturday's edition, preview it, then publish."
-                  : open
-                    ? `/workshops/${open.slug}`
-                    : "Each workshop has its own unlock page, files, and download stats."}
+                  : section === "people"
+                    ? "Everyone who has given an address to any product, merged by email."
+                    : open
+                      ? `/workshops/${open.slug}`
+                      : "Each workshop has its own unlock page, files, and download stats."}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {open && (
+            {open && section === "workshops" && (
               <button
                 onClick={() => setOpenSlug(null)}
                 className="text-xs font-mono font-bold tracking-wider uppercase text-slate-500 hover:text-slate-900 bg-slate-50 px-3.5 py-2 rounded-lg transition-colors border border-slate-200"
@@ -251,6 +288,8 @@ export default function AdminPage() {
           <GptsManager password={password} />
         ) : section === "builds" ? (
           <BuildsManager password={password} />
+        ) : section === "people" ? (
+          <PeopleManager password={password} />
         ) : (
           <>
         {/* Stats hint */}
@@ -439,6 +478,63 @@ export default function AdminPage() {
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+
+            {/* Who downloaded what */}
+            <div className="space-y-4 text-left">
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+                  Who downloaded
+                </h2>
+                <span className="text-[11px] font-mono text-slate-400">
+                  {open.identifiedPeople ?? 0} identified
+                </span>
+              </div>
+
+              {open.events.length === 0 ? (
+                <p className="text-slate-500 text-sm bg-slate-50 border border-slate-100 rounded-xl p-6 text-center">
+                  No downloads recorded yet.
+                </p>
+              ) : (
+                <>
+                  <div className="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-50 text-slate-500">
+                        <tr>
+                          <th className="px-4 py-2.5 font-bold">Email</th>
+                          <th className="px-4 py-2.5 font-bold">File</th>
+                          <th className="px-4 py-2.5 font-bold whitespace-nowrap">When</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {open.events.map((ev, i) => (
+                          <tr key={`${ev.at}-${i}`} className="bg-white">
+                            <td className="px-4 py-2.5 font-mono">
+                              {ev.email ?? (
+                                <span className="text-slate-400 italic">
+                                  direct link
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-4 py-2.5 text-slate-600 truncate max-w-[16rem]">
+                              {ev.filename}
+                            </td>
+                            <td className="px-4 py-2.5 text-slate-400 whitespace-nowrap font-mono">
+                              {ev.at ? new Date(ev.at).toLocaleString() : "—"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <button
+                    onClick={() => exportCsv(open)}
+                    className="text-xs font-bold text-teal-accent hover:underline cursor-pointer"
+                  >
+                    Download as CSV
+                  </button>
+                </>
               )}
             </div>
           </>
