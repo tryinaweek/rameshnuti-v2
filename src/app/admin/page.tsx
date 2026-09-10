@@ -13,6 +13,12 @@ interface AdminFile {
   downloads: number | null;
 }
 
+interface AdminDownloadEvent {
+  filename: string;
+  email: string | null;
+  at: string;
+}
+
 interface AdminWorkshop {
   slug: string;
   title: string;
@@ -20,6 +26,8 @@ interface AdminWorkshop {
   files: AdminFile[];
   totalDownloads: number | null;
   emailsCaptured: number | null;
+  identifiedPeople: number | null;
+  events: AdminDownloadEvent[];
 }
 
 export default function AdminPage() {
@@ -137,6 +145,28 @@ export default function AdminPage() {
     void navigator.clipboard.writeText(url);
     setCopied(slug);
     setTimeout(() => setCopied(""), 1500);
+  };
+
+  /** Quote a CSV cell, and blunt the spreadsheet formula-injection footgun. */
+  const csvCell = (value: string) => {
+    const safe = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+    return `"${safe.replace(/"/g, '""')}"`;
+  };
+
+  const exportCsv = (w: AdminWorkshop) => {
+    const rows = [
+      ["email", "file", "downloaded_at"],
+      ...w.events.map((ev) => [ev.email ?? "", ev.filename, ev.at]),
+    ];
+    const csv = rows.map((r) => r.map(csvCell).join(",")).join("\r\n");
+    const url = URL.createObjectURL(
+      new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8;" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${w.slug}-downloads.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const formatSize = (bytes: number) => {
@@ -439,6 +469,63 @@ export default function AdminPage() {
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+
+            {/* Who downloaded what */}
+            <div className="space-y-4 text-left">
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+                  Who downloaded
+                </h2>
+                <span className="text-[11px] font-mono text-slate-400">
+                  {open.identifiedPeople ?? 0} identified
+                </span>
+              </div>
+
+              {open.events.length === 0 ? (
+                <p className="text-slate-500 text-sm bg-slate-50 border border-slate-100 rounded-xl p-6 text-center">
+                  No downloads recorded yet.
+                </p>
+              ) : (
+                <>
+                  <div className="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-50 text-slate-500">
+                        <tr>
+                          <th className="px-4 py-2.5 font-bold">Email</th>
+                          <th className="px-4 py-2.5 font-bold">File</th>
+                          <th className="px-4 py-2.5 font-bold whitespace-nowrap">When</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {open.events.map((ev, i) => (
+                          <tr key={`${ev.at}-${i}`} className="bg-white">
+                            <td className="px-4 py-2.5 font-mono">
+                              {ev.email ?? (
+                                <span className="text-slate-400 italic">
+                                  direct link
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-4 py-2.5 text-slate-600 truncate max-w-[16rem]">
+                              {ev.filename}
+                            </td>
+                            <td className="px-4 py-2.5 text-slate-400 whitespace-nowrap font-mono">
+                              {ev.at ? new Date(ev.at).toLocaleString() : "—"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <button
+                    onClick={() => exportCsv(open)}
+                    className="text-xs font-bold text-teal-accent hover:underline cursor-pointer"
+                  >
+                    Download as CSV
+                  </button>
+                </>
               )}
             </div>
           </>

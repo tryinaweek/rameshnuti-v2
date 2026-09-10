@@ -76,6 +76,8 @@ export async function GET(req: NextRequest) {
           ? Object.values(fileDownloads).reduce((a, b) => a + b, 0)
           : null,
         emailsCaptured: stats ? (stats.emails[w.slug] ?? 0) : null,
+        identifiedPeople: stats ? (stats.identifiedPeople[w.slug] ?? 0) : null,
+        events: stats ? (stats.events[w.slug] ?? []) : [],
       };
     }),
   );

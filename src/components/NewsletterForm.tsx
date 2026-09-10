@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { EMAIL_COOKIE, UNLOCK_MAX_AGE_SECONDS } from "@/lib/workshop-cookies";
+
 interface NewsletterFormProps {
   variant?: "hero" | "navy" | "standard";
   buttonText?: string;
@@ -23,13 +25,21 @@ export function NewsletterForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (redirectTo && redirectTo.includes("/workshop/resources")) {
-      document.cookie = "unlocked_workshop=true; path=/; max-age=86400";
+    const legacyUnlock = Boolean(redirectTo?.includes("/workshop/resources"));
+    if (legacyUnlock) {
+      document.cookie = `unlocked_workshop=true; path=/; max-age=${UNLOCK_MAX_AGE_SECONDS}`;
     }
     // Per-workshop unlock: /workshops/<slug>/resources → unlocked_<slug>
     const slugMatch = redirectTo?.match(/^\/workshops\/([a-z0-9-]+)\/resources/);
     if (slugMatch) {
-      document.cookie = `unlocked_${slugMatch[1]}=true; path=/; max-age=86400`;
+      document.cookie = `unlocked_${slugMatch[1]}=true; path=/; max-age=${UNLOCK_MAX_AGE_SECONDS}`;
+    }
+    // Identify this browser so /api/download can record who took each file.
+    // Expires with the unlock, so an unlocked visitor is always identified.
+    if (legacyUnlock || slugMatch) {
+      document.cookie = `${EMAIL_COOKIE}=${encodeURIComponent(
+        email.trim().toLowerCase(),
+      )}; path=/; max-age=${UNLOCK_MAX_AGE_SECONDS}; SameSite=Lax`;
     }
 
     // Capture into THE LIST first — the address must survive even if the

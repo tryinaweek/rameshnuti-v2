@@ -1,5 +1,7 @@
 import { list, put } from '@vercel/blob';
 
+import { EMAIL_COOKIE, UNLOCK_MAX_AGE_SECONDS, normalizeEmail } from './workshop-cookies';
+
 /**
  * Multi-workshop asset system.
  *
@@ -11,6 +13,8 @@ import { list, put } from '@vercel/blob';
  * public anon key, same trust model as THE LIST). The admin dashboard reads
  * counts back with SUPABASE_SERVICE_ROLE_KEY, which never ships to a browser.
  */
+
+export { EMAIL_COOKIE, UNLOCK_MAX_AGE_SECONDS, normalizeEmail };
 
 export interface Workshop {
   slug: string;
@@ -119,8 +123,7 @@ export async function findWorkshop(slug: string): Promise<Workshop | null> {
   return registry.find((w) => w.slug === slug) ?? null;
 }
 
-/** Fire-and-forget download log — must never block or fail a download. */
-export function logDownload(workshop: string, filename: string): Promise<void> {
+function insertDownload(row: Record<string, string>): Promise<Response> {
   return fetch(`${SUPABASE_URL}/rest/v1/workshop_downloads`, {
     method: 'POST',
     headers: {
@@ -128,10 +131,43 @@ export function logDownload(workshop: string, filename: string): Promise<void> {
       Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ workshop, filename }),
-  })
-    .then(() => undefined)
-    .catch(() => undefined);
+    body: JSON.stringify(row),
+  });
+}
+
+/**
+ * Fire-and-forget download log — must never block or fail a download.
+ *
+ * `email` is whoever unlocked the workshop in this browser, or null for a
+ * direct/shared link. If the column is missing (the migration has not been run
+ * yet) the insert is retried without it, so deploying this ahead of the SQL
+ * costs attribution but never the download record itself.
+ */
+export async function logDownload(
+  workshop: string,
+  filename: string,
+  email?: string | null,
+): Promise<void> {
+  const clean = normalizeEmail(email);
+  try {
+    const resp = await insertDownload(
+      clean ? { workshop, filename, email: clean } : { workshop, filename },
+    );
+    if (!resp.ok && clean) {
+      // Most likely PGRST204: the email column does not exist yet.
+      await insertDownload({ workshop, filename }).catch(() => undefined);
+    }
+  } catch {
+    // Logging is best-effort by design.
+  }
+}
+
+/** One logged download, with the visitor who unlocked the workshop. */
+export interface DownloadEvent {
+  filename: string;
+  /** null for direct or shared links, where no gate cookie was present. */
+  email: string | null;
+  at: string;
 }
 
 export interface WorkshopStats {
@@ -139,7 +175,14 @@ export interface WorkshopStats {
   downloads: Record<string, Record<string, number>>;
   /** workshop slug → emails captured (people rows with source workshop-<slug>) */
   emails: Record<string, number>;
+  /** workshop slug → download events, newest first, capped per workshop. */
+  events: Record<string, DownloadEvent[]>;
+  /** workshop slug → count of distinct identified people who downloaded. */
+  identifiedPeople: Record<string, number>;
 }
+
+/** Per-workshop cap so a busy workshop cannot bloat the admin payload. */
+const MAX_EVENTS_PER_WORKSHOP = 200;
 
 /**
  * Admin-only stats. Requires SUPABASE_SERVICE_ROLE_KEY (server env); returns
@@ -156,18 +199,52 @@ export async function readStats(): Promise<WorkshopStats | null> {
 
   const downloads: WorkshopStats['downloads'] = {};
   const emails: WorkshopStats['emails'] = {};
+  const events: WorkshopStats['events'] = {};
+  const identifiedPeople: WorkshopStats['identifiedPeople'] = {};
 
   try {
-    const dlRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/workshop_downloads?select=workshop,filename&limit=50000`,
+    // `email` may not exist yet on older databases; fall back so the whole
+    // dashboard does not go blank just because the migration has not been run.
+    let dlRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/workshop_downloads?select=workshop,filename,email,created_at&order=created_at.desc&limit=50000`,
       { headers, cache: 'no-store' },
     );
+    if (!dlRes.ok) {
+      dlRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/workshop_downloads?select=workshop,filename,created_at&order=created_at.desc&limit=50000`,
+        { headers, cache: 'no-store' },
+      );
+    }
     if (dlRes.ok) {
-      const rows = (await dlRes.json()) as { workshop: string; filename: string }[];
+      const rows = (await dlRes.json()) as {
+        workshop: string;
+        filename: string;
+        email?: string | null;
+        created_at?: string;
+      }[];
+      const seen: Record<string, Set<string>> = {};
       for (const row of rows) {
         downloads[row.workshop] ??= {};
         downloads[row.workshop][row.filename] =
           (downloads[row.workshop][row.filename] ?? 0) + 1;
+
+        const email = normalizeEmail(row.email);
+        if (email) {
+          seen[row.workshop] ??= new Set();
+          seen[row.workshop].add(email);
+        }
+
+        events[row.workshop] ??= [];
+        if (events[row.workshop].length < MAX_EVENTS_PER_WORKSHOP) {
+          events[row.workshop].push({
+            filename: row.filename,
+            email,
+            at: row.created_at ?? '',
+          });
+        }
+      }
+      for (const [slug, set] of Object.entries(seen)) {
+        identifiedPeople[slug] = set.size;
       }
     }
 
@@ -191,5 +268,5 @@ export async function readStats(): Promise<WorkshopStats | null> {
     return null;
   }
 
-  return { downloads, emails };
+  return { downloads, emails, events, identifiedPeople };
 }
