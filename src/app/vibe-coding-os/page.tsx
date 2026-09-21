@@ -132,7 +132,8 @@ export default function VibeCodingOsPage() {
             </p>
             <p className="max-w-xl text-[15px] leading-relaxed text-slate-500">
               Vibe Coding OS explores how to choose a starting point, build with AI, and
-              learn what deserves your next step.
+              learn what deserves your next step. Written for people who don&apos;t write
+              code &mdash; and useful to plenty who do.
             </p>
           </div>
 

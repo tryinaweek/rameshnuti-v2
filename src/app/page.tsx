@@ -323,6 +323,10 @@ export default async function HomePage() {
                 two decades of building companies, {LAB_COUNT_CLAIM} AI experiments, and
                 hundreds of founder conversations.
               </p>
+              <p className="font-semibold text-slate-700">
+                Written for people who don&apos;t write code &mdash; and useful to plenty
+                who do.
+              </p>
             </div>
           </div>
 
