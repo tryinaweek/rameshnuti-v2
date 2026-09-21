@@ -308,18 +308,20 @@ export default async function HomePage() {
                 Vibe Coding OS
               </h2>
               <p className="text-slate-500 text-base md:text-lg leading-snug mt-2 max-w-xl">
-                A practical book for non-technical founders building in the age of AI.
+                That idea you keep coming back to? What if you could build it?
               </p>
             </div>
             <div className="space-y-4 text-slate-600 text-[15px] md:text-base leading-relaxed max-w-xl">
               <p>
-                The founders who win will be the ones who reduce the distance between an idea
-                and evidence.
+                Building software used to take a team, a budget, and months of your life.
+                That assumption is quietly breaking &mdash; and most people haven&apos;t
+                noticed yet.
               </p>
               <p>
-                Vibe Coding OS is my practical playbook for doing exactly that. Built from two
-                decades of building companies, {LAB_COUNT_CLAIM} AI experiments, and hundreds
-                of conversations with founders.
+                Vibe Coding OS is about what happens next: how to choose the right problem,
+                build with AI, and find out what your idea can actually become. Drawn from
+                two decades of building companies, {LAB_COUNT_CLAIM} AI experiments, and
+                hundreds of founder conversations.
               </p>
             </div>
           </div>
