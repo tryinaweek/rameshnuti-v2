@@ -237,30 +237,8 @@ export default function VibeCodingOsPage() {
         </div>
       </section>
 
-      {/* 5 — The shift */}
+      {/* 5 — Author */}
       <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
-        <div className="mx-auto max-w-3xl space-y-5">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            From &ldquo;someone should build this&rdquo; to &ldquo;what could I
-            test?&rdquo;
-          </h2>
-          <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
-            <p>
-              You do not need to have your whole idea figured out before you begin
-              exploring it. You need a problem worth understanding, a manageable first
-              experiment, and a willingness to learn from what happens.
-            </p>
-            <p>
-              Vibe Coding OS brings together lessons from building companies and
-              experimenting with AI to explore that shift. The focus is on making better
-              decisions as the distance between imagining and building gets shorter.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 6 — Author */}
-      <section className="px-6 py-16 md:py-20">
         <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
             <div className="overflow-hidden rounded-2xl border border-slate-200">
@@ -321,39 +299,7 @@ export default function VibeCodingOsPage() {
         </div>
       </section>
 
-      {/* 7 — What the email exchange is */}
-      <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
-        <div className="mx-auto max-w-3xl space-y-5">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-            Follow the book as it takes shape.
-          </h2>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
-            If these are questions you have been asking too, join the First Edition
-            Circle. I&apos;ll share updates on Vibe Coding OS and let you know when the
-            book is ready.
-          </p>
-          <ul className="space-y-2.5 pt-1">
-            {[
-              "Book progress updates, written when there's something worth reading.",
-              "Launch news, so you hear it first.",
-              "Early material as chapters become readable, and a way to tell me what's missing.",
-            ].map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-600">
-                <span
-                  aria-hidden="true"
-                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-accent"
-                />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="pt-1 text-xs leading-relaxed text-slate-400">
-            That&apos;s the whole exchange &mdash; no spam, and you can leave anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* 8 — FAQ */}
+      {/* 6 — FAQ */}
       <section className="px-6 py-16 md:py-20">
         <div className="mx-auto max-w-3xl space-y-8">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
@@ -372,7 +318,7 @@ export default function VibeCodingOsPage() {
         </div>
       </section>
 
-      {/* 9 — Final signup */}
+      {/* 7 — Final signup */}
       <section
         id="join"
         className="border-t border-slate-100 bg-slate-light px-6 py-16 md:py-24"
@@ -384,7 +330,8 @@ export default function VibeCodingOsPage() {
           <p className="text-[15px] leading-relaxed text-slate-600">
             A useful tool, a small experiment, or an idea you have been carrying for
             years &mdash; there is a starting point worth exploring. Join the First
-            Edition Circle to hear more as Vibe Coding OS takes shape.
+            Edition Circle for progress updates, launch news, and early material as
+            chapters become readable.
           </p>
           <div className="premium-card mx-auto max-w-md p-7 text-left">
             <FirstEditionForm />
