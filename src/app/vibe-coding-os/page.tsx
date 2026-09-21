@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { FirstEditionForm } from "@/components/FirstEditionForm";
 
-const TITLE = "Vibe Coding OS | A book for founders using AI";
+const TITLE = "Vibe Coding OS | An upcoming book by Ramesh Nuti";
 const DESCRIPTION =
-  "A practical book for non-technical founders who want to use AI to move from idea to evidence faster. Coming January 2027.";
+  "That idea you keep coming back to — what if you could build it? Vibe Coding OS explores how to choose a starting point, build with AI, and learn what deserves your next step.";
 const URL = "https://rameshnuti.com/vibe-coding-os";
 
 export const metadata: Metadata = {
@@ -27,11 +28,71 @@ export const metadata: Metadata = {
   },
 };
 
-/** What the Circle is, said plainly. No promises I can't keep yet. */
-const CIRCLE = [
-  "Early material as chapters become readable.",
-  "The open questions, while they're still open.",
-  "A way to tell me where I'm wrong before it's printed.",
+/** Places a reader might already have an idea worth exploring. */
+const IDEA_EXAMPLES = [
+  {
+    label: "At work",
+    text: "A small tool that simplifies a repetitive task you do every week.",
+  },
+  {
+    label: "While studying",
+    text: "An interactive project that helps you explore an idea instead of just reading about it.",
+  },
+  {
+    label: "As a creator or freelancer",
+    text: "Something genuinely useful for your audience or your clients.",
+  },
+  {
+    label: "In a small business",
+    text: "A better way to handle a process you repeat every single day.",
+  },
+  {
+    label: "For a side project or startup",
+    text: "A prototype that lets you test your assumptions before you commit to them.",
+  },
+];
+
+/** Editorial previews of the book's questions — enough to trust, not the whole argument. */
+const PREVIEWS = [
+  {
+    q: "Is the old estimate still true?",
+    a: "Some ideas remain untouched because of assumptions about time, cost, or complexity — estimates made years ago, under different tools. Which of those assumptions are worth testing again?",
+  },
+  {
+    q: "What is the smallest thing you could try?",
+    a: "You may not need the complete product to learn something valuable. A focused experiment can tell you whether an idea deserves more of your attention — often in days, not months.",
+  },
+  {
+    q: "Does it work — or just look convincing?",
+    a: "An impressive demo is a starting point, not an answer. What evidence would show that it actually helps someone?",
+  },
+  {
+    q: "Where should you move carefully?",
+    a: "An experiment for yourself and a tool other people depend on carry different consequences. How do you decide when speed helps and when more checking matters?",
+  },
+];
+
+const FAQ = [
+  {
+    q: "Do I need to know how to code?",
+    a: "No. The core ideas — choosing a problem, running a small experiment, judging what the results actually tell you — don't require a programming background, and vibe coding itself lowers the barrier to trying things. Real projects can still involve technical learning or help from someone experienced, and the book is honest about where that line shows up.",
+  },
+  {
+    q: "Is this only for founders?",
+    a: "No. The lessons come from founder experience, because that's the material I have — companies built, experiments run, hundreds of conversations. But the thinking applies to anyone with a problem they understand and something they want to try: professionals, students, creators, freelancers, small-business owners, and developers curious about building with AI.",
+  },
+  {
+    q: "Is this a coding manual or a book about how to approach building?",
+    a: "A book about how to approach building. You won't find syntax references or tool tutorials. You'll find a way of thinking about where to start, how to build with AI, how to test your assumptions, and how to improve through evidence.",
+  },
+  {
+    q: "What will I receive when I sign up?",
+    a: "Progress updates while the book is being written, and launch news when it's ready. As chapters become readable, I plan to share early material with the Circle and ask what's missing.",
+  },
+  {
+    q: "When is the book coming out?",
+    a: "It's announced for January 2027. Publication details will be shared by email as they firm up.",
+  },
 ];
 
 export default function VibeCodingOsPage() {
@@ -54,124 +115,279 @@ export default function VibeCodingOsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
-      {/* Hero */}
-      <section className="border-b border-slate-100 bg-slate-light px-6 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl space-y-5">
-          <span className="inline-block rounded-full border border-blue-100 bg-blue-50 px-3.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-teal-accent">
-            Coming January 2027
-          </span>
-          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 md:text-5xl">
-            Vibe Coding OS
-          </h1>
-          <p className="max-w-2xl text-lg leading-relaxed text-slate-600">
-            A practical book for non-technical founders who want to use AI to move from idea
-            to evidence faster.
-          </p>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-slate-500">
-            It draws from two decades of building companies, dozens of AI experiments, and
-            hundreds of conversations with founders.
-          </p>
-        </div>
-      </section>
-
-      {/* The question */}
-      <section className="px-6 py-16 md:py-20">
-        <div className="mx-auto max-w-3xl space-y-5">
-          <h2 className="font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            The question the book is built around
-          </h2>
-          <p className="text-2xl font-bold leading-snug tracking-tight text-slate-900 md:text-3xl">
-            How much distance can we remove between an idea and knowing whether it works?
-          </p>
-          <div className="max-w-2xl space-y-4 pt-2 text-[15px] leading-relaxed text-slate-600">
-            <p>
-              For most of my career the honest answer was months. You raised money, hired
-              engineers, built the thing, and only then found out whether anyone wanted it.
+      {/* 1 — Hero */}
+      <section className="border-b border-slate-100 bg-slate-light px-6 py-14 md:py-20">
+        <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-12 md:gap-12">
+          <div className="space-y-5 md:col-span-7">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-teal-accent">
+              Vibe Coding OS &middot; An upcoming book by Ramesh Nuti
             </p>
-            <p>
-              That distance is collapsing. Not to zero, and not evenly, but far enough that
-              the old sequence no longer makes sense for a lot of ideas. This book is my
-              attempt to write down what actually works now, including the parts that
-              didn&apos;t.
+            <h1 className="text-4xl font-bold leading-[1.08] tracking-tight text-slate-900 md:text-5xl">
+              That idea you keep coming back to? What if you could build it?
+            </h1>
+            <p className="max-w-xl text-base leading-relaxed text-slate-600 md:text-lg">
+              A tool that makes your work easier. A side project you want to try. A
+              solution to a problem you understand better than anyone. AI is opening new
+              ways to turn those ideas into something you can test.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The Circle */}
-      <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
-        <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-12">
-          <div className="space-y-4 md:col-span-6">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-              The First Edition Circle
-            </h2>
-            <p className="text-[15px] leading-relaxed text-slate-600">
-              Not a mailing list. A small group of founders, builders, investors, and
-              practitioners who want to follow the book as it&apos;s written, read early
-              material, and tell me what&apos;s missing.
-            </p>
-            <ul className="space-y-2.5 pt-1">
-              {CIRCLE.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-600">
-                  <span
-                    aria-hidden="true"
-                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-accent"
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="pt-1 text-xs leading-relaxed text-slate-400">
-              It&apos;s early. I&apos;m not promising a review copy or a launch discount,
-              because I don&apos;t know yet what I can offer.
+            <p className="max-w-xl text-[15px] leading-relaxed text-slate-500">
+              Vibe Coding OS explores how to choose a starting point, build with AI, and
+              learn what deserves your next step.
             </p>
           </div>
 
-          <div className="md:col-span-6">
-            <div className="premium-card p-7">
-              <FirstEditionForm />
+          <div className="md:col-span-5">
+            <div className="premium-card overflow-hidden">
+              {/* Typographic treatment — not the final cover. */}
+              <div className="space-y-2 border-b border-slate-100 bg-white px-7 pb-6 pt-7 text-left">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                  Coming January 2027
+                </p>
+                <p className="text-2xl font-bold leading-tight tracking-tight text-slate-900">
+                  Vibe Coding
+                  <span className="text-teal-accent"> OS</span>
+                </p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Ramesh Nuti
+                </p>
+              </div>
+              <div className="px-7 py-6">
+                <p className="mb-4 text-sm font-semibold leading-snug text-slate-800">
+                  Join the First Edition Circle for book updates and launch news.
+                </p>
+                <FirstEditionForm />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Where the material comes from */}
+      {/* 2 — Recognize your idea */}
       <section className="px-6 py-16 md:py-20">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            Where the material comes from
+        <div className="mx-auto max-w-5xl space-y-8">
+          <div className="max-w-2xl space-y-4">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+              You might already know what you want to build.
+            </h2>
+            <p className="text-[15px] leading-relaxed text-slate-600">
+              Start with something you keep noticing: a task that takes too long, a
+              workaround everyone tolerates, or an idea you have never quite found a way
+              to test. You do not need to be starting a company to have a useful problem
+              worth exploring.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {IDEA_EXAMPLES.map((item) => (
+              <div key={item.label} className="premium-card p-5">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-teal-accent">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.text}</p>
+              </div>
+            ))}
+            <div className="flex items-center p-5">
+              <p className="text-sm leading-relaxed text-slate-400">
+                Different starting points, one shared move: taking an idea seriously
+                enough to explore it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 — What vibe coding means */}
+      <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl space-y-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            What does &ldquo;vibe coding&rdquo; actually mean?
+          </h2>
+          <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
+            <p>
+              You describe what you want software to do, and AI helps you create and
+              revise the code behind it. That makes experimenting more accessible,
+              including for people who are new to programming.
+            </p>
+            <p>
+              But getting something on screen is only part of building something useful.
+              You still need to understand the problem, check the result, and decide what
+              to change. That judgment &mdash; what to build, how to test it, when to
+              trust it, and what you owe the people who use it &mdash; is what Vibe
+              Coding OS is really about.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4 — The book's questions */}
+      <section className="px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-5xl space-y-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            When building gets easier, what matters more?
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {PREVIEWS.map((p) => (
+              <div key={p.q} className="premium-card p-6">
+                <h3 className="text-base font-bold tracking-tight text-slate-900">
+                  &ldquo;{p.q}&rdquo;
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-600">{p.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5 — The shift */}
+      <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl space-y-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            From &ldquo;someone should build this&rdquo; to &ldquo;what could I
+            test?&rdquo;
+          </h2>
+          <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
+            <p>
+              You do not need to have your whole idea figured out before you begin
+              exploring it. You need a problem worth understanding, a manageable first
+              experiment, and a willingness to learn from what happens.
+            </p>
+            <p>
+              Vibe Coding OS brings together lessons from building companies and
+              experimenting with AI to explore that shift. The focus is on making better
+              decisions as the distance between imagining and building gets shorter.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 6 — Author */}
+      <section className="px-6 py-16 md:py-20">
+        <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <div className="overflow-hidden rounded-2xl border border-slate-200">
+              <Image
+                src="/ramesh-nuti.jpeg"
+                alt="Ramesh Nuti"
+                width={480}
+                height={480}
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="space-y-4 md:col-span-8">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+              Why I&apos;m writing Vibe Coding OS
+            </h2>
+            <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
+              <p>
+                I&apos;ve spent two decades building technology companies, investing in
+                early-stage startups at Svyam Ventures, and running Startup Grind Frisco,
+                a community of over 1,200 founders. For most of that time, one assumption
+                sat underneath everything: turning an idea into working software was
+                expensive, slow, and reserved for people with technical teams.
+              </p>
+              <p>
+                That assumption is breaking, and I&apos;ve been testing exactly where
+                &mdash; through dozens of my own AI experiments and hundreds of
+                conversations with people trying to build. What became possible surprised
+                me. So did what still requires care, judgment, and honesty about the
+                results.
+              </p>
+              <p>
+                This book is my attempt to write down what I&apos;ve learned while it is
+                still useful. You don&apos;t need to be a founder to use it. You need
+                something you wish existed, and the curiosity to find out what it could
+                become.
+              </p>
+            </div>
+            <p className="pt-1 text-xs leading-relaxed text-slate-400">
+              Most of the material comes out of work that&apos;s already public:{" "}
+              <Link href="/lab" className="font-semibold text-teal-accent hover:underline">
+                The Lab
+              </Link>
+              ,{" "}
+              <Link href="/gpts" className="font-semibold text-teal-accent hover:underline">
+                GPT Garden
+              </Link>
+              , and{" "}
+              <Link
+                href="/articles"
+                className="font-semibold text-teal-accent hover:underline"
+              >
+                Articles
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 7 — What the email exchange is */}
+      <section className="border-y border-slate-100 bg-slate-light px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl space-y-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            Follow the book as it takes shape.
           </h2>
           <p className="max-w-2xl text-[15px] leading-relaxed text-slate-600">
-            The book isn&apos;t being written from theory. Most of it comes out of work
-            that&apos;s already public.
+            If these are questions you have been asking too, join the First Edition
+            Circle. I&apos;ll share updates on Vibe Coding OS and let you know when the
+            book is ready.
           </p>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Link href="/lab" className="premium-card p-5 no-underline group">
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
-                The Lab
-              </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                Every product I&apos;ve shipped, and what each one taught me.
-              </p>
-            </Link>
-            {/* Build With Me ships unlinked until the first teardown is
-                written. Restore its card here to surface it. */}
-            <Link href="/gpts" className="premium-card p-5 no-underline group">
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
-                GPT Garden
-              </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                Custom GPTs built for real work, and what they taught me.
-              </p>
-            </Link>
-            <Link href="/articles" className="premium-card p-5 no-underline group">
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
-                Articles
-              </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                Longer thinking, published as I work it out.
-              </p>
-            </Link>
+          <ul className="space-y-2.5 pt-1">
+            {[
+              "Book progress updates, written when there's something worth reading.",
+              "Launch news, so you hear it first.",
+              "Early material as chapters become readable, and a way to tell me what's missing.",
+            ].map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-600">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-accent"
+                />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="pt-1 text-xs leading-relaxed text-slate-400">
+            That&apos;s the whole exchange &mdash; no spam, and you can leave anytime.
+          </p>
+        </div>
+      </section>
+
+      {/* 8 — FAQ */}
+      <section className="px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl space-y-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+            Questions worth answering now
+          </h2>
+          <div className="space-y-7">
+            {FAQ.map((item) => (
+              <div key={item.q} className="space-y-2">
+                <h3 className="text-base font-bold tracking-tight text-slate-900">
+                  {item.q}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-slate-600">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9 — Final signup */}
+      <section
+        id="join"
+        className="border-t border-slate-100 bg-slate-light px-6 py-16 md:py-24"
+      >
+        <div className="mx-auto max-w-xl space-y-6 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+            What would you build if you knew where to start?
+          </h2>
+          <p className="text-[15px] leading-relaxed text-slate-600">
+            A useful tool, a small experiment, or an idea you have been carrying for
+            years &mdash; there is a starting point worth exploring. Join the First
+            Edition Circle to hear more as Vibe Coding OS takes shape.
+          </p>
+          <div className="premium-card mx-auto max-w-md p-7 text-left">
+            <FirstEditionForm />
           </div>
         </div>
       </section>

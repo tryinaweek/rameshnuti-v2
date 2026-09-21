@@ -78,6 +78,7 @@ export function appFromPeopleSource(source: string | null): string {
   if (s.startsWith('workshop')) return 'Workshop';
   if (s.startsWith('build-')) return 'Build With Me';
   if (s.startsWith('tool-') || s === 'tools') return 'Tools';
+  if (s.startsWith('vibe-coding')) return 'Vibe Coding OS';
   if (s.startsWith('newsletter') || s === 'articles') return 'Newsletter';
   if (s === 'courses-waitlist') return 'Courses';
   if (s.startsWith('game') || s === 'bookcricket') return 'Games';

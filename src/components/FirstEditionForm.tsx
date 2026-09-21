@@ -1,21 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 /**
- * First Edition Circle signup.
+ * First Edition Circle signup for Vibe Coding OS.
  *
  * Deliberately not the NewsletterForm: that one hands the visitor off to
  * Substack, which is the wrong destination for a book circle. This writes
  * straight to THE LIST (public.people via /api/subscribe) under its own
  * source tag, so the two audiences stay separable without a second provider.
+ *
+ * After a successful signup, an optional "what would you build?" question is
+ * offered. It's a separate, skippable submission to /api/book-idea and never
+ * blocks or re-runs the subscription.
  */
 export function FirstEditionForm() {
+  const emailId = useId();
+  const ideaId = useId();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [already, setAlready] = useState(false);
   const [error, setError] = useState("");
+
+  const [idea, setIdea] = useState("");
+  const [ideaStatus, setIdeaStatus] = useState<
+    "idle" | "sending" | "sent" | "skipped" | "error"
+  >("idle");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,16 +52,79 @@ export function FirstEditionForm() {
     }
   };
 
+  const sendIdea = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!idea.trim()) return;
+    setIdeaStatus("sending");
+    try {
+      const res = await fetch("/api/book-idea", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, idea }),
+      });
+      setIdeaStatus(res.ok ? "sent" : "error");
+    } catch {
+      setIdeaStatus("error");
+    }
+  };
+
   if (status === "done") {
     return (
-      <div className="animate-fade-up space-y-2 text-left">
-        <p className="text-base font-bold tracking-tight text-slate-900">
-          {already ? "You're already on the list." : "You're on the list."}
-        </p>
-        <p className="text-sm leading-relaxed text-slate-600">
-          I&apos;ll write when there&apos;s something worth reading: an early chapter, a
-          question I&apos;m stuck on, or a decision I want a second opinion about.
-        </p>
+      <div className="animate-fade-up space-y-4 text-left">
+        <div className="space-y-2">
+          <p className="text-base font-bold tracking-tight text-slate-900">
+            {already ? "You're already on the list." : "You're on the list."}
+          </p>
+          <p className="text-sm leading-relaxed text-slate-600">
+            I&apos;ll keep you posted as Vibe Coding OS takes shape. &mdash; Ramesh
+          </p>
+        </div>
+
+        {ideaStatus === "sent" ? (
+          <p className="border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-600">
+            Thanks &mdash; reading these genuinely shapes the book.
+          </p>
+        ) : ideaStatus === "skipped" ? null : (
+          <form onSubmit={sendIdea} className="space-y-2.5 border-t border-slate-100 pt-4">
+            <label
+              htmlFor={ideaId}
+              className="block text-sm font-semibold text-slate-800"
+            >
+              Optional: what is one thing you would love to build?
+            </label>
+            <textarea
+              id={ideaId}
+              rows={3}
+              maxLength={2000}
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              placeholder="A tool, an experiment, an idea you keep coming back to..."
+              className="premium-input w-full resize-y px-4 py-3 text-sm"
+            />
+            {ideaStatus === "error" && (
+              <p role="alert" className="text-xs font-semibold text-red-600">
+                Couldn&apos;t send that just now. You can skip it &mdash; you&apos;re
+                already on the list.
+              </p>
+            )}
+            <div className="flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={ideaStatus === "sending" || !idea.trim()}
+                className="btn-primary px-5 py-2.5 text-xs disabled:opacity-50"
+              >
+                {ideaStatus === "sending" ? "Sending..." : "Share it"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIdeaStatus("skipped")}
+                className="text-xs font-semibold text-slate-400 transition-colors hover:text-slate-600"
+              >
+                Skip
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     );
   }
@@ -59,36 +133,40 @@ export function FirstEditionForm() {
     <form onSubmit={submit} className="space-y-3 text-left">
       <div>
         <label
-          htmlFor="circle-email"
+          htmlFor={emailId}
           className="mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400"
         >
           Email address
         </label>
         <input
-          id="circle-email"
+          id={emailId}
           type="email"
           autoComplete="email"
           required
           maxLength={320}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@company.com"
+          placeholder="you@example.com"
           className="premium-input w-full px-4 py-3 text-sm"
         />
       </div>
 
-      {error && <p className="text-xs font-semibold text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" className="text-xs font-semibold text-red-600">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
         disabled={status === "sending"}
         className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
       >
-        {status === "sending" ? "Adding you..." : "Join the First Edition Circle"}
+        {status === "sending" ? "Adding you..." : "Keep me in the loop"}
       </button>
 
       <p className="text-[11px] leading-relaxed text-slate-500">
-        Occasional updates while the book is being written. Unsubscribe anytime.{" "}
+        Updates about Vibe Coding OS. Unsubscribe anytime.{" "}
         <Link href="/privacy" className="font-semibold text-teal-accent hover:underline">
           Privacy policy
         </Link>
