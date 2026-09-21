@@ -32,23 +32,23 @@ export const metadata: Metadata = {
 const IDEA_EXAMPLES = [
   {
     label: "At work",
-    text: "A small tool that simplifies a repetitive task you do every week.",
+    text: "The Monday report you assemble by hand, copying numbers between three systems that refuse to talk to each other.",
   },
   {
     label: "While studying",
-    text: "An interactive project that helps you explore an idea instead of just reading about it.",
+    text: "The concept you'd understand in five minutes if you could drag a slider and watch it change, instead of rereading the chapter.",
   },
   {
     label: "As a creator or freelancer",
-    text: "Something genuinely useful for your audience or your clients.",
+    text: "The same ten questions every new client asks — answered by a small tool with your name on it, instead of another long email.",
   },
   {
     label: "In a small business",
-    text: "A better way to handle a process you repeat every single day.",
+    text: "The order that arrives by email, gets retyped into a spreadsheet, and then retyped again into the invoice.",
   },
   {
     label: "For a side project or startup",
-    text: "A prototype that lets you test your assumptions before you commit to them.",
+    text: "The idea you'd pitch tomorrow if you could show a working demo instead of a slide that describes one.",
   },
 ];
 
