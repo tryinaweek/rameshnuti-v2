@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FirstEditionForm } from "@/components/FirstEditionForm";
+import { ARC_LIMIT, arcsRemaining } from "@/lib/waitlist";
+
+// Re-read the advance-copy count at most once a minute.
+export const revalidate = 60;
 
 const TITLE = "Vibe Coding OS | An upcoming book by Ramesh Nuti";
 const DESCRIPTION =
@@ -78,24 +82,36 @@ const FAQ = [
     a: "No. The core ideas — choosing a problem, running a small experiment, judging what the results actually tell you — don't require a programming background, and vibe coding itself lowers the barrier to trying things. Real projects can still involve technical learning or help from someone experienced, and the book is honest about where that line shows up.",
   },
   {
+    q: "Did AI write this book?",
+    a: "No. Every story, lesson, and mistake in it is mine — from 75+ builds, two years of teaching AI to founders, and building ActionEDI. AI was my interviewer and co-editor: across 50+ hours it asked the questions, and helped me shape my answers into five parts. Then I edited every page, more than once. Writing it that way was the book's own argument in practice.",
+  },
+  {
     q: "Is this only for founders?",
     a: "No. The lessons come from founder experience, because that's the material I have — companies built, experiments run, hundreds of conversations. But the thinking applies to anyone with a problem they understand and something they want to try: professionals, students, creators, freelancers, small-business owners, and developers curious about building with AI.",
   },
   {
     q: "Is this a coding manual or a book about how to approach building?",
-    a: "A book about how to approach building. You won't find syntax references or tool tutorials. You'll find a way of thinking about where to start, how to build with AI, how to test your assumptions, and how to improve through evidence.",
+    a: "A book about how to approach building, in five parts. You won't find syntax references or tool tutorials. You'll find a way of thinking about where to start, how to build with AI, how to test your assumptions, and how to improve through evidence.",
   },
   {
     q: "What will I receive when I sign up?",
-    a: "Progress updates while the book is being written, and launch news when it's ready. As chapters become readable, I plan to share early material with the Circle and ask what's missing.",
+    a: `Launch news, and an email the moment the book is on Amazon. The first ${ARC_LIMIT} people on the waitlist also get an advance copy as a PDF before launch day. Read it early, and if you'd like, share an honest review once it's out.`,
   },
   {
     q: "When is the book coming out?",
-    a: "It's announced for January 2027. Publication details will be shared by email as they firm up.",
+    a: "This holiday season, on Amazon. The waitlist hears the exact date first.",
   },
 ];
 
-export default function VibeCodingOsPage() {
+export default async function VibeCodingOsPage() {
+  const remaining = await arcsRemaining();
+  const arcLine =
+    remaining === null
+      ? `The first ${ARC_LIMIT} people get an advance copy before launch day.`
+      : remaining > 0
+        ? `${remaining} of ${ARC_LIMIT} advance copies left. The first ${ARC_LIMIT} people get the book before launch day.`
+        : `All ${ARC_LIMIT} advance copies are claimed. Join to hear the moment it launches.`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Book",
@@ -104,8 +120,6 @@ export default function VibeCodingOsPage() {
     url: URL,
     author: { "@type": "Person", name: "Ramesh Nuti", url: "https://rameshnuti.com" },
     inLanguage: "en",
-    // Announced for January 2027; no ISBN or publisher confirmed yet.
-    datePublished: "2027-01",
   };
 
   return (
@@ -142,7 +156,7 @@ export default function VibeCodingOsPage() {
               {/* Typographic treatment — not the final cover. */}
               <div className="space-y-2 border-b border-slate-100 bg-white px-7 pb-6 pt-7 text-left">
                 <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                  Coming January 2027
+                  Launching this holiday season
                 </p>
                 <p className="text-2xl font-bold leading-tight tracking-tight text-slate-900">
                   Vibe Coding
@@ -153,9 +167,10 @@ export default function VibeCodingOsPage() {
                 </p>
               </div>
               <div className="px-7 py-6">
-                <p className="mb-4 text-sm font-semibold leading-snug text-slate-800">
-                  Join the First Edition Circle for book updates and launch news.
+                <p className="text-sm font-semibold leading-snug text-slate-800">
+                  Join the waitlist.
                 </p>
+                <p className="mb-4 mt-1 text-xs font-semibold leading-relaxed text-teal-accent">{arcLine}</p>
                 <FirstEditionForm />
               </div>
             </div>
@@ -254,7 +269,7 @@ export default function VibeCodingOsPage() {
           </div>
           <div className="space-y-4 md:col-span-8">
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-              Why I&apos;m writing Vibe Coding OS
+              Why I wrote Vibe Coding OS
             </h2>
             <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
               <p>
@@ -272,10 +287,14 @@ export default function VibeCodingOsPage() {
                 results.
               </p>
               <p>
-                This book is my attempt to write down what I&apos;ve learned while it is
-                still useful. You don&apos;t need to be a founder to use it. You need
-                something you wish existed, and the curiosity to find out what it could
-                become.
+                Every story, lesson, and mistake in this book is mine. I wrote it the way the
+                book says to build anything: with AI in the loop. AI was my interviewer and
+                co-editor &mdash; across 50+ hours it asked the questions, and helped me
+                shape my answers into five parts. Then I edited every page, more than once.
+              </p>
+              <p>
+                You don&apos;t need to be a founder to use it. You need something you wish
+                existed, and the curiosity to find out what it could become.
               </p>
             </div>
             <p className="pt-1 text-xs leading-relaxed text-slate-400">
@@ -330,10 +349,10 @@ export default function VibeCodingOsPage() {
           </h2>
           <p className="text-[15px] leading-relaxed text-slate-600">
             A useful tool, a small experiment, or an idea you have been carrying for
-            years &mdash; there is a starting point worth exploring. Join the First
-            Edition Circle for progress updates, launch news, and early material as
-            chapters become readable.
+            years &mdash; there is a starting point worth exploring. Join the waitlist
+            for launch news.
           </p>
+          <p className="text-sm font-semibold text-teal-accent">{arcLine}</p>
           <div className="premium-card mx-auto max-w-md p-7 text-left">
             <FirstEditionForm />
           </div>

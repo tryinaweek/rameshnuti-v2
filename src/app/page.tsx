@@ -301,7 +301,7 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-7 space-y-5">
             <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
-              Coming January 2027 &middot; New book
+              Launching this holiday season &middot; New book
             </span>
             <div>
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
@@ -345,11 +345,10 @@ export default async function HomePage() {
                   href="/vibe-coding-os"
                   className="btn-primary block px-6 py-3 text-sm text-center no-underline"
                 >
-                  Join the First Edition Circle
+                  Join the waitlist
                 </Link>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Follow the book as I finish it, read early ideas, and help shape the first
-                  edition.
+                  The first 50 people on the waitlist get an advance copy before launch day.
                 </p>
               </div>
             </div>
@@ -554,7 +553,7 @@ export default async function HomePage() {
       </section>
 
       {/* The general newsletter signup used to sit here. The homepage now has
-          one reason to give me an email address — the First Edition Circle —
+          one reason to give me an email address — the Vibe Coding OS waitlist —
           so it lives only in the Vibe Coding OS section above. /newsletter and
           NewsletterForm are untouched and still work elsewhere. */}
 

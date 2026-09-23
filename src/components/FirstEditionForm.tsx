@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useId, useState } from "react";
 
 /**
- * First Edition Circle signup for Vibe Coding OS.
+ * Vibe Coding OS launch waitlist signup.
  *
  * Deliberately not the NewsletterForm: that one hands the visitor off to
- * Substack, which is the wrong destination for a book circle. This writes
- * straight to THE LIST (public.people via /api/subscribe) under its own
- * source tag, so the two audiences stay separable without a second provider.
+ * Substack. This joins the waitlist in THE LIST via /api/waitlist, which
+ * returns the visitor's real position and whether they claimed one of the
+ * advance reader copies.
  *
  * After a successful signup, an optional "what would you build?" question is
  * offered. It's a separate, skippable submission to /api/book-idea and never
@@ -21,6 +21,8 @@ export function FirstEditionForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [already, setAlready] = useState(false);
+  const [position, setPosition] = useState<number | null>(null);
+  const [arc, setArc] = useState(false);
   const [error, setError] = useState("");
 
   const [idea, setIdea] = useState("");
@@ -33,10 +35,10 @@ export function FirstEditionForm() {
     setError("");
     setStatus("sending");
     try {
-      const res = await fetch("/api/subscribe", {
+      const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "vibe-coding-os" }),
+        body: JSON.stringify({ email }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -44,7 +46,9 @@ export function FirstEditionForm() {
         setStatus("idle");
         return;
       }
-      setAlready(Boolean(data.alreadySubscribed));
+      setAlready(Boolean(data.already));
+      setPosition(typeof data.position === "number" ? data.position : null);
+      setArc(Boolean(data.arc));
       setStatus("done");
     } catch {
       setError("Network error. Try again in a moment.");
@@ -73,16 +77,23 @@ export function FirstEditionForm() {
       <div className="animate-fade-up space-y-4 text-left">
         <div className="space-y-2">
           <p className="text-base font-bold tracking-tight text-slate-900">
-            {already ? "You're already on the list." : "You're on the list."}
+            {already
+              ? "You're already on the waitlist."
+              : position
+                ? `You're #${position} on the waitlist.`
+                : "You're on the waitlist."}
           </p>
           <p className="text-sm leading-relaxed text-slate-600">
-            I&apos;ll keep you posted as Vibe Coding OS takes shape. &mdash; Ramesh
+            {arc
+              ? "You're in the first 50, so an advance copy of the book (PDF) is coming your way before launch day."
+              : "I'll email you the moment Vibe Coding OS launches."}{" "}
+            &mdash; Ramesh
           </p>
         </div>
 
         {ideaStatus === "sent" ? (
           <p className="border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-600">
-            Thanks &mdash; reading these genuinely shapes the book.
+            Thanks &mdash; I read every one of these.
           </p>
         ) : ideaStatus === "skipped" ? null : (
           <form onSubmit={sendIdea} className="space-y-2.5 border-t border-slate-100 pt-4">
@@ -162,11 +173,11 @@ export function FirstEditionForm() {
         disabled={status === "sending"}
         className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
       >
-        {status === "sending" ? "Adding you..." : "Keep me in the loop"}
+        {status === "sending" ? "Adding you..." : "Join the waitlist"}
       </button>
 
       <p className="text-[11px] leading-relaxed text-slate-500">
-        Updates about Vibe Coding OS. Unsubscribe anytime.{" "}
+        Launch news about Vibe Coding OS. Unsubscribe anytime.{" "}
         <Link href="/privacy" className="font-semibold text-teal-accent hover:underline">
           Privacy policy
         </Link>

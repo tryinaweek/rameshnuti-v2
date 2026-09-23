@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
           reply_to: email,
           subject: `Vibe Coding OS — reader idea from ${email}`,
           text: [
-            "A First Edition Circle subscriber shared what they would love to build:",
+            "A Vibe Coding OS waitlist member shared what they would love to build:",
             "",
             idea,
             "",
