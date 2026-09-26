@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { SubstackEmbed } from "@/components/SubstackEmbed";
 import { LAB_COUNT_CLAIM } from "@/data/lab";
 import { buildNumberLabel, findFeaturedBuild } from "@/lib/builds";
 
@@ -356,6 +357,29 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* 3b. NEWSLETTER — Substack's own embed, right after the book.
+          Substack is the one mailing list; this is its supported signup. */}
+      <section className="py-16 px-6 bg-white border-b border-slate-100">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-6 space-y-3">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
+              Ship This Week
+            </h2>
+            <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
+              One email a week on Substack: what I built or tested, what it cost, what
+              broke, and anything worth stealing. Book news goes here too.
+            </p>
+          </div>
+          <div className="md:col-span-6">
+            <SubstackEmbed
+              heading="Ship This Week with Ramesh Nuti"
+              copy="Free. Read on Substack or in your inbox."
+              compact
+            />
+          </div>
+        </div>
+      </section>
+
       {/* 4. BUILD / LEARN / CONNECT / PARTNER */}
       <section id="paths" className="scroll-mt-20 py-20 px-6 bg-slate-light border-b border-slate-100">
         <div className="max-w-5xl mx-auto space-y-10">
@@ -552,10 +576,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* The general newsletter signup used to sit here. The homepage now has
-          one reason to give me an email address — the Vibe Coding OS waitlist —
-          so it lives only in the Vibe Coding OS section above. /newsletter and
-          NewsletterForm are untouched and still work elsewhere. */}
+      {/* Email on this page: the Vibe Coding OS waitlist (writes to THE LIST,
+          then Substack) and the Substack embed above it. Nothing else asks. */}
 
     </div>
   );

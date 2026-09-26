@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { SubstackEmbed } from "@/components/SubstackEmbed";
 
 interface ArticleLayoutProps {
   title: string;
@@ -72,6 +73,16 @@ export function ArticleLayout({
             {/* Article content block */}
             <div className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-teal-accent prose-a:no-underline hover:prose-a:underline">
               {children}
+            </div>
+
+            {/* End of every article: Substack's own signup. The sidebar form
+                above records the reader on THE LIST first; this one hands
+                straight to the mailing list. */}
+            <div className="pt-4">
+              <SubstackEmbed
+                heading="If this was useful, there's one a week"
+                copy="Ship This Week with Ramesh Nuti, on Substack. What I built, what it cost, what broke."
+              />
             </div>
           </div>
 
