@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 
 import { NEWSLETTER } from '@/lib/newsletter';
@@ -85,6 +86,15 @@ export default async function WorkshopResourcesPage(props: {
           </h1>
           <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
             Download the configuration files, prompts, and guides from this workshop.
+            {isN8nWorkshop && (
+              <>
+                {" "}
+                <Link href="/workshop" className="text-teal-accent font-semibold hover:underline">
+                  Setup steps and API keys
+                </Link>{" "}
+                are on the workshop page.
+              </>
+            )}
           </p>
         </div>
       </section>

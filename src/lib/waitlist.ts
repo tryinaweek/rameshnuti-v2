@@ -7,9 +7,13 @@
  * workshop) can join by being tagged, instead of bouncing off the unique
  * email constraint.
  *
- * Advance reader copies go to the first ARC_LIMIT people by join order. The
- * slot is decided once, at join time, and recorded as the "vcos-arc" tag, so
- * the ARC list is simply: tags contains vcos-arc.
+ * Advance reader copies go to the first ARC_LIMIT people by join order, which
+ * is exactly what the page promises. Both the "N of 50 left" counter and the
+ * decision at join time come from the member count, not from counting tags:
+ * people who joined before the advance-copy feature existed are members
+ * without the tag, and counting tags would skip them. The "vcos-arc" tag is
+ * still written at join time as the send list (docs/waitlist-arc-backfill.sql
+ * tags the early members).
  *
  * Server only: reads and tag updates use SUPABASE_SERVICE_ROLE_KEY.
  */
@@ -47,10 +51,13 @@ async function countWhere(filter: string): Promise<number | null> {
   return Number.isFinite(n) ? n : null;
 }
 
-/** Advance copies still unclaimed, or null when the count can't be read. */
+/**
+ * Advance copies still unclaimed, or null when the count can't be read.
+ * Every member so far holds one of the first ARC_LIMIT places in line.
+ */
 export async function arcsRemaining(): Promise<number | null> {
-  const claimed = await countWhere(`tags=cs.{${ARC_TAG}}`);
-  return claimed === null ? null : Math.max(0, ARC_LIMIT - claimed);
+  const members = await countWhere(MEMBER_FILTER);
+  return members === null ? null : Math.max(0, ARC_LIMIT - members);
 }
 
 interface PersonRow {
@@ -118,9 +125,9 @@ export async function joinWaitlist(email: string): Promise<JoinResult> {
 
   const position = await countWhere(MEMBER_FILTER);
 
+  // Your place in line decides the advance copy, nothing else.
   let arc = false;
-  const remaining = await arcsRemaining();
-  if (remaining !== null && remaining > 0) {
+  if (position !== null && position <= ARC_LIMIT) {
     const tags = row.tags ?? [];
     arc = await setTags(row.id, [...tags.filter((t) => t !== ARC_TAG), ARC_TAG]);
   }

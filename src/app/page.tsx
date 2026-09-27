@@ -133,19 +133,23 @@ export default function HomePage() {
                 into evidence faster, and back a few of them along the way.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                <a
-                  href="#paths"
-                  className="btn-primary px-6 py-3.5 text-sm text-center no-underline"
-                >
-                  Explore what I&apos;m building
-                </a>
-                <Link
-                  href="/about"
-                  className="btn-secondary px-6 py-3.5 text-sm text-center no-underline"
-                >
-                  About Ramesh
-                </Link>
+              {/* The Saturday email is the hero's one action. */}
+              <div id="newsletter" className="scroll-mt-24 space-y-3 pt-1 max-w-xl">
+                <p className="text-sm font-semibold text-slate-900 leading-relaxed">
+                  {NEWSLETTER.line}
+                </p>
+                <NewsletterForm sourceTag="newsletter-home" />
+                <p className="text-xs text-slate-500">
+                  Free, on Substack.{" "}
+                  <a href="#paths" className="font-semibold text-teal-accent no-underline hover:underline">
+                    Explore what I&apos;m building
+                  </a>{" "}
+                  or{" "}
+                  <Link href="/about" className="font-semibold text-teal-accent no-underline hover:underline">
+                    read about me
+                  </Link>
+                  .
+                </p>
               </div>
             </div>
 
@@ -348,38 +352,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3b. NEWSLETTER — the one mailing list, right after the book.
-          The form records the address and subscribes it on Substack. */}
-      <section id="newsletter" className="scroll-mt-20 py-16 px-6 bg-white border-b border-slate-100">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-6 space-y-3">
-            <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
-              {`${NEWSLETTER.cadence} · On Substack`}
-            </span>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
-              {NEWSLETTER.name}
-            </h2>
-            <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
-              {NEWSLETTER.promise}
-            </p>
-          </div>
-          <div className="md:col-span-6 space-y-3">
-            <NewsletterForm sourceTag="newsletter-home" />
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              Free. Unsubscribe from any email.{" "}
-              <a
-                href={NEWSLETTER.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-teal-accent hover:underline"
-              >
-                Read past issues
-              </a>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* 4. BUILD / LEARN / CONNECT / PARTNER */}
       <section id="paths" className="scroll-mt-20 py-20 px-6 bg-slate-light border-b border-slate-100">

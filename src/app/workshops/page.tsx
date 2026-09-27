@@ -41,7 +41,7 @@ export default async function WorkshopsIndexPage() {
           <p className="text-slate-600 text-sm md:text-base max-w-xl leading-relaxed">
             Every workshop I run ships with real, working assets — n8n workflows, agent
             prompts, guides. Grab them here, free. Want one run for your team?{' '}
-            <Link href="/workshop" className="text-teal-accent font-semibold hover:underline">
+            <Link href="/work-with-me" className="text-teal-accent font-semibold hover:underline">
               Here&apos;s how that works
             </Link>
             .
