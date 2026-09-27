@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react";
 
-import { BuildsManager } from "./BuildsManager";
 import { GptsManager } from "./GptsManager";
 import { PeopleManager } from "./PeopleManager";
 
@@ -34,7 +33,7 @@ interface AdminWorkshop {
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
-  const [section, setSection] = useState<"workshops" | "gpts" | "builds" | "people">("workshops");
+  const [section, setSection] = useState<"workshops" | "gpts" | "people">("workshops");
   const [workshops, setWorkshops] = useState<AdminWorkshop[]>([]);
   const [statsAvailable, setStatsAvailable] = useState(true);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
@@ -216,7 +215,7 @@ export default function AdminPage() {
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-left">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              {(["workshops", "gpts", "builds", "people"] as const).map((tab) => (
+              {(["workshops", "gpts", "people"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -233,18 +232,14 @@ export default function AdminPage() {
                     ? "Workshops"
                     : tab === "gpts"
                       ? "GPT Garden"
-                      : tab === "builds"
-                        ? "Build With Me"
-                        : "People"}
+                      : "People"}
                 </button>
               ))}
             </div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
               {section === "gpts"
                 ? "GPT Garden"
-                : section === "builds"
-                  ? "Build With Me"
-                  : section === "people"
+                : section === "people"
                     ? "People"
                     : open
                       ? open.title
@@ -253,9 +248,7 @@ export default function AdminPage() {
             <p className="text-xs text-slate-500 mt-0.5">
               {section === "gpts"
                 ? "/gpts — hide, edit, or add the custom GPTs shown on the public page."
-                : section === "builds"
-                  ? "/build — write next Saturday's edition, preview it, then publish."
-                  : section === "people"
+                : section === "people"
                     ? "Everyone who has given an address to any product, merged by email."
                     : open
                       ? `/workshops/${open.slug}`
@@ -286,8 +279,6 @@ export default function AdminPage() {
 
         {section === "gpts" ? (
           <GptsManager password={password} />
-        ) : section === "builds" ? (
-          <BuildsManager password={password} />
         ) : section === "people" ? (
           <PeopleManager password={password} />
         ) : (

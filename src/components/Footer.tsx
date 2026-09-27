@@ -10,26 +10,23 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
     heading: "Build",
     links: [
       { href: "/lab", label: "The Lab" },
-      { href: "/tools", label: "AI Tools" },
+      { href: "/tools", label: "Free tools" },
       { href: "/gpts", label: "GPT Garden" },
-      // Build With Me ships unlinked until the first teardown is written.
-      // Add { href: "/build", label: "Build With Me" } here to surface it.
+      { href: "/workshops", label: "Workshops" },
     ],
   },
   {
     heading: "Learn",
     links: [
+      { href: "https://startupvalue.substack.com", label: "Newsletter" },
       { href: "/vibe-coding-os", label: "Vibe Coding OS" },
       { href: "/articles", label: "Articles" },
-      { href: "/writing", label: "Writing" },
-      { href: "/courses", label: "Courses" },
     ],
   },
   {
     heading: "Connect",
     links: [
-      { href: "/workshops", label: "Events & workshops" },
-      { href: "/workshop", label: "AI workshop" },
+      { href: "https://startupgrind.com/frisco", label: "Startup Grind Frisco" },
       { href: "/#community", label: "Community" },
     ],
   },
@@ -54,15 +51,27 @@ export function Footer() {
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 {group.heading}
               </p>
-              {group.links.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="block text-[12px] text-slate-600 hover:text-teal-accent font-semibold no-underline transition-colors py-0.5"
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {group.links.map((l) =>
+                l.href.startsWith("http") ? (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-[12px] text-slate-600 hover:text-teal-accent font-semibold no-underline transition-colors py-0.5"
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className="block text-[12px] text-slate-600 hover:text-teal-accent font-semibold no-underline transition-colors py-0.5"
+                  >
+                    {l.label}
+                  </Link>
+                ),
+              )}
             </div>
           ))}
         </div>

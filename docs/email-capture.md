@@ -1,114 +1,87 @@
 # Email capture
 
-One rule: **every address captured anywhere ends up in Substack.**
+One rule: **every address captured on this site ends up in Substack.**
 
 | Layer | System | Role |
 |---|---|---|
-| Mailing list | Substack, `startupvalue.substack.com` ("Ship This Week with Ramesh Nuti") | The only thing that ever sends a broadcast. Newsletter, book launch, all of it. |
-| Memory | Supabase `public.people` (THE LIST) | Who signed up, for what, when, from where. Never sends email. Never a second list. |
-| Automations | GoHighLevel | Its own workflows, untouched. Every contact it captures must also be posted to this site so it reaches Substack. |
+| Mailing list | Substack, `startupvalue.substack.com` | The only thing that ever sends to subscribers. Every Saturday. |
+| Memory | Supabase `public.people` (THE LIST) | Who signed up, for what, when. Never sends email. |
+| Automations | GoHighLevel | Its own workflows. Anything it captures is posted to `/api/subscribe`. |
 
-## The one endpoint
+The newsletter is described once, in `src/lib/newsletter.ts`. Every form and
+every mention reads from it, so the site can't drift back into promising five
+different newsletters.
 
-`POST /api/subscribe` with `{ "email": "...", "name": "optional", "source": "where-it-came-from" }`.
+## The two forms
 
-It does two things, in this order:
+| Form | Where | Endpoint |
+|---|---|---|
+| `NewsletterForm` | Homepage, articles, about, lab, tools, workshop gates | `POST /api/subscribe` |
+| `FirstEditionForm` | `/vibe-coding-os` | `POST /api/waitlist` |
 
-1. Inserts into `people` with the anon key. A 409 means the address was already
-   there, which is fine.
-2. Calls `syncToSubstack()` (`src/lib/substack.ts`). If Substack accepts the
-   address, `substack_synced` / `substack_synced_at` are stamped on the row.
+Both endpoints do the same two steps, in this order:
 
-Response: `{ ok, alreadySubscribed, substack: "synced" | "pending", audited }`.
-The visitor's outcome never depends on step 2.
+1. **Record it on THE LIST.** The address survives whatever happens next.
+   The waitlist also assigns position and the first 50 advance copies here,
+   and nothing after this step can change that.
+2. **Hand it to Substack** with `syncToSubstack()` (`src/lib/substack.ts`).
+   On success, `substack_synced` / `substack_synced_at` are stamped on the row.
 
-Every form on the site already posts here (`NewsletterForm`), so the workshop
-download gate, the article sidebar, the tools pages, and the courses waitlist
-all flow through it. The book waitlist is the one exception in shape, not in
-rule: `/api/waitlist` runs its own Supabase insert first (it decides waitlist
-position and the first 50 advance copies, and that ordering must never
-change), then calls the same `syncToSubstack()` with
-`source: "website:book-waitlist"`.
+If Substack doesn't confirm, the visitor sees a one-click **Confirm on
+Substack** link to Substack's own signup page, prefilled. No popup, no silent
+failure.
 
-## Which Substack method, and why
+A workshop gate is just `NewsletterForm` with `redirectTo`: it sets the unlock
+and attribution cookies, subscribes the address, then offers the files.
 
-Substack has no supported API for adding a subscriber. Its Developer API
-(2026) only looks up creator profiles. What Substack does support:
+## How it reaches Substack
 
-1. The official signup **embed** (`/embed` iframe)
-2. The **/subscribe** page, with the address prefilled
-3. **CSV import** from the publisher dashboard
+Substack has no supported API for adding a subscriber. What it supports is its
+signup embed, its `/subscribe` page, and CSV import. So:
 
-None of those is callable from a server, so the site uses all three in layers:
+- **Automatic:** the server posts to `{publication}/api/v1/free`, the request
+  Substack's own embed makes. Undocumented, credential-free, idempotent.
+- **One click, supported:** the "Confirm on Substack" link when the automatic
+  step didn't land.
+- **Catch-up, supported:** Admin → People → **Download for Substack** gives
+  every unsynced address as Substack's import CSV. Import it at *Settings →
+  Subscribers → Import*, then click **I imported them**.
 
-- **Client side, supported:** `SubstackEmbed` (the official iframe) on the
-  homepage and at the end of every article. `NewsletterForm` still opens
-  `/subscribe?email=` in a new tab after posting to `/api/subscribe`.
-- **Server side, best effort:** `subscribeToSubstack()` posts to
-  `{publication}/api/v1/free?nojs=true`, the request the official embed itself
-  makes when its button is pressed. Undocumented, credential-free, idempotent
-  for an existing address. Any failure (timeout, captcha, 5xx) is logged and
-  the row stays `substack_synced = false`.
-- **Safety net, supported:** `GET /api/admin/substack` (admin password header)
-  returns every unsynced row as the exact CSV Substack's import accepts. Import
-  it at *Settings → Subscribers → Import*, then `POST /api/admin/substack`
-  with `{ "emails": [...] }` to mark them synced. If the undocumented request
-  ever stops working, nothing is lost and the fallback is fully supported.
-
-Double opt-in is Substack's decision. This site sends no email of any kind;
-whatever confirmation flow the publication has enabled runs exactly as it
-would for an embed signup.
-
-The one capture that does **not** touch Supabase is the official embed
-itself: the iframe never tells this site the address. That is by design.
-Supabase is memory, not the list.
+Because step 1 always runs first, the catch-up can recover anyone. Nobody who
+typed an address into this site is ever lost.
 
 ## GoHighLevel
 
-Nothing in this repository talks to GoHighLevel, and no page on rameshnuti.com
-embeds a GHL form. The workshop download gate is `NewsletterForm`, which
-already goes through `/api/subscribe`. So the bridge for GHL is a Webhook
-action inside each GHL workflow that captures a contact, pointing at this
-endpoint.
+Nothing in this repository talks to GoHighLevel. The bridge is one Webhook
+action per GHL workflow that captures a contact:
 
-For each GHL form or funnel that creates a contact:
-
-1. GoHighLevel → **Automation** → open the workflow that runs when the form is
-   submitted (or create one with the trigger *Form Submitted* / *Survey
-   Submitted* / *Order Form Submission* for that form).
-2. Click **+** after the trigger → **Webhook**.
-3. Method: **POST**. URL: `https://rameshnuti.com/api/subscribe`.
-4. Under *Custom Data* add three fields:
-   - `email` → `{{contact.email}}`
-   - `name` → `{{contact.first_name}}`
-   - `source` → `ghl:<form-name>` (type it literally, e.g. `ghl:workshop-download`)
-5. Save the action, then **Publish** the workflow (top-right toggle).
-6. Test: submit the form once with your own address. In Supabase, the `people`
-   row appears with `source = ghl:<form-name>`; in Substack, the address shows
-   under *Subscribers* within a minute.
-
-Existing GHL steps are untouched; this only adds one action per workflow.
+1. GoHighLevel → **Automation** → open the workflow for the form.
+2. **+** after the trigger → **Webhook**.
+3. Method **POST**, URL `https://rameshnuti.com/api/subscribe`.
+4. Custom Data: `email` = `{{contact.email}}`, `name` = `{{contact.first_name}}`,
+   `source` = `ghl:<form-name>`.
+5. Save, then **Publish** the workflow.
 
 ## Setup
 
-Run `docs/substack-sync.sql` once in the Supabase SQL editor. Until it runs,
-signups still work and still reach Substack; only the audit stamp is skipped
-(the PATCH fails quietly and `audited: false` comes back).
+Run `docs/substack-sync.sql` once in Supabase. Until then, signups still reach
+Substack; only the audit stamp and the catch-up export are unavailable.
 
 | Variable | Needed for |
 |---|---|
-| `SUPABASE_SERVICE_ROLE_KEY` | Stamping the audit columns, and the admin export |
+| `SUPABASE_SERVICE_ROLE_KEY` | The audit stamp, the waitlist, and the catch-up export |
+| `ADMIN_PASSWORD` | The admin panel |
 | `SUBSTACK_PUBLICATION_URL` | Optional. Defaults to `https://startupvalue.substack.com` |
-| `SUPABASE_URL` | Optional. Defaults to the project; overridable for local testing |
 
 ## Files
 
 ```
+src/lib/newsletter.ts                  name, cadence, promise, URL — the one description
 src/lib/substack.ts                    subscribeToSubstack, markSubstackSynced, syncToSubstack
-src/app/api/subscribe/route.ts         the one endpoint (forms, GHL webhooks)
-src/app/api/waitlist/route.ts          book waitlist: Supabase first, then Substack
-src/app/api/admin/substack/route.ts    reconciliation CSV export + mark-synced
-src/components/SubstackEmbed.tsx       the official embed, made responsive
-src/components/NewsletterForm.tsx      unchanged; posts to /api/subscribe
+src/app/api/subscribe/route.ts         every NewsletterForm, and GoHighLevel webhooks
+src/app/api/waitlist/route.ts          the book waitlist, then Substack
+src/app/api/admin/substack/route.ts    catch-up CSV and mark-synced
+src/components/NewsletterForm.tsx      the one signup form
+src/app/admin/PeopleManager.tsx        the catch-up buttons
 docs/substack-sync.sql                 the two audit columns
 ```

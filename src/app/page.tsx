@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { SubstackEmbed } from "@/components/SubstackEmbed";
+import { NewsletterForm } from "@/components/NewsletterForm";
 import { LAB_COUNT_CLAIM } from "@/data/lab";
-import { buildNumberLabel, findFeaturedBuild } from "@/lib/builds";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 export const metadata: Metadata = {
   title: "Ramesh Nuti | Founder, Builder, Investor",
@@ -12,8 +12,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://rameshnuti.com" },
 };
 
-// Picks up a newly featured build without a redeploy.
-export const revalidate = 60;
 
 /** Credibility, not a headline. Every number here is backed elsewhere on the site. */
 const PROOF = [
@@ -35,10 +33,8 @@ const PATHS = [
     blurb:
       "Tools, experiments, the Lab, and workshops. Things I have actually shipped, with the useful parts left visible.",
     cta: { label: "Explore the Lab", href: "/lab" },
-    // Build With Me ships unlinked until the first teardown is written. Add
-    // { label: "Build With Me", href: "/build" } here to surface it.
     links: [
-      { label: "AI tools", href: "/tools" },
+      { label: "Free tools", href: "/tools" },
       { label: "GPT Garden", href: "/gpts" },
       { label: "Workshops", href: "/workshops" },
     ],
@@ -51,8 +47,7 @@ const PATHS = [
     cta: { label: "Explore resources", href: "/articles" },
     links: [
       { label: "Vibe Coding OS", href: "/vibe-coding-os" },
-      { label: "Courses", href: "/courses" },
-      { label: "Writing", href: "/writing" },
+      { label: "Newsletter", href: NEWSLETTER.url, external: true },
     ],
   },
   {
@@ -110,11 +105,7 @@ const FEATURED = [
   },
 ];
 
-export default async function HomePage() {
-  // Null until a published build is flagged "feature on the homepage" in the
-  // admin panel, so nothing reaches the homepage before Ramesh says so.
-  const featured = await findFeaturedBuild();
-
+export default function HomePage() {
   return (
     <div className="space-y-0 bg-white min-h-screen font-sans text-slate-900">
 
@@ -357,25 +348,35 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3b. NEWSLETTER — Substack's own embed, right after the book.
-          Substack is the one mailing list; this is its supported signup. */}
-      <section className="py-16 px-6 bg-white border-b border-slate-100">
+      {/* 3b. NEWSLETTER — the one mailing list, right after the book.
+          The form records the address and subscribes it on Substack. */}
+      <section id="newsletter" className="scroll-mt-20 py-16 px-6 bg-white border-b border-slate-100">
         <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-6 space-y-3">
+            <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
+              {`${NEWSLETTER.cadence} · On Substack`}
+            </span>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
-              Ship This Week
+              {NEWSLETTER.name}
             </h2>
             <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
-              One email a week on Substack: what I built or tested, what it cost, what
-              broke, and anything worth stealing. Book news goes here too.
+              {NEWSLETTER.promise}
             </p>
           </div>
-          <div className="md:col-span-6">
-            <SubstackEmbed
-              heading="Ship This Week with Ramesh Nuti"
-              copy="Free. Read on Substack or in your inbox."
-              compact
-            />
+          <div className="md:col-span-6 space-y-3">
+            <NewsletterForm sourceTag="newsletter-home" />
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              Free. Unsubscribe from any email.{" "}
+              <a
+                href={NEWSLETTER.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-teal-accent hover:underline"
+              >
+                Read past issues
+              </a>
+              .
+            </p>
           </div>
         </div>
       </section>
@@ -434,41 +435,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. BUILD WITH ME — appears only once a build is flagged in /admin */}
-      {featured && (
-        <section className="bg-brand-navy py-20 px-6 text-white">
-          <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-10 items-center">
-            <div className="md:col-span-7 space-y-4 text-left">
-              <span className="inline-block rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-brand-cyan">
-                Build With Me &middot; Build {buildNumberLabel(featured.build_number)}
-              </span>
-              <h2 className="text-3xl font-bold tracking-tight">{featured.title}</h2>
-              <p className="text-slate-300 text-sm leading-relaxed max-w-xl">
-                {featured.short_description}
-              </p>
-              <p className="text-slate-400 text-xs">
-                {featured.difficulty} &middot; {featured.estimated_build_time}
-              </p>
-            </div>
-            <div className="md:col-span-5 flex flex-col gap-3 md:items-end">
-              <Link
-                href={`/build/${featured.slug}`}
-                className="rounded-lg bg-white px-6 py-3.5 text-sm font-bold text-slate-900 no-underline text-center transition-colors hover:bg-slate-100"
-              >
-                Read the teardown &rarr;
-              </Link>
-              <Link
-                href="/build"
-                className="rounded-lg border border-white/25 px-6 py-3.5 text-sm font-bold text-white no-underline text-center transition-colors hover:bg-white/10"
-              >
-                See every build
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
 
-      {/* 6. FEATURED RESOURCES — three, then get out of the way */}
+      {/* 5. FEATURED RESOURCES — three, then get out of the way */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-5xl mx-auto space-y-10">
           <div className="max-w-2xl space-y-2">
@@ -509,13 +477,13 @@ export default async function HomePage() {
               href="/tools"
               className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-500 hover:text-slate-900 transition-colors no-underline"
             >
-              Browse everything in the Lab &rarr;
+              Browse all the free tools &rarr;
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 7. COMMUNITY — supports Connect, not a second funnel */}
+      {/* 6. COMMUNITY — supports Connect, not a second funnel */}
       <section
         id="community"
         className="scroll-mt-20 py-20 px-6 bg-slate-light border-t border-slate-100"

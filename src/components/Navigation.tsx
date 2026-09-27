@@ -22,20 +22,16 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
     heading: "Build",
     links: [
       { href: "/lab", label: "The Lab" },
-      { href: "/tools", label: "AI Tools" },
-      { href: "/gpts", label: "GPT Garden" },
-      // Build With Me ships unlinked until the first teardown is written.
-      // Add { href: "/build", label: "Build With Me" } here to surface it.
+      { href: "/tools", label: "Free tools" },
       { href: "/workshops", label: "Workshops" },
     ],
   },
   {
     heading: "Learn",
     links: [
+      { href: "https://startupvalue.substack.com", label: "Newsletter" },
       { href: "/vibe-coding-os", label: "Vibe Coding OS" },
       { href: "/articles", label: "Articles" },
-      { href: "/writing", label: "Writing" },
-      { href: "/courses", label: "Courses" },
     ],
   },
   {
@@ -43,7 +39,6 @@ const groups: { heading: string | null; links: { href: string; label: string }[]
     links: [
       { href: "https://startupgrind.com/frisco", label: "Startup Grind Frisco" },
       { href: "/#community", label: "Community" },
-      { href: "/workshops", label: "Events" },
     ],
   },
   {

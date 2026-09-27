@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 const EXAMPLES = [
   {
@@ -541,11 +542,11 @@ export default function Analyzer() {
               <div>
                 <h4 className="text-base font-bold text-slate-900 mb-1">Found these blind spots useful?</h4>
                 <p className="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">
-                  Subscribe to get my private prompt models, n8n agent templates, and founder plays.
+                  {NEWSLETTER.line}
                 </p>
               </div>
               <div className="max-w-sm mx-auto pt-2">
-                <NewsletterForm sourceTag="tool-pitch-analyzer" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+                <NewsletterForm sourceTag="tool-pitch-analyzer" />
               </div>
             </div>
           </div>

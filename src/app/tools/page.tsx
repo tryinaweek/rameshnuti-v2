@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 export const metadata: Metadata = {
   title: "Tools & Resources | Ramesh Nuti",
@@ -58,23 +59,6 @@ const vibeCodingFundamentals = [
   { letter: "C", name: "CONTEXT", desc: "Your results are only as good as the system prompt and codebase details you feed in" },
 ];
 
-const apps = [
-  {
-    name: "TheHeadshotApp",
-    description: "AI-powered professional headshots. 3 free headshots to get started.",
-    url: "https://theheadshotapp.com",
-  },
-  {
-    name: "MovedToday",
-    description: "One-button physical movement tracker. Intentionally minimal.",
-    url: "https://apps.apple.com/us/app/moved-today/id6757989197",
-  },
-  {
-    name: "Get Started with Replit",
-    description: "Cloud-based editor with built-in version control. Use refer link for $10 free credit.",
-    url: "https://replit.com/refer/ramesh-nuti",
-  },
-];
 
 export default function ToolsPage() {
   return (
@@ -206,7 +190,7 @@ export default function ToolsPage() {
                 </p>
               </div>
               <a
-                href="https://ailab.svyam.co"
+                href="/gpts"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary py-3.5 px-6 text-sm text-center w-full md:w-auto inline-block whitespace-nowrap"
@@ -292,36 +276,26 @@ export default function ToolsPage() {
             </div>
           </div>
 
-          {/* Shipped Apps Showcase */}
-          <div className="space-y-6 pt-4">
-            <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold text-slate-900 tracking-tight">Apps I Shipped Without Code</h3>
-              <p className="text-slate-500 text-sm">
-                Built natively on cloud developer setups. Fully functional.
-              </p>
-            </div>
-            
-            <div className="grid sm:grid-cols-3 gap-4">
-              {apps.map((app) => (
+          {/* The shipped apps live in one place: the Lab. */}
+          <div className="premium-card p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 tracking-tight">Apps I shipped without code</h3>
+              <p className="text-slate-500 text-sm mt-1">
+                Every one of them, with what each taught me, is in the Lab. Building your own?{" "}
                 <a
-                  key={app.name}
-                  href={app.url}
+                  href="https://replit.com/refer/ramesh-nuti"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="premium-card p-6 no-underline block text-left"
+                  className="font-semibold text-teal-accent hover:underline"
                 >
-                  <h4 className="text-sm font-bold text-slate-900 group-hover:text-teal-accent transition-colors">
-                    {app.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-2 leading-relaxed h-12 overflow-hidden">
-                    {app.description}
-                  </p>
-                  <span className="inline-block mt-4 text-[10px] font-mono font-bold tracking-wider text-teal-accent uppercase group-hover:underline">
-                    View Project &rarr;
-                  </span>
+                  Replit gives you $10 credit
                 </a>
-              ))}
+                .
+              </p>
             </div>
+            <Link href="/lab" className="btn-secondary px-5 py-2.5 text-sm text-center no-underline whitespace-nowrap">
+              Open the Lab &rarr;
+            </Link>
           </div>
         </div>
       </section>
@@ -329,12 +303,12 @@ export default function ToolsPage() {
       {/* Newsletter signup section */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-xl mx-auto text-center space-y-6">
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Get new utilities first</h2>
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{NEWSLETTER.name}</h2>
           <p className="text-slate-500 text-sm">
-            I post new tools, prompt cheat sheets, and automation setups every week on Substack. Join 1,000+ creators.
+            {NEWSLETTER.line}
           </p>
           
-          <NewsletterForm sourceTag="tools" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+          <NewsletterForm sourceTag="tools" />
         </div>
       </section>
     </div>

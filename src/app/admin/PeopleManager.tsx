@@ -38,6 +38,9 @@ export function PeopleManager({ password }: { password: string }) {
   const [query, setQuery] = useState("");
   const [app, setApp] = useState("all");
   const [expanded, setExpanded] = useState<string | null>(null);
+  // Substack catch-up: addresses in the last downloaded import file.
+  const [exported, setExported] = useState<string[] | null>(null);
+  const [substackMsg, setSubstackMsg] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -112,6 +115,58 @@ export function PeopleManager({ password }: { password: string }) {
     URL.revokeObjectURL(url);
   };
 
+  /**
+   * Everyone THE LIST has that Substack hasn't confirmed, as the CSV
+   * Substack's own importer takes. The supported fallback for any signup the
+   * automatic sync couldn't hand over.
+   */
+  const downloadSubstackCatchUp = async () => {
+    setSubstackMsg("");
+    const res = await fetch("/api/admin/substack", { headers: { "x-admin-password": password } });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setSubstackMsg(body.error || `Export failed (${res.status})`);
+      return;
+    }
+    const csv = await res.text();
+    const emails = csv
+      .split("\n")
+      .slice(1)
+      .map((line) => line.split(",")[0].replace(/^"|"$/g, "").trim())
+      .filter(Boolean);
+    if (emails.length === 0) {
+      setExported(null);
+      setSubstackMsg("Nothing to catch up: every address on the list is already synced to Substack.");
+      return;
+    }
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `substack-import-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setExported(emails);
+    setSubstackMsg(
+      `${emails.length} address${emails.length === 1 ? "" : "es"} downloaded. Import the file in Substack (Settings → Subscribers → Import), then mark them synced here.`,
+    );
+  };
+
+  const markExportedSynced = async () => {
+    if (!exported) return;
+    const res = await fetch("/api/admin/substack", {
+      method: "POST",
+      headers: { "x-admin-password": password, "Content-Type": "application/json" },
+      body: JSON.stringify({ emails: exported }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setSubstackMsg(body.error || `Could not mark synced (${res.status})`);
+      return;
+    }
+    setExported(null);
+    setSubstackMsg(`Marked ${body.marked} of ${body.of} as synced.`);
+  };
+
   const fmt = (iso: string | null) =>
     iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "—";
 
@@ -178,6 +233,34 @@ export function PeopleManager({ password }: { password: string }) {
         >
           Export CSV
         </button>
+      </div>
+
+      {/* Substack is the one mailing list; this catches anyone the automatic
+          sync missed. */}
+      <div className="bg-slate-light border border-slate-200 rounded-xl p-4 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <p className="text-xs text-slate-600 leading-relaxed">
+            <strong className="text-slate-900">Substack catch-up.</strong> Anyone on the list
+            Substack hasn&apos;t confirmed yet, in Substack&apos;s import format.
+          </p>
+          <div className="flex gap-2 shrink-0">
+            <button
+              onClick={downloadSubstackCatchUp}
+              className="btn-secondary px-4 py-2 text-xs whitespace-nowrap cursor-pointer"
+            >
+              Download for Substack
+            </button>
+            {exported && (
+              <button
+                onClick={markExportedSynced}
+                className="btn-primary px-4 py-2 text-xs whitespace-nowrap cursor-pointer"
+              >
+                I imported them
+              </button>
+            )}
+          </div>
+        </div>
+        {substackMsg && <p className="text-xs text-slate-600">{substackMsg}</p>}
       </div>
 
       <p className="text-xs text-slate-500">

@@ -10,25 +10,25 @@
  * page, and (3) a CSV import from the publisher dashboard. None of those is
  * something a server can call.
  *
- * So this site uses all three, in layers:
+ * So this site records every address itself, then uses the one server
+ * request that works and the two supported paths as its fallbacks:
  *
- *   Client side  — the official embed (SubstackEmbed.tsx), and NewsletterForm
- *                  opening the /subscribe page with the address prefilled. Both
- *                  fully supported; Substack owns confirmation and opt-in.
+ *   Every form  — NewsletterForm and the book waitlist post to this site.
+ *                  The address is recorded on THE LIST first, so nothing is
+ *                  ever lost, then handed to Substack by the function below.
  *
- *   Server side  — subscribeToSubstack() below posts to
- *                  {publication}/api/v1/free, which is the request the
- *                  official embed makes when its button is pressed. It is not
- *                  documented, but it needs no credentials, has carried every
- *                  embed signup for years, and is idempotent for an address
- *                  that is already subscribed. It is treated as best effort:
- *                  any failure is logged and recorded, never surfaced.
+ *   Server side  — subscribeToSubstack() posts to
+ *                  {publication}/api/v1/free, which is the request Substack's
+ *                  own embed makes when its button is pressed. It is not
+ *                  documented, but it needs no credentials and is idempotent
+ *                  for an address that is already subscribed. Best effort:
+ *                  when it fails, the visitor is shown a one-click "confirm on
+ *                  Substack" link, and the row stays unsynced.
  *
- *   Safety net   — every attempt is audited on THE LIST (substack_synced /
- *                  substack_synced_at). /api/admin/substack-export turns the
- *                  unsynced rows into the exact CSV Substack's dashboard
- *                  import accepts, so if the undocumented request ever stops
- *                  working, nothing is lost and the fallback is supported.
+ *   Safety net   — every success is stamped on THE LIST (substack_synced /
+ *                  substack_synced_at). Admin → People → "Download for
+ *                  Substack" turns the unsynced rows into the CSV Substack's
+ *                  importer takes, so the supported path always catches up.
  *
  * Double opt-in: Substack decides. We never send an email of any kind, and
  * whatever confirmation flow the publication has enabled runs as it would for

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 
-import { NewsletterForm } from '@/components/NewsletterForm';
+import { NEWSLETTER } from '@/lib/newsletter';
 import {
   DEFAULT_WORKSHOP,
   fileExtension,
@@ -208,20 +208,20 @@ export default async function WorkshopResourcesPage(props: {
         </>
       )}
 
-      {/* Newsletter */}
-      <section className="py-16 px-6 bg-slate-light border-t border-slate-200 mt-8">
-        <div className="max-w-xl mx-auto text-center space-y-5">
-          <p className="text-slate-600 text-sm">
-            I break down a live AI workflow like this every single week.
-          </p>
-          <div className="max-w-md mx-auto">
-            <NewsletterForm
-              sourceTag={`workshop-${slug}`}
-              variant="standard"
-              buttonText="Subscribe"
-            />
-          </div>
-        </div>
+      {/* They subscribed at the gate, so no second form: just where to read. */}
+      <section className="py-12 px-6 bg-slate-light border-t border-slate-200 mt-8">
+        <p className="max-w-xl mx-auto text-center text-slate-600 text-sm leading-relaxed">
+          {NEWSLETTER.line}{" "}
+          <a
+            href={NEWSLETTER.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-teal-accent hover:underline"
+          >
+            Read past issues on Substack
+          </a>
+          .
+        </p>
       </section>
     </div>
   );
