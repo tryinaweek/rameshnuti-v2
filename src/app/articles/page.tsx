@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 import { articles } from "@/data/articles";
 
 import { getSubstackPosts } from "./substack";
@@ -162,8 +163,7 @@ export default async function Page() {
             Get the next one in your inbox
           </h2>
           <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
-            One 5-minute email a week — what shipped, what broke, and the exact prompts and
-            systems behind it. Free.
+            {NEWSLETTER.line} Free, on Substack.
           </p>
           <div className="max-w-md mx-auto">
             <NewsletterForm variant="navy" sourceTag="articles" buttonText="Subscribe" />

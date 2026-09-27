@@ -6,10 +6,10 @@ import { useId, useState } from "react";
 /**
  * Vibe Coding OS launch waitlist signup.
  *
- * Deliberately not the NewsletterForm: that one hands the visitor off to
- * Substack. This joins the waitlist in THE LIST via /api/waitlist, which
- * returns the visitor's real position and whether they claimed one of the
- * advance reader copies.
+ * Its own form, not NewsletterForm, because /api/waitlist does more than
+ * subscribe: it returns the visitor's real position and whether they claimed
+ * one of the advance reader copies. It still ends in Substack — the route
+ * subscribes the address after the waitlist insert.
  *
  * After a successful signup, an optional "what would you build?" question is
  * offered. It's a separate, skippable submission to /api/book-idea and never

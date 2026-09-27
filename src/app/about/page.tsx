@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 export const metadata: Metadata = {
   title: "About",
@@ -274,7 +275,7 @@ export default function AboutPage() {
               Let&apos;s build together.
             </h2>
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
-              I share vibe coding frameworks and early investment theses weekly. Join 1,000+ builders or get in touch on LinkedIn.
+              {NEWSLETTER.line} Or say hello on LinkedIn.
             </p>
             <div className="pt-2">
               <a
@@ -290,9 +291,9 @@ export default function AboutPage() {
 
           <div className="md:col-span-6 w-full text-center space-y-4 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-8">
             <p className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest text-left">
-              Join The Weekend Builder list:
+              {`${NEWSLETTER.name} · ${NEWSLETTER.cadence}`}
             </p>
-            <NewsletterForm sourceTag="newsletter-about" variant="standard" buttonText="Subscribe Free" placeholder="Enter your email" />
+            <NewsletterForm sourceTag="newsletter-about" />
           </div>
 
         </div>

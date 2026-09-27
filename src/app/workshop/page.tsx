@@ -157,17 +157,6 @@ export default function WorkshopPage() {
         </div>
       </section>
 
-      {/* Substack Newsletter */}
-      <section className="py-16 px-6 bg-slate-light border-t border-slate-200">
-        <div className="max-w-xl mx-auto text-center space-y-5">
-          <p className="text-slate-600 text-sm">
-            I break down a live AI workflow like this every single week.
-          </p>
-          <div className="max-w-md mx-auto">
-            <NewsletterForm sourceTag="workshop" variant="standard" buttonText="Subscribe" />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

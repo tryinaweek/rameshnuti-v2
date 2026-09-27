@@ -43,8 +43,8 @@ export default async function WorkshopUnlockPage(props: {
           </h1>
           <p className="text-slate-600 text-sm leading-relaxed">
             Enter your email to unlock every file from this workshop — workflows,
-            prompts, and guides. You&apos;ll also get my weekly newsletter (free,
-            unsubscribe anytime).
+            prompts, and guides. You&apos;ll also get the Saturday playbook on
+            Substack (free, unsubscribe anytime).
           </p>
           <div className="premium-card p-6">
             <NewsletterForm

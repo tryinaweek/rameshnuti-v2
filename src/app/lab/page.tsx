@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 import { LAB_APPS, LAB_COUNT_CLAIM, type LabStatus } from "@/data/lab";
 
 export const metadata: Metadata = {
@@ -148,12 +149,10 @@ export default function LabPage() {
             </a>
           </div>
           <div className="pt-6 max-w-md mx-auto">
-            <NewsletterForm
-              sourceTag="lab"
-              variant="standard"
-              buttonText="Get the weekly build"
-              placeholder="Email address"
-            />
+            <p className="text-xs text-slate-500 mb-3">
+              {NEWSLETTER.line}
+            </p>
+            <NewsletterForm sourceTag="lab" />
           </div>
         </div>
       </section>

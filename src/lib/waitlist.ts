@@ -14,7 +14,8 @@
  * Server only: reads and tag updates use SUPABASE_SERVICE_ROLE_KEY.
  */
 
-const SUPABASE_URL = "https://nbfkibomkxvqyaoakmma.supabase.co";
+// Overridable so the capture paths can be exercised against a local stand-in.
+const SUPABASE_URL = process.env.SUPABASE_URL ?? "https://nbfkibomkxvqyaoakmma.supabase.co";
 
 export const WAITLIST_TAG = "vibe-coding-os";
 export const ARC_TAG = "vcos-arc";

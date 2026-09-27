@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 interface ArticleLayoutProps {
   title: string;
@@ -37,10 +38,10 @@ export function ArticleLayout({
         {/* Back navigation */}
         <div className="mb-10">
           <Link
-            href="/writing"
+            href="/articles"
             className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-teal-accent transition-colors gap-2"
           >
-            &larr; Back to writing
+            &larr; All articles
           </Link>
         </div>
 
@@ -79,14 +80,15 @@ export function ArticleLayout({
           <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
             {/* Newsletter form */}
             <div className="p-6 md:p-8 bg-slate-light border border-slate-100 rounded-2xl text-left space-y-4">
-              <h3 className="text-lg font-bold text-slate-900">
-                Subscribe to the Newsletter
-              </h3>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Join 1,000+ readers who start their week with a 5-minute essay on building startups and vibe coding.
+              {/* On narrow screens this box follows the article, so it is
+                  also the end-of-article signup. One form, never two. */}
+              <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                {`${NEWSLETTER.cadence} · On Substack`}
               </p>
+              <h3 className="text-lg font-bold text-slate-900">{NEWSLETTER.name}</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">{NEWSLETTER.promise}</p>
               <div className="pt-2">
-                <NewsletterForm variant="standard" buttonText="Subscribe" />
+                <NewsletterForm sourceTag="newsletter-article" />
               </div>
             </div>
 
