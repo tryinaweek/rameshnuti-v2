@@ -14,6 +14,9 @@ export const NEWSLETTER = {
   promise: "One AI playbook for founders who don't code. One system, one thing you can use that day.",
   /** The full sentence, exactly as it went out in the restart email. */
   line: "Every Saturday: one AI playbook for founders who don't code. One system, one thing you can use that day.",
+  /** Shown on every workshop download gate, so no gate subscribes anyone silently. */
+  gateNote: "You'll also get the Saturday playbook on Substack. Free, and you can unsubscribe anytime.",
+  gateButton: "Unlock files & subscribe",
 } as const;
 
 /** Substack's own signup page, with the address prefilled when we have it. */

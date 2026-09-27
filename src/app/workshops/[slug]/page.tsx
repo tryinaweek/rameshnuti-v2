@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 
 import { NewsletterForm } from '@/components/NewsletterForm';
+import { NEWSLETTER } from '@/lib/newsletter';
 import { DEFAULT_WORKSHOP, findWorkshop } from '@/lib/workshops';
 
 export async function generateMetadata(props: {
@@ -20,14 +21,20 @@ export default async function WorkshopUnlockPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await props.params;
-  const workshop = await findWorkshop(slug);
-  if (!workshop) notFound();
 
   const cookieStore = await cookies();
   const unlocked =
     cookieStore.get(`unlocked_${slug}`)?.value === 'true' ||
     (slug === DEFAULT_WORKSHOP.slug &&
       cookieStore.get('unlocked_workshop')?.value === 'true');
+
+  // The AI Agent Workshop already has its own gate at /workshop, with the
+  // setup steps (and it's the URL on the event slides). One gate per workshop:
+  // send visitors there rather than show a second, thinner copy of it.
+  if (slug === DEFAULT_WORKSHOP.slug && !unlocked) redirect('/workshop');
+
+  const workshop = await findWorkshop(slug);
+  if (!workshop) notFound();
   if (unlocked) redirect(`/workshops/${slug}/resources`);
 
   return (
@@ -43,14 +50,13 @@ export default async function WorkshopUnlockPage(props: {
           </h1>
           <p className="text-slate-600 text-sm leading-relaxed">
             Enter your email to unlock every file from this workshop — workflows,
-            prompts, and guides. You&apos;ll also get the Saturday playbook on
-            Substack (free, unsubscribe anytime).
+            prompts, and guides. {NEWSLETTER.gateNote}
           </p>
           <div className="premium-card p-6">
             <NewsletterForm
               sourceTag={`workshop-${slug}`}
               variant="standard"
-              buttonText="Unlock Files"
+              buttonText={NEWSLETTER.gateButton}
               redirectTo={`/workshops/${slug}/resources`}
             />
           </div>

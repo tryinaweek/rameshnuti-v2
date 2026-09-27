@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { NEWSLETTER } from "@/lib/newsletter";
 
 export const metadata: Metadata = {
   title: "Build Your First AI Agent | Ramesh Nuti",
@@ -98,10 +99,10 @@ export default function WorkshopPage() {
             Unlock your workshop files
           </h2>
           <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-            Submit your email below to instantly access the download page containing the n8n JSON schema, prompting scripts, and the workshop cheatsheet.
+            Submit your email below to instantly access the download page containing the n8n JSON schema, prompting scripts, and the workshop cheatsheet. {NEWSLETTER.gateNote}
           </p>
           <div className="bg-slate-light border border-slate-200 rounded-xl p-6 shadow-inner">
-            <NewsletterForm sourceTag="workshop" variant="standard" buttonText="Unlock Files & Subscribe" redirectTo="/workshops/ai-agent-workshop/resources" />
+            <NewsletterForm sourceTag="workshop" variant="standard" buttonText={NEWSLETTER.gateButton} redirectTo="/workshops/ai-agent-workshop/resources" />
           </div>
         </div>
       </section>
