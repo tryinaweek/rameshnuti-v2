@@ -2,6 +2,13 @@
 
 One rule: **every address captured on this site ends up in Substack.**
 
+One deliberate exception: the book waitlist (`FirstEditionForm`, `/api/waitlist`)
+is kept only in Supabase until the book launches. It is not sent to Substack
+on sign-up. At launch, import it with Admin → People → **Download for
+Substack**. It lists every unsynced address, so the book members come
+with anyone else not yet synced. Do not "fix" this by
+re-adding `syncToSubstack` to that route. See "The book waitlist" below.
+
 | Layer | System | Role |
 |---|---|---|
 | Mailing list | Substack, `startupvalue.substack.com` | The only thing that ever sends to subscribers. Every Saturday. |
@@ -17,9 +24,10 @@ different newsletters.
 | Form | Where | Endpoint |
 |---|---|---|
 | `NewsletterForm` | Homepage, articles, about, lab, tools, workshop gates | `POST /api/subscribe` |
-| `FirstEditionForm` | `/vibe-coding-os` | `POST /api/waitlist` |
+| `FirstEditionForm` | `/vibe-coding-os` | `POST /api/waitlist` (Supabase only, see below) |
 
-Both endpoints do the same two steps, in this order:
+`/api/subscribe` does these two steps, in this order (the book waitlist does only
+the first, then sends its own confirmation email):
 
 1. **Record it on THE LIST.** The address survives whatever happens next.
    The waitlist also assigns position and the first 50 advance copies here,
@@ -33,6 +41,23 @@ failure.
 
 A workshop gate is just `NewsletterForm` with `redirectTo`: it sets the unlock
 and attribution cookies, subscribes the address, then offers the files.
+
+## The book waitlist
+
+`/api/waitlist` records the member on THE LIST (position and the first 50
+advance copies are decided there), then sends one confirmation email through
+Resend (`src/lib/launch-email.ts`). It does not touch Substack, so a new member
+is not on any mailing list until launch.
+
+- **Answer to "What are you trying to build?"** is saved on the member's row in
+  `people.build_idea` (`docs/book-idea-column.sql`), and a notification goes to
+  `ASSESSMENT_NOTIFY_EMAIL`.
+- **Unsubscribe:** the confirmation email tells people to reply to be removed.
+  Replies go to `ASSESSMENT_NOTIFY_EMAIL`. Remove them from `people` by hand.
+- **Advance copies** are sent by you, not by Substack. The send list is every
+  row tagged `vcos-arc`.
+- **Variables:** `RESEND_API_KEY`, `RESEND_FROM` (just `Name <address@verified-domain>`,
+  no variable name in the value), `ASSESSMENT_NOTIFY_EMAIL`.
 
 ## How it reaches Substack
 
@@ -79,7 +104,8 @@ Substack; only the audit stamp and the catch-up export are unavailable.
 src/lib/newsletter.ts                  name, cadence, promise, URL — the one description
 src/lib/substack.ts                    subscribeToSubstack, markSubstackSynced, syncToSubstack
 src/app/api/subscribe/route.ts         every NewsletterForm, and GoHighLevel webhooks
-src/app/api/waitlist/route.ts          the book waitlist, then Substack
+src/app/api/waitlist/route.ts          the book waitlist: Supabase, then a confirmation email
+src/lib/launch-email.ts                the Launch Circle confirmation email
 src/app/api/admin/substack/route.ts    catch-up CSV and mark-synced
 src/components/NewsletterForm.tsx      the one signup form
 src/app/admin/PeopleManager.tsx        the catch-up buttons

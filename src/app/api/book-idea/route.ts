@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { saveBuildIdea } from "@/lib/waitlist";
 
-// Optional post-signup answer to "what is one thing you would love to build?"
-// from the Vibe Coding OS page. Stored separately from the subscription: the
-// email is already on THE LIST by the time this runs, so a failure here never
-// affects the signup itself.
+// Optional post-signup answer to "What are you trying to build?" from The Vibe
+// Coder's OS page. Saved on the member's own row in THE LIST (people.build_idea).
+// Stored separately from the subscription: the email is already on THE LIST by
+// the time this runs, so a failure here never affects the signup itself.
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -26,25 +26,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Idea is required" }, { status: 400 });
   }
 
-  const submission = {
-    type: "book_idea",
-    email,
-    idea,
-    source: "vibe-coding-os",
-    submittedAt: new Date().toISOString(),
-  };
+  const submittedAt = new Date().toISOString();
 
-  // Blob first, so the answer survives even if email notification fails.
-  let blobSaved = false;
-  try {
-    await put(`book-ideas/${Date.now()}.json`, JSON.stringify(submission, null, 2), {
-      access: "public",
-      contentType: "application/json",
-    });
-    blobSaved = true;
-  } catch (err) {
-    console.error("book-idea blob backup failed:", err);
-  }
+  // The record first, so the answer survives even if email notification fails.
+  const saved = (await saveBuildIdea(email, idea)) === "saved";
+  if (!saved) console.error("book-idea: could not save to the sign-up record");
 
   let emailSent = false;
   const resendKey = process.env.RESEND_API_KEY;
@@ -60,14 +46,14 @@ export async function POST(req: NextRequest) {
           from: process.env.RESEND_FROM || "Assessments <onboarding@resend.dev>",
           to: [process.env.ASSESSMENT_NOTIFY_EMAIL || "ramesh@svyam.co"],
           reply_to: email,
-          subject: `Vibe Coding OS — reader idea from ${email}`,
+          subject: `The Vibe Coder's OS: reader idea from ${email}`,
           text: [
-            "A Vibe Coding OS waitlist member shared what they would love to build:",
+            "A Launch Circle member shared what they are trying to build:",
             "",
             idea,
             "",
             `From:      ${email}`,
-            `Submitted: ${submission.submittedAt}`,
+            `Submitted: ${submittedAt}`,
           ].join("\n"),
         }),
       });
@@ -79,10 +65,10 @@ export async function POST(req: NextRequest) {
       console.error("book-idea resend request failed:", err);
     }
   } else {
-    console.error("RESEND_API_KEY not set — book idea saved to blob only");
+    console.error("RESEND_API_KEY not set, no notification email sent");
   }
 
-  if (!blobSaved && !emailSent) {
+  if (!saved && !emailSent) {
     return NextResponse.json({ error: "Could not save" }, { status: 502 });
   }
 

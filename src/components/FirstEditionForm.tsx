@@ -4,31 +4,50 @@ import Link from "next/link";
 import { useId, useState } from "react";
 
 /**
- * Vibe Coding OS launch waitlist signup.
+ * Launch Circle signup for The Vibe Coder's OS.
  *
  * Its own form, not NewsletterForm, because /api/waitlist does more than
- * subscribe: it returns the visitor's real position and whether they claimed
- * one of the advance reader copies. It still ends in Substack — the route
- * subscribes the address after the waitlist insert.
+ * subscribe: it tells us whether the visitor claimed one of the advance reader
+ * copies. It still ends in Substack: the route subscribes the address after the
+ * waitlist insert.
  *
- * After a successful signup, an optional "what would you build?" question is
- * offered. It's a separate, skippable submission to /api/book-idea and never
- * blocks or re-runs the subscription.
+ * `remaining` is the live advance-copy count from the server, or null when it
+ * could not be read. With showCounter, null hides the counter entirely rather
+ * than showing a fixed number, and 0 switches the button and the counter line
+ * to the "launch list" wording.
+ *
+ * After a successful signup, an optional "What are you trying to build?"
+ * question is offered. It is a separate submission to /api/book-idea that
+ * saves the answer on the sign-up record, and it never blocks or re-runs the
+ * subscription.
  */
-export function FirstEditionForm() {
+export function FirstEditionForm({
+  remaining,
+  limit,
+  showCounter = false,
+}: {
+  remaining: number | null;
+  limit: number;
+  showCounter?: boolean;
+}) {
   const emailId = useId();
   const ideaId = useId();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [already, setAlready] = useState(false);
-  const [position, setPosition] = useState<number | null>(null);
-  const [arc, setArc] = useState(false);
   const [error, setError] = useState("");
 
   const [idea, setIdea] = useState("");
-  const [ideaStatus, setIdeaStatus] = useState<
-    "idle" | "sending" | "sent" | "skipped" | "error"
-  >("idle");
+  const [ideaStatus, setIdeaStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  const soldOut = remaining === 0;
+  const buttonLabel = soldOut ? "Join the launch list" : "Join the Launch Circle";
+  const counterLine =
+    remaining === null
+      ? null
+      : soldOut
+        ? "The advance copies are taken. Join the list and be first to know on launch day."
+        : `${remaining} of ${limit} advance copies left.`;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +66,6 @@ export function FirstEditionForm() {
         return;
       }
       setAlready(Boolean(data.already));
-      setPosition(typeof data.position === "number" ? data.position : null);
-      setArc(Boolean(data.arc));
       setStatus("done");
     } catch {
       setError("Network error. Try again in a moment.");
@@ -77,31 +94,22 @@ export function FirstEditionForm() {
       <div className="animate-fade-up space-y-4 text-left">
         <div className="space-y-2">
           <p className="text-base font-bold tracking-tight text-slate-900">
-            {already
-              ? "You're already on the waitlist."
-              : position
-                ? `You're #${position} on the waitlist.`
-                : "You're on the waitlist."}
+            {already ? "You're already in." : "You're in."}
           </p>
           <p className="text-sm leading-relaxed text-slate-600">
-            {arc
-              ? "You're in the first 50, so an advance copy of the book (PDF) is coming your way before launch day."
-              : "I'll email you the moment Vibe Coding OS launches."}{" "}
-            &mdash; Ramesh
+            Thank you for joining the Launch Circle. I&apos;ll be in touch before launch
+            day.
           </p>
         </div>
 
         {ideaStatus === "sent" ? (
           <p className="border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-600">
-            Thanks &mdash; I read every one of these.
+            Thank you. Got it.
           </p>
-        ) : ideaStatus === "skipped" ? null : (
+        ) : (
           <form onSubmit={sendIdea} className="space-y-2.5 border-t border-slate-100 pt-4">
-            <label
-              htmlFor={ideaId}
-              className="block text-sm font-semibold text-slate-800"
-            >
-              Optional: what is one thing you would love to build?
+            <label htmlFor={ideaId} className="block text-sm font-semibold text-slate-800">
+              What are you trying to build?
             </label>
             <textarea
               id={ideaId}
@@ -109,31 +117,20 @@ export function FirstEditionForm() {
               maxLength={2000}
               value={idea}
               onChange={(e) => setIdea(e.target.value)}
-              placeholder="A tool, an experiment, an idea you keep coming back to..."
               className="premium-input w-full resize-y px-4 py-3 text-sm"
             />
             {ideaStatus === "error" && (
               <p role="alert" className="text-xs font-semibold text-red-600">
-                Couldn&apos;t send that just now. You can skip it &mdash; you&apos;re
-                already on the list.
+                Couldn&apos;t send that just now. You&apos;re already in the Launch Circle.
               </p>
             )}
-            <div className="flex items-center gap-3">
-              <button
-                type="submit"
-                disabled={ideaStatus === "sending" || !idea.trim()}
-                className="btn-primary px-5 py-2.5 text-xs disabled:opacity-50"
-              >
-                {ideaStatus === "sending" ? "Sending..." : "Share it"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setIdeaStatus("skipped")}
-                className="text-xs font-semibold text-slate-400 transition-colors hover:text-slate-600"
-              >
-                Skip
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={ideaStatus === "sending" || !idea.trim()}
+              className="btn-primary px-5 py-2.5 text-xs disabled:opacity-50"
+            >
+              {ideaStatus === "sending" ? "Sending..." : "Send"}
+            </button>
           </form>
         )}
       </div>
@@ -173,11 +170,15 @@ export function FirstEditionForm() {
         disabled={status === "sending"}
         className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
       >
-        {status === "sending" ? "Adding you..." : "Join the waitlist"}
+        {status === "sending" ? "Adding you..." : buttonLabel}
       </button>
 
+      {showCounter && counterLine && (
+        <p className="text-xs font-semibold leading-relaxed text-teal-accent">{counterLine}</p>
+      )}
+
       <p className="text-[11px] leading-relaxed text-slate-500">
-        Launch news about Vibe Coding OS. Unsubscribe anytime.{" "}
+        Launch news about The Vibe Coder&apos;s OS. Unsubscribe anytime.{" "}
         <Link href="/privacy" className="font-semibold text-teal-accent hover:underline">
           Privacy policy
         </Link>

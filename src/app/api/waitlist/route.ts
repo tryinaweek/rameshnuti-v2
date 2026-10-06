@@ -1,6 +1,7 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-import { syncToSubstack } from "@/lib/substack";
+import { sendLaunchCircleConfirmation } from "@/lib/launch-email";
 import { joinWaitlist } from "@/lib/waitlist";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -28,11 +29,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Then Substack, so a waitlist member is also on the one mailing list. This
-  // runs for "already" too: someone who joined before this bridge existed is
-  // synced the next time they submit. A failure is logged and left for the
-  // reconciliation export; the visitor still sees their confirmed position.
-  await syncToSubstack({ email, source: "website:book-waitlist" });
+  // The page shows a live "N of 50 left" count. Mark it stale so the next
+  // visit reads the new total instead of waiting out the one-minute cache.
+  revalidatePath("/vibe-coding-os");
+
+  // The book list stays in Supabase until launch, when it is imported into
+  // Substack, so nothing is handed to Substack here. A new member gets one
+  // confirmation email; someone already on the list doesn't get a second.
+  if (result.status === "joined") {
+    await sendLaunchCircleConfirmation(email);
+  }
 
   if (result.status === "already") {
     return NextResponse.json({ ok: true, already: true });

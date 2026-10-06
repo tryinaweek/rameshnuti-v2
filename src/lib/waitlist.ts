@@ -134,3 +134,29 @@ export async function joinWaitlist(email: string): Promise<JoinResult> {
 
   return { status: "joined", position, arc };
 }
+
+/**
+ * Save the optional "What are you trying to build?" answer on the member's own
+ * row (people.build_idea; see docs/book-idea-column.sql). Only waitlist members
+ * are touched, so the endpoint can't be used to write onto an unrelated row.
+ * Returns "saved", "not-member" when no waitlist row matches the address, or
+ * "error" (including when the column hasn't been added yet).
+ */
+export async function saveBuildIdea(
+  email: string,
+  idea: string
+): Promise<"saved" | "not-member" | "error"> {
+  const h = headers({ Prefer: "return=representation" });
+  if (!h) return "error";
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/people?select=id&email=eq.${encodeURIComponent(email)}&${MEMBER_FILTER}`,
+    {
+      method: "PATCH",
+      headers: h,
+      body: JSON.stringify({ build_idea: idea }),
+    }
+  );
+  if (!res.ok) return "error";
+  const rows = (await res.json()) as { id: string }[];
+  return rows.length > 0 ? "saved" : "not-member";
+}
