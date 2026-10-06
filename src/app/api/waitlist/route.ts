@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { syncToSubstack } from "@/lib/substack";
@@ -27,6 +28,10 @@ export async function POST(req: NextRequest) {
       { status: 502 }
     );
   }
+
+  // The page shows a live "N of 50 left" count. Mark it stale so the next
+  // visit reads the new total instead of waiting out the one-minute cache.
+  revalidatePath("/vibe-coding-os");
 
   // Then Substack, so a waitlist member is also on the one mailing list. This
   // runs for "already" too: someone who joined before this bridge existed is
