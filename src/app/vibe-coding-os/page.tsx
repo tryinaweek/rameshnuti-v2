@@ -2,11 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { FirstEditionForm } from "@/components/FirstEditionForm";
-import { ARC_LIMIT, arcsRemaining } from "@/lib/waitlist";
-
-// Re-read the advance-copy count at most once a minute. A successful signup
-// also marks this page stale (see /api/waitlist), so the next visit is fresh.
-export const revalidate = 60;
 
 const BOOK = "The Vibe Coder's OS";
 const SUBTITLE = "The Non-Technical Founder's Guide to Building Real Products with AI";
@@ -78,7 +73,7 @@ const FAQ = [
   },
   {
     q: "What will I receive when I sign up?",
-    a: `Launch news, and an email the moment the book is on Amazon. The first ${ARC_LIMIT} people in the Launch Circle also get the finished book as an advance copy before launch day. Read it early, and if you'd like, share an honest review once it's out.`,
+    a: "Early-reader perks on launch day, and a free bonus pack of the book's prompts and templates. You'll also hear the moment the book is on Amazon.",
   },
 ];
 
@@ -89,8 +84,6 @@ const AUDIENCE = [
 ];
 
 export default async function VibeCodingOsPage() {
-  const remaining = await arcsRemaining();
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Book",
@@ -136,7 +129,7 @@ export default async function VibeCodingOsPage() {
           <div className="md:col-span-5">
             <div className="premium-card overflow-hidden">
               <div className="px-7 py-7">
-                <FirstEditionForm remaining={remaining} limit={ARC_LIMIT} showCounter />
+                <FirstEditionForm />
                 <p className="mt-5 border-t border-slate-100 pt-4 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">
                   Coming soon on Amazon.
                 </p>
@@ -283,8 +276,8 @@ export default async function VibeCodingOsPage() {
                 You get
               </p>
               <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate-600">
-                <li>The finished book as an advance copy, before launch day.</li>
-                <li>A thank-you at launch.</li>
+                <li>Early-reader perks on launch day.</li>
+                <li>A free bonus pack of the book&apos;s prompts and templates.</li>
               </ul>
             </div>
             <div className="premium-card p-6">
@@ -299,7 +292,7 @@ export default async function VibeCodingOsPage() {
             </div>
           </div>
           <div className="premium-card mx-auto max-w-md p-7 text-left">
-            <FirstEditionForm remaining={remaining} limit={ARC_LIMIT} showCounter />
+            <FirstEditionForm />
           </div>
         </div>
       </section>
@@ -342,7 +335,7 @@ export default async function VibeCodingOsPage() {
             What would you build if you knew where to start?
           </h2>
           <div className="premium-card mx-auto max-w-md p-7 text-left">
-            <FirstEditionForm remaining={remaining} limit={ARC_LIMIT} />
+            <FirstEditionForm />
           </div>
         </div>
       </section>

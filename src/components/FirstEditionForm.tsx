@@ -6,30 +6,16 @@ import { useId, useState } from "react";
 /**
  * Launch Circle signup for The Vibe Coder's OS.
  *
- * Its own form, not NewsletterForm, because /api/waitlist does more than
- * subscribe: it tells us whether the visitor claimed one of the advance reader
- * copies. It still ends in Substack: the route subscribes the address after the
- * waitlist insert.
- *
- * `remaining` is the live advance-copy count from the server, or null when it
- * could not be read. With showCounter, null hides the counter entirely rather
- * than showing a fixed number, and 0 switches the button and the counter line
- * to the "launch list" wording.
+ * Its own form, not NewsletterForm, because the book list stays in Supabase
+ * until launch: /api/waitlist records the visitor there and sends the Launch
+ * Circle confirmation email, without subscribing them to Substack.
  *
  * After a successful signup, an optional "What are you trying to build?"
  * question is offered. It is a separate submission to /api/book-idea that
  * saves the answer on the sign-up record, and it never blocks or re-runs the
  * subscription.
  */
-export function FirstEditionForm({
-  remaining,
-  limit,
-  showCounter = false,
-}: {
-  remaining: number | null;
-  limit: number;
-  showCounter?: boolean;
-}) {
+export function FirstEditionForm() {
   const emailId = useId();
   const ideaId = useId();
   const [email, setEmail] = useState("");
@@ -39,15 +25,6 @@ export function FirstEditionForm({
 
   const [idea, setIdea] = useState("");
   const [ideaStatus, setIdeaStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-
-  const soldOut = remaining === 0;
-  const buttonLabel = soldOut ? "Join the launch list" : "Join the Launch Circle";
-  const counterLine =
-    remaining === null
-      ? null
-      : soldOut
-        ? "The advance copies are taken. Join the list and be first to know on launch day."
-        : `${remaining} of ${limit} advance copies left.`;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -170,12 +147,8 @@ export function FirstEditionForm({
         disabled={status === "sending"}
         className="btn-primary w-full px-6 py-3.5 text-sm disabled:opacity-50"
       >
-        {status === "sending" ? "Adding you..." : buttonLabel}
+        {status === "sending" ? "Adding you..." : "Join the Launch Circle"}
       </button>
-
-      {showCounter && counterLine && (
-        <p className="text-xs font-semibold leading-relaxed text-teal-accent">{counterLine}</p>
-      )}
 
       <p className="text-[11px] leading-relaxed text-slate-500">
         Launch news about The Vibe Coder&apos;s OS. Unsubscribe anytime.{" "}

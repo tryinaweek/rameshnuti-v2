@@ -344,7 +344,8 @@ export default function HomePage() {
                   Join the waitlist
                 </Link>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  The first 50 people on the waitlist get an advance copy before launch day.
+                  Early-reader perks on launch day, plus a free bonus pack of the book&apos;s
+                  prompts and templates.
                 </p>
               </div>
             </div>
