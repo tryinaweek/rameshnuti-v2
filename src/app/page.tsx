@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { LAB_COUNT_CLAIM } from "@/data/lab";
 import { NEWSLETTER } from "@/lib/newsletter";
+import { getSubstackPosts } from "./articles/substack";
 
 export const metadata: Metadata = {
   title: "Ramesh Nuti | Founder, Builder, Investor",
@@ -105,7 +106,19 @@ const FEATURED = [
   },
 ];
 
-export default function HomePage() {
+/** "Oct 31, 2026", matching /articles. */
+function formatIssueDate(iso: string): string {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+export default async function HomePage() {
+  const [latest] = await getSubstackPosts();
+
   return (
     <div className="space-y-0 bg-white min-h-screen font-sans text-slate-900">
 
@@ -193,6 +206,41 @@ export default function HomePage() {
               ))}
             </ul>
           </div>
+
+          {/* Latest issue: proof the Saturday email is real and current. Same
+              feed as /articles, so it updates itself every week. */}
+          {latest && (
+            <div className="mt-12">
+              <a
+                href={latest.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="premium-card group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 p-6 md:p-7 text-left no-underline"
+              >
+                <div className="flex-1 space-y-2">
+                  <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-teal-accent">
+                    Latest from {NEWSLETTER.name} &middot;{" "}
+                    <span className="text-slate-400">{formatIssueDate(latest.date)}</span>
+                  </p>
+                  <h2 className="text-lg md:text-xl font-bold text-slate-900 leading-snug tracking-tight group-hover:text-teal-accent transition-colors">
+                    {latest.title}
+                  </h2>
+                  {latest.description && (
+                    <p className="text-sm text-slate-500 leading-relaxed">{latest.description}</p>
+                  )}
+                </div>
+                <span className="shrink-0 text-sm font-bold text-teal-accent whitespace-nowrap">
+                  Read this week&apos;s issue &rarr;
+                </span>
+              </a>
+              <Link
+                href="/articles"
+                className="inline-block mt-3 text-xs font-mono font-bold text-slate-500 hover:text-slate-900 transition-colors no-underline"
+              >
+                All articles &rarr;
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
