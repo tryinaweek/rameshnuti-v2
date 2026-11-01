@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { sendLaunchCircleConfirmation } from "@/lib/launch-email";
@@ -27,6 +28,10 @@ export async function POST(req: NextRequest) {
       { status: 502 }
     );
   }
+
+  // The page shows a live join count. Mark it stale so the next visit reads
+  // the new total instead of waiting out the one-minute cache.
+  revalidatePath("/vibe-coding-os");
 
   // The book list stays in Supabase until launch, when it is imported into
   // Substack, so nothing is handed to Substack here. A new member gets one

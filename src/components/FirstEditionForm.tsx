@@ -10,12 +10,15 @@ import { useId, useState } from "react";
  * until launch: /api/waitlist records the visitor there and sends the Launch
  * Circle confirmation email, without subscribing them to Substack.
  *
+ * `joined` is the live member count, passed only once it is worth showing
+ * (see JOIN_COUNT_MIN); null hides the line.
+ *
  * After a successful signup, an optional "What are you trying to build?"
  * question is offered. It is a separate submission to /api/book-idea that
  * saves the answer on the sign-up record, and it never blocks or re-runs the
  * subscription.
  */
-export function FirstEditionForm() {
+export function FirstEditionForm({ joined = null }: { joined?: number | null }) {
   const emailId = useId();
   const ideaId = useId();
   const [email, setEmail] = useState("");
@@ -149,6 +152,12 @@ export function FirstEditionForm() {
       >
         {status === "sending" ? "Adding you..." : "Join the Launch Circle"}
       </button>
+
+      {joined !== null && (
+        <p className="text-xs font-semibold leading-relaxed text-teal-accent">
+          Launch Circle: {joined.toLocaleString("en-US")} people have joined.
+        </p>
+      )}
 
       <p className="text-[11px] leading-relaxed text-slate-500">
         Launch news about The Vibe Coder&apos;s OS. Unsubscribe anytime.{" "}

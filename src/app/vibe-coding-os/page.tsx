@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { FirstEditionForm } from "@/components/FirstEditionForm";
+import { JOIN_COUNT_MIN, waitlistCount } from "@/lib/waitlist";
+
+// Re-read the join count at most once a minute. A successful signup also
+// marks this page stale (see /api/waitlist), so the next visit is fresh.
+export const revalidate = 60;
 
 const BOOK = "The Vibe Coder's OS";
 const SUBTITLE = "The Non-Technical Founder's Guide to Building Real Products with AI";
 const TITLE = `${BOOK} | A book by Ramesh Nuti`;
 const DESCRIPTION =
-  "A practical guide for non-technical founders who want to build real products with AI. Join the Launch Circle and get the book before launch day.";
+  "The Non-Technical Founder's Guide to Building Real Products with AI. Coming January 2027.";
+const OG_IMAGE = "https://rameshnuti.com/og-vibe-coders-os.png";
 const URL = "https://rameshnuti.com/vibe-coding-os";
 
 export const metadata: Metadata = {
@@ -15,17 +21,17 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   alternates: { canonical: URL },
   openGraph: {
-    type: "website",
+    type: "book",
     url: URL,
     title: TITLE,
     description: DESCRIPTION,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: BOOK }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${BOOK}: ${SUBTITLE}` }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/og-image.png"],
+    images: [OG_IMAGE],
   },
 };
 
@@ -73,7 +79,7 @@ const FAQ = [
   },
   {
     q: "What will I receive when I sign up?",
-    a: "Early-reader perks on launch day, and a free bonus pack of the book's prompts and templates. You'll also hear the moment the book is on Amazon.",
+    a: "Launch news, an email the moment the book is on Amazon, and early-reader perks on launch day, including a free bonus pack with all the book's prompts and templates, ready to use.",
   },
 ];
 
@@ -84,6 +90,9 @@ const AUDIENCE = [
 ];
 
 export default async function VibeCodingOsPage() {
+  const members = await waitlistCount();
+  const joined = members !== null && members >= JOIN_COUNT_MIN ? members : null;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Book",
@@ -129,9 +138,9 @@ export default async function VibeCodingOsPage() {
           <div className="md:col-span-5">
             <div className="premium-card overflow-hidden">
               <div className="px-7 py-7">
-                <FirstEditionForm />
+                <FirstEditionForm joined={joined} />
                 <p className="mt-5 border-t border-slate-100 pt-4 font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                  Coming soon on Amazon.
+                  Coming to Amazon in January 2027.
                 </p>
               </div>
             </div>
@@ -277,7 +286,8 @@ export default async function VibeCodingOsPage() {
               </p>
               <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate-600">
                 <li>Early-reader perks on launch day.</li>
-                <li>A free bonus pack of the book&apos;s prompts and templates.</li>
+                <li>A free bonus pack with all the book&apos;s prompts and templates, ready to use.</li>
+                <li>A thank-you at launch.</li>
               </ul>
             </div>
             <div className="premium-card p-6">
@@ -285,14 +295,14 @@ export default async function VibeCodingOsPage() {
                 I ask
               </p>
               <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate-600">
-                <li>Read it.</li>
-                <li>Leave an honest review in launch week.</li>
+                <li>Buy the book in launch week.</li>
+                <li>Leave an honest review.</li>
                 <li>Share it once if it helped you.</li>
               </ul>
             </div>
           </div>
           <div className="premium-card mx-auto max-w-md p-7 text-left">
-            <FirstEditionForm />
+            <FirstEditionForm joined={joined} />
           </div>
         </div>
       </section>

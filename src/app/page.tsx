@@ -297,7 +297,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-7 space-y-5">
             <span className="inline-block bg-blue-50 border border-blue-100 text-teal-accent px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase">
-              Launching this holiday season &middot; New book
+              Coming January 2027 &middot; New book
             </span>
             <div>
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">

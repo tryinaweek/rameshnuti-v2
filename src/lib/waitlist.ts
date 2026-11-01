@@ -8,8 +8,8 @@
  * email constraint.
  *
  * Advance reader copies go to the first ARC_LIMIT people by join order, which
- * is exactly what the page promises. Both the "N of 50 left" counter and the
- * decision at join time come from the member count, not from counting tags:
+ * the book page no longer promises. The decision at join time comes from the
+ * member count, not from counting tags:
  * people who joined before the advance-copy feature existed are members
  * without the tag, and counting tags would skip them. The "vcos-arc" tag is
  * still written at join time as the send list (docs/waitlist-arc-backfill.sql
@@ -38,12 +38,17 @@ function headers(extra: Record<string, string> = {}): Record<string, string> | n
   };
 }
 
-async function countWhere(filter: string): Promise<number | null> {
+/**
+ * Counts rows matching `filter`. Uncached by default, because join-time
+ * decisions need the exact current number; pass `cacheSeconds` for a display
+ * count that can be a little stale.
+ */
+async function countWhere(filter: string, cacheSeconds?: number): Promise<number | null> {
   const h = headers({ Prefer: "count=exact", Range: "0-0" });
   if (!h) return null;
   const res = await fetch(`${SUPABASE_URL}/rest/v1/people?select=id&${filter}`, {
     headers: h,
-    cache: "no-store",
+    ...(cacheSeconds ? { next: { revalidate: cacheSeconds } } : { cache: "no-store" as const }),
   });
   if (!res.ok) return null;
   const total = res.headers.get("content-range")?.split("/")[1];
@@ -51,13 +56,12 @@ async function countWhere(filter: string): Promise<number | null> {
   return Number.isFinite(n) ? n : null;
 }
 
-/**
- * Advance copies still unclaimed, or null when the count can't be read.
- * Every member so far holds one of the first ARC_LIMIT places in line.
- */
-export async function arcsRemaining(): Promise<number | null> {
-  const members = await countWhere(MEMBER_FILTER);
-  return members === null ? null : Math.max(0, ARC_LIMIT - members);
+/** The book page shows its join count only from this many members up. */
+export const JOIN_COUNT_MIN = 25;
+
+/** Waitlist members so far, or null when the count can't be read. */
+export async function waitlistCount(): Promise<number | null> {
+  return countWhere(MEMBER_FILTER, 60);
 }
 
 interface PersonRow {
