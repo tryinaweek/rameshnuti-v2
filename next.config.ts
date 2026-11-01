@@ -21,10 +21,9 @@ const nextConfig: NextConfig = {
       { source: "/courses", destination: "/tools", permanent: true },
       // The free assessment was withdrawn.
       { source: "/book-an-assessment", destination: "/work-with-me", permanent: true },
-      // The book's short link. Temporary (307) for now: a permanent redirect is
-      // cached by browsers indefinitely, and /book may point somewhere else once
-      // the book is out.
-      { source: "/book", destination: "/vibe-coding-os", permanent: false },
+      // The book page lives at /book. Its old address stays permanent so
+      // shared links, QR codes and search results keep working.
+      { source: "/vibe-coding-os", destination: "/book", permanent: true },
       // Build With Me became the Saturday Substack playbook.
       { source: "/build", destination: "https://startupvalue.substack.com", permanent: false },
       { source: "/build/:slug", destination: "https://startupvalue.substack.com", permanent: false },

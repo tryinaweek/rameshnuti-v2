@@ -24,7 +24,7 @@ different newsletters.
 | Form | Where | Endpoint |
 |---|---|---|
 | `NewsletterForm` | Homepage, articles, about, lab, tools, workshop gates | `POST /api/subscribe` |
-| `FirstEditionForm` | `/vibe-coding-os` | `POST /api/waitlist` (Supabase only, see below) |
+| `FirstEditionForm` | `/book` | `POST /api/waitlist` (Supabase only, see below) |
 
 `/api/subscribe` does these two steps, in this order (the book waitlist does only
 the first, then sends its own confirmation email):

@@ -14,7 +14,7 @@ const TITLE = `${BOOK} | A book by Ramesh Nuti`;
 const DESCRIPTION =
   "The Non-Technical Founder's Guide to Building Real Products with AI. Coming January 2027.";
 const OG_IMAGE = "https://rameshnuti.com/og-vibe-coders-os.png";
-const URL = "https://rameshnuti.com/vibe-coding-os";
+const URL = "https://rameshnuti.com/book";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

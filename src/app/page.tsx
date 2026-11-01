@@ -46,7 +46,7 @@ const PATHS = [
       "The Vibe Coder's OS, articles, courses, and the frameworks I use. What I am figuring out, written down while it is still useful.",
     cta: { label: "Explore resources", href: "/articles" },
     links: [
-      { label: "The Vibe Coder's OS", href: "/vibe-coding-os" },
+      { label: "The Vibe Coder's OS", href: "/book" },
       { label: "Newsletter", href: NEWSLETTER.url, external: true },
     ],
   },
@@ -338,7 +338,7 @@ export default function HomePage() {
               </p>
               <div className="pt-1 border-t border-slate-100 space-y-3">
                 <Link
-                  href="/vibe-coding-os"
+                  href="/book"
                   className="btn-primary block px-6 py-3 text-sm text-center no-underline"
                 >
                   Join the waitlist

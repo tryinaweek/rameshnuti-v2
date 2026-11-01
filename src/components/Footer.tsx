@@ -18,7 +18,7 @@ const sitemap: { heading: string; links: { href: string; label: string }[] }[] =
   {
     heading: "Learn",
     links: [
-      { href: "/vibe-coding-os", label: "Book" },
+      { href: "/book", label: "Book" },
       { href: "https://startupvalue.substack.com", label: "Newsletter" },
       { href: "/articles", label: "Articles" },
     ],

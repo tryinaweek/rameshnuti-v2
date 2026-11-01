@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
   // The page shows a live join count. Mark it stale so the next visit reads
   // the new total instead of waiting out the one-minute cache.
-  revalidatePath("/vibe-coding-os");
+  revalidatePath("/book");
 
   // The book list stays in Supabase until launch, when it is imported into
   // Substack, so nothing is handed to Substack here. A new member gets one
