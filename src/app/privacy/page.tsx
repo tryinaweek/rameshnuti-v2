@@ -85,6 +85,9 @@ export default function PrivacyPage() {
                 <strong>Workshop Downloads:</strong> When you unlock workshop files, we set a cookie in your browser for 24 hours and record which files you download, linked to the email you entered.
               </li>
               <li>
+                <strong>Event Invitations:</strong> When you invite me to run a workshop or speak, the details you enter are emailed to me through <strong>Resend</strong> so I can reply, and a copy is kept in our file storage in case that email fails. They are not added to the newsletter.
+              </li>
+              <li>
                 <strong>No Data Selling:</strong> We will never sell, lease, or distribute your email address to third parties. We may occasionally send you relevant updates or resources about sibling projects in our startup ecosystem (such as playwithprompts.com), which you can opt-out of at any time.
               </li>
               <li>

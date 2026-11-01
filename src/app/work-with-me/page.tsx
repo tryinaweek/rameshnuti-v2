@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { InviteButton, InviteForm } from "./InviteForm";
+
 export const metadata: Metadata = {
   title: "How I partner",
   description:
@@ -8,24 +10,23 @@ export const metadata: Metadata = {
 };
 
 /**
- * Three ways to partner, and no form.
+ * Three ways to partner. Workshops and speaking share one invitation form
+ * (/api/invite emails it to Ramesh); investing links out to Svyam Ventures.
  *
  * The free AI assessment used to live here. It was removed because a standing
  * offer of free working sessions is a service commitment, and this page should
- * not create one. Email is deliberately the whole mechanism: no intake form,
- * no calendar, nothing that implies a response time.
+ * not create one. So there is no calendar and nothing that implies a response
+ * time. The form replaced mailto links, which do nothing for visitors without
+ * a desktop mail app.
  */
-const CONTACT = "ramesh@svyam.co";
 
 const WAYS = [
   {
     index: "01",
     name: "Workshops",
     copy: "I occasionally run hands-on sessions for founder groups and teams on practical AI, AI workflows, and building with AI. The goal is always to leave with something useful, not another presentation about AI.",
-    cta: {
-      label: "Invite me to run a workshop",
-      href: `mailto:${CONTACT}?subject=${encodeURIComponent("Workshop invitation")}`,
-    },
+    invite: { type: "workshop" as const, label: "Invite me to run a workshop" },
+    cta: null,
     // The AI agent workshop page is the closest thing to a sample session.
     aside: { label: "See a past workshop", href: "/workshop" },
   },
@@ -33,17 +34,16 @@ const WAYS = [
     index: "02",
     name: "Speaking",
     copy: "I speak about building companies, AI-native entrepreneurship, vibe coding, and what changes when founders can move from idea to evidence much faster.",
-    cta: {
-      label: "Invite me to speak",
-      href: `mailto:${CONTACT}?subject=${encodeURIComponent("Speaking invitation")}`,
-    },
+    invite: { type: "speaking" as const, label: "Invite me to speak" },
+    cta: null,
     aside: null,
   },
   {
     index: "03",
     name: "Angel investing",
     copy: "I make a small number of early-stage investments through Svyam Ventures. I'm most useful when I understand the founder, the problem, and where I can genuinely help beyond the check.",
-    cta: { label: "Learn about Svyam Ventures", href: "https://svyam.co", external: true },
+    invite: null,
+    cta: { label: "Learn about Svyam Ventures", href: "https://svyam.co" },
     aside: null,
   },
 ];
@@ -86,15 +86,17 @@ export default function HowIPartnerPage() {
               </div>
 
               <div className="md:w-1/3 flex flex-col gap-2.5 md:pt-7">
-                <a
-                  href={way.cta.href}
-                  {...("external" in way.cta && way.cta.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className="btn-secondary px-5 py-3 text-sm text-center no-underline"
-                >
-                  {way.cta.label} &rarr;
-                </a>
+                {way.invite && <InviteButton type={way.invite.type} label={way.invite.label} />}
+                {way.cta && (
+                  <a
+                    href={way.cta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-secondary px-5 py-3 text-sm text-center no-underline"
+                  >
+                    {way.cta.label} &rarr;
+                  </a>
+                )}
                 {way.aside && (
                   <a
                     href={way.aside.href}
@@ -106,6 +108,25 @@ export default function HowIPartnerPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Invitation form */}
+        <div id="invite" className="scroll-mt-20 mt-14 grid md:grid-cols-12 gap-8 md:gap-10">
+          <div className="md:col-span-4 space-y-3">
+            <span className="font-mono text-xs font-bold tracking-widest text-teal-accent">
+              INVITE
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+              Invite me to your event
+            </h2>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Tell me about the room and what you&apos;d like people to leave with. Founder
+              groups, company teams, conferences, and community events are all welcome.
+            </p>
+          </div>
+          <div className="md:col-span-8 premium-card p-6 md:p-8">
+            <InviteForm />
+          </div>
         </div>
 
         {/* A way in that costs nobody anything, including me. */}
