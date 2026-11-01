@@ -2,12 +2,13 @@ import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { sendLaunchCircleConfirmation } from "@/lib/launch-email";
+import { cleanAttribution } from "@/lib/attribution";
 import { joinWaitlist } from "@/lib/waitlist";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(req: NextRequest) {
-  let body: { email?: unknown };
+  let body: { email?: unknown; attribution?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   // Supabase first, unchanged: it decides the waitlist position and who gets
   // an advance copy, and nothing below may alter that outcome.
-  const result = await joinWaitlist(email);
+  const result = await joinWaitlist(email, cleanAttribution(body.attribution));
   if (result.status === "error") {
     return NextResponse.json(
       { error: "Couldn't add you just now. Please try again in a moment." },

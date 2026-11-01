@@ -3,6 +3,7 @@ import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { FathomAnalytics } from "./fathom";
+import { FirstTouch } from "./first-touch";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -73,6 +74,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <FathomAnalytics />
+        <FirstTouch />
       </body>
     </html>
   );

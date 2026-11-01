@@ -18,6 +18,8 @@
  * Server only: reads and tag updates use SUPABASE_SERVICE_ROLE_KEY.
  */
 
+import { ATTRIBUTION_KEYS, type Attribution } from "@/lib/attribution";
+
 // Overridable so the capture paths can be exercised against a local stand-in.
 const SUPABASE_URL = process.env.SUPABASE_URL ?? "https://nbfkibomkxvqyaoakmma.supabase.co";
 
@@ -68,13 +70,14 @@ interface PersonRow {
   id: string;
   source: string | null;
   tags: string[] | null;
+  [key: string]: unknown;
 }
 
 async function findByEmail(email: string): Promise<PersonRow | null> {
   const h = headers();
   if (!h) return null;
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/people?select=id,source,tags&email=eq.${encodeURIComponent(email)}`,
+    `${SUPABASE_URL}/rest/v1/people?select=id,source,tags,${ATTRIBUTION_KEYS.join(",")}&email=eq.${encodeURIComponent(email)}`,
     { headers: h, cache: "no-store" }
   );
   if (!res.ok) return null;
@@ -82,30 +85,40 @@ async function findByEmail(email: string): Promise<PersonRow | null> {
   return rows[0] ?? null;
 }
 
-async function setTags(id: string, tags: string[]): Promise<boolean> {
+async function patchPerson(id: string, fields: Record<string, unknown>): Promise<boolean> {
   const h = headers({ Prefer: "return=minimal" });
   if (!h) return false;
   const res = await fetch(`${SUPABASE_URL}/rest/v1/people?id=eq.${id}`, {
     method: "PATCH",
     headers: h,
-    body: JSON.stringify({ tags }),
+    body: JSON.stringify(fields),
   });
   return res.ok;
 }
+
+const setTags = (id: string, tags: string[]) => patchPerson(id, { tags });
 
 export type JoinResult =
   | { status: "joined"; position: number | null; arc: boolean }
   | { status: "already" }
   | { status: "error" };
 
-export async function joinWaitlist(email: string): Promise<JoinResult> {
+/**
+ * `attribution` is how the visitor first arrived (lib/attribution). A new row
+ * stores it; an existing row only gets it when nothing was recorded before,
+ * so an earlier first visit is never overwritten.
+ */
+export async function joinWaitlist(
+  email: string,
+  attribution: Attribution = {}
+): Promise<JoinResult> {
   const h = headers({ Prefer: "return=representation" });
   if (!h) return { status: "error" };
 
   const insert = await fetch(`${SUPABASE_URL}/rest/v1/people?select=id,source,tags`, {
     method: "POST",
     headers: h,
-    body: JSON.stringify({ email, source: WAITLIST_TAG, tags: [WAITLIST_TAG] }),
+    body: JSON.stringify({ email, source: WAITLIST_TAG, tags: [WAITLIST_TAG], ...attribution }),
   });
 
   let row: PersonRow | null = null;
@@ -121,7 +134,9 @@ export async function joinWaitlist(email: string): Promise<JoinResult> {
       return { status: "already" };
     }
     row.tags = [...tags, WAITLIST_TAG];
-    if (!(await setTags(row.id, row.tags))) return { status: "error" };
+    const knownBefore = ATTRIBUTION_KEYS.some((k) => row?.[k] != null);
+    const fields = knownBefore ? { tags: row.tags } : { tags: row.tags, ...attribution };
+    if (!(await patchPerson(row.id, fields))) return { status: "error" };
   } else {
     return { status: "error" };
   }

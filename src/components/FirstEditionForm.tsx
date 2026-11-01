@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useId, useState } from "react";
 
+import { readFirstTouch } from "@/lib/attribution";
+
 /**
  * Launch Circle signup for The Vibe Coder's OS.
  *
@@ -37,7 +39,7 @@ export function FirstEditionForm({ joined = null }: { joined?: number | null }) 
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, attribution: readFirstTouch() }),
       });
       const data = await res.json();
       if (!res.ok) {

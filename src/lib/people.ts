@@ -10,6 +10,7 @@
  * reach a browser bundle.
  */
 
+import { describeOrigin } from '@/lib/attribution';
 import { WAITLIST_TAG } from '@/lib/waitlist';
 
 const SUPABASE_URL = 'https://nbfkibomkxvqyaoakmma.supabase.co';
@@ -95,11 +96,13 @@ export function appFromPeopleSource(source: string | null): string {
 const TABLES: TableSpec[] = [
   {
     table: 'people',
-    select: 'email,name,source,first_seen,tags',
+    select: 'email,name,source,first_seen,tags,utm_source,utm_medium,utm_campaign,referrer',
     app: (r) => appFromPeopleSource(str(r.source)),
     nameField: 'name',
     sourceField: 'source',
     dateField: 'first_seen',
+    // Recorded from November 2026 on book waitlist signups (lib/attribution).
+    originOf: describeOrigin,
   },
   {
     table: 'profiles',
@@ -131,12 +134,7 @@ const TABLES: TableSpec[] = [
     nameField: 'first_name',
     sourceField: 'build_title',
     dateField: 'created_at',
-    // The only table that records how someone actually arrived.
-    originOf: (r) => {
-      const utm = [str(r.utm_source), str(r.utm_medium), str(r.utm_campaign)].filter(Boolean);
-      if (utm.length) return utm.join(' / ');
-      return str(r.referrer);
-    },
+    originOf: describeOrigin,
   },
   {
     table: 'beta_signups',
