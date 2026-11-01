@@ -10,7 +10,12 @@
  * reach a browser bundle.
  */
 
+import { WAITLIST_TAG } from '@/lib/waitlist';
+
 const SUPABASE_URL = 'https://nbfkibomkxvqyaoakmma.supabase.co';
+
+/** Label for the book waitlist, used on the admin People page. */
+export const BOOK_APP = 'Book';
 
 /** Where one address was found, and what that tells us about the person. */
 export interface PersonRecord {
@@ -78,7 +83,7 @@ export function appFromPeopleSource(source: string | null): string {
   if (s.startsWith('workshop')) return 'Workshop';
   if (s.startsWith('build-')) return 'Build With Me';
   if (s.startsWith('tool-') || s === 'tools') return 'Tools';
-  if (s.startsWith('vibe-coding')) return 'Vibe Coding OS';
+  if (s.startsWith('vibe-coding')) return BOOK_APP;
   if (s.startsWith('newsletter') || s === 'articles') return 'Newsletter';
   if (s === 'courses-waitlist') return 'Courses';
   if (s.startsWith('game') || s === 'bookcricket') return 'Games';
@@ -90,7 +95,7 @@ export function appFromPeopleSource(source: string | null): string {
 const TABLES: TableSpec[] = [
   {
     table: 'people',
-    select: 'email,name,source,first_seen',
+    select: 'email,name,source,first_seen,tags',
     app: (r) => appFromPeopleSource(str(r.source)),
     nameField: 'name',
     sourceField: 'source',
@@ -221,13 +226,19 @@ export async function readPeople(): Promise<PeopleDirectory | null> {
         origin: spec.originOf ? spec.originOf(row) : null,
       };
 
+      // Someone already on THE LIST joins the book waitlist by being tagged,
+      // so their source still names the form they first used.
+      const apps = [record.app];
+      const tags = Array.isArray(row.tags) ? row.tags : [];
+      if (tags.includes(WAITLIST_TAG) && record.app !== BOOK_APP) apps.push(BOOK_APP);
+
       const existing = byEmail.get(email);
       const name = spec.nameField ? str(row[spec.nameField]) : null;
       if (!existing) {
         byEmail.set(email, {
           email,
           name,
-          apps: [record.app],
+          apps,
           firstSeen: record.at,
           origin: record.origin,
           records: [record],
@@ -235,7 +246,7 @@ export async function readPeople(): Promise<PeopleDirectory | null> {
         continue;
       }
       existing.records.push(record);
-      if (!existing.apps.includes(record.app)) existing.apps.push(record.app);
+      for (const a of apps) if (!existing.apps.includes(a)) existing.apps.push(a);
       existing.name ??= name;
       existing.origin ??= record.origin;
       if (record.at && (!existing.firstSeen || record.at < existing.firstSeen)) {

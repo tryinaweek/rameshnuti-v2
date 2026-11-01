@@ -2,6 +2,9 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 
+/** Matches BOOK_APP in lib/people (server-only, so not importable here). */
+const BOOK_APP = "Book";
+
 interface PersonRecord {
   app: string;
   table: string;
@@ -87,6 +90,10 @@ export function PeopleManager({ password }: { password: string }) {
     }
     return [...counts.entries()].sort((a, b) => b[1] - a[1]);
   }, [data]);
+
+  // The book gets its own card; the top-three cards are for everything else.
+  const bookCount = perApp.find(([label]) => label === BOOK_APP)?.[1] ?? 0;
+  const otherApps = perApp.filter(([label]) => label !== BOOK_APP);
 
   const csvCell = (value: string) => {
     const safe = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
@@ -184,14 +191,20 @@ export function PeopleManager({ password }: { password: string }) {
   return (
     <div className="space-y-6 text-left">
       {/* Summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
           <p className="text-2xl font-bold text-slate-900">{data.people.length}</p>
           <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-1">
             unique people
           </p>
         </div>
-        {perApp.slice(0, 3).map(([label, n]) => (
+        <div className="bg-white border border-teal-accent/30 rounded-xl p-4 shadow-sm">
+          <p className="text-2xl font-bold text-slate-900">{bookCount}</p>
+          <p className="text-[10px] font-mono uppercase tracking-wider text-teal-accent mt-1">
+            book signups
+          </p>
+        </div>
+        {otherApps.slice(0, 3).map(([label, n]) => (
           <div key={label} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
             <p className="text-2xl font-bold text-slate-900">{n}</p>
             <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-1 truncate">
