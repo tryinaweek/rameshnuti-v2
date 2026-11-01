@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { cleanAttribution } from "@/lib/attribution";
+import { recordArrivalIfMissing } from "@/lib/people-arrival";
 import { syncToSubstack } from "@/lib/substack";
 
 /**
  * The single shared capture endpoint. Every form on the site, and any
  * outside system that captures an address (GoHighLevel workflows, via a
- * Webhook action), posts here with { email, name?, source }.
+ * Webhook action), posts here with { email, name?, source, attribution? }.
+ * `attribution` is how the visitor first arrived (lib/attribution); the site's
+ * own forms send it, outside systems don't.
  *
  * Order matters and is deliberate:
  *   1. Supabase first — THE LIST is the memory layer, and the address must
@@ -40,7 +44,7 @@ function rateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { email?: unknown; name?: unknown; source?: unknown };
+  let body: { email?: unknown; name?: unknown; source?: unknown; attribution?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -58,6 +62,8 @@ export async function POST(req: NextRequest) {
       ? body.source.trim()
       : "newsletter";
 
+  const attribution = cleanAttribution(body.attribution);
+
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
     req.headers.get("x-real-ip") ||
@@ -67,19 +73,30 @@ export async function POST(req: NextRequest) {
   }
 
   // 1. THE LIST.
-  let alreadySubscribed = false;
-  try {
-    const resp = await fetch(`${SUPABASE_URL}/rest/v1/people`, {
+  const insert = (row: Record<string, unknown>) =>
+    fetch(`${SUPABASE_URL}/rest/v1/people`, {
       method: "POST",
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(name ? { email, source, name } : { email, source }),
+      body: JSON.stringify(row),
     });
+  const base = name ? { email, source, name } : { email, source };
+
+  let alreadySubscribed = false;
+  try {
+    let resp = await insert({ ...base, ...attribution });
+    // Arrival details are optional: if they are ever what got rejected, save
+    // the signup without them rather than lose it.
+    if (!resp.ok && resp.status !== 409 && Object.keys(attribution).length > 0) {
+      console.error("subscribe: insert with arrival rejected, retrying without:", resp.status);
+      resp = await insert(base);
+    }
     if (resp.status === 409) {
       alreadySubscribed = true;
+      await recordArrivalIfMissing(email, attribution);
     } else if (!resp.ok) {
       return NextResponse.json({ error: "Could not save" }, { status: 502 });
     }

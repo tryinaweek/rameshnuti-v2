@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 
+import { readFirstTouch } from "@/lib/attribution";
 import { substackSubscribeUrl } from "@/lib/newsletter";
 import { EMAIL_COOKIE, UNLOCK_MAX_AGE_SECONDS } from "@/lib/workshop-cookies";
 
@@ -72,7 +73,7 @@ export function NewsletterForm({
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: address, source: sourceTag }),
+        body: JSON.stringify({ email: address, source: sourceTag, attribution: readFirstTouch() }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {

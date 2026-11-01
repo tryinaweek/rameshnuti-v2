@@ -39,6 +39,16 @@ If Substack doesn't confirm, the visitor sees a one-click **Confirm on
 Substack** link to Substack's own signup page, prefilled. No popup, no silent
 failure.
 
+## How someone arrived
+
+Both forms also send how the visitor first arrived: campaign tags (`utm_source`,
+`utm_medium`, `utm_campaign`), the referring site and the landing page. The
+browser records it on the first visit (`src/lib/attribution.ts`, `FirstTouch` in
+the root layout); it is saved on the new `people` row, or filled in on an
+existing row only when that row has none (`src/lib/people-arrival.ts`). It shows
+as "Came from" in Admin → People. Columns: `docs/people-attribution.sql`.
+Outside systems posting to `/api/subscribe` can leave it out.
+
 A workshop gate is just `NewsletterForm` with `redirectTo`: it sets the unlock
 and attribution cookies, subscribes the address, then offers the files.
 
