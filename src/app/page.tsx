@@ -43,10 +43,10 @@ const PATHS = [
     index: "02",
     name: "Learn",
     blurb:
-      "Vibe Coding OS, articles, courses, and the frameworks I use. What I am figuring out, written down while it is still useful.",
+      "The Vibe Coder's OS, articles, courses, and the frameworks I use. What I am figuring out, written down while it is still useful.",
     cta: { label: "Explore resources", href: "/articles" },
     links: [
-      { label: "Vibe Coding OS", href: "/vibe-coding-os" },
+      { label: "The Vibe Coder's OS", href: "/vibe-coding-os" },
       { label: "Newsletter", href: NEWSLETTER.url, external: true },
     ],
   },
@@ -301,7 +301,7 @@ export default function HomePage() {
             </span>
             <div>
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
-                Vibe Coding OS
+                The Vibe Coder&apos;s OS
               </h2>
               <p className="text-slate-500 text-base md:text-lg leading-snug mt-2 max-w-xl">
                 That idea you keep coming back to? What if you could build it?
@@ -314,7 +314,7 @@ export default function HomePage() {
                 noticed yet.
               </p>
               <p>
-                Vibe Coding OS is about what happens next: how to choose the right problem,
+                The Vibe Coder&apos;s OS is about what happens next: how to choose the right problem,
                 build with AI, and find out what your idea can actually become. Drawn from
                 two decades of building companies, {LAB_COUNT_CLAIM} AI experiments, and
                 hundreds of founder conversations.
