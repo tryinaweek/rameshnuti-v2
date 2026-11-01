@@ -75,11 +75,11 @@ export default function PrivacyPage() {
             </p>
             <ul className="list-disc list-inside pl-4 text-slate-600 text-sm space-y-2">
               <li>
-                <strong>Email Signups:</strong> When you enter your email anywhere on this site (the newsletter, the Vibe Coding OS waitlist, or a workshop download), we save it in our own database, hosted by Supabase, along with which form you used and when. We then subscribe it to our newsletter on <strong>Substack</strong>, which sends every email you receive from us. Substack&apos;s privacy policy governs your subscription there, and the unsubscribe link in any of those emails stops them. To have your address removed from our database as well, email{" "}
+                <strong>Email Signups:</strong> When you enter your email anywhere on this site (the newsletter, the book waitlist, or a workshop download), we save it in our own database, hosted by Supabase, along with which form you used and when. We then subscribe it to our newsletter on <strong>Substack</strong>, which sends our newsletter. Book waitlist addresses are added at launch instead; see below. Substack&apos;s privacy policy governs your subscription there, and the unsubscribe link in any of those emails stops them. To have your address removed from our database as well, email{" "}
                 <a href="mailto:ramesh@svyam.co" className="text-teal-accent font-semibold hover:underline">ramesh@svyam.co</a>.
               </li>
               <li>
-                <strong>Book Waitlist:</strong> For the Vibe Coding OS waitlist, we also record your place in line, which decides who receives an advance copy. If you choose to answer the optional &ldquo;what would you build?&rdquo; question, we store your answer with your email.
+                <strong>Book Waitlist:</strong> If you join the Launch Circle for <em>The Vibe Coder&apos;s OS</em>, we keep your email in our database until the book launches and send you one confirmation email through <strong>Resend</strong>. At launch, we add you to the newsletter on Substack, and you can unsubscribe there at any time. The book page shows how many people have joined, never who. If you choose to answer the optional &ldquo;What are you trying to build?&rdquo; question, we store your answer with your email and receive a copy by email.
               </li>
               <li>
                 <strong>Workshop Downloads:</strong> When you unlock workshop files, we set a cookie in your browser for 24 hours and record which files you download, linked to the email you entered.
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
 
           {/* Bottom Action */}
           <div className="pt-8 border-t border-slate-100 flex justify-between items-center text-xs">
-            <span className="text-slate-400">Last updated: September 27, 2026</span>
+            <span className="text-slate-400">Last updated: November 1, 2026</span>
             <Link
               href="/"
               className="text-teal-accent font-bold no-underline hover:underline"
